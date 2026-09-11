@@ -12,8 +12,8 @@
   <style>
     .dashboard-top {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 210px;
-      gap: 24px;
+      grid-template-columns: minmax(0, 1fr) 190px;
+      gap: 20px;
       align-items: start;
       margin-bottom: 22px;
     }
@@ -24,58 +24,72 @@
 
     .dashboard-top .important-info-btn {
       width: 100%;
-      margin: 8px 0 0;
-      padding: 10px 8px;
-      min-height: 142px;
+      margin: 10px 0 0;
+      padding: 0;
+      min-height: 128px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      gap: 9px;
-      background: rgba(17, 23, 47, .42);
-      border: 0;
+      gap: 8px;
+      background: transparent !important;
+      border: 0 !important;
+      box-shadow: none !important;
       color: var(--text-soft);
       text-align: center;
+      border-radius: 0;
     }
 
     .dashboard-top .important-info-btn:hover,
     .dashboard-top .important-info-btn:focus-visible {
-      background: rgba(21, 28, 56, .72);
-      color: var(--text);
-      outline: 1px solid var(--line);
+      background: transparent !important;
+      color: var(--yellow);
+      outline: none !important;
+      box-shadow: none !important;
     }
 
     .dashboard-top .folder-icon {
-      width: 78px;
-      min-width: 78px;
+      width: 68px;
+      min-width: 68px;
       color: var(--yellow);
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+
+    .dashboard-top .folder-icon svg {
+      background: transparent !important;
     }
 
     .dashboard-top .important-info-btn > span:last-child {
-      font-size: 14px;
+      display: block;
+      font-size: 12px;
       line-height: 1.35;
       font-weight: 500;
+      white-space: nowrap;
+      background: transparent !important;
+      padding: 0;
     }
 
     @media (max-width: 560px) {
       .dashboard-top {
-        grid-template-columns: minmax(0, 1fr) 142px;
-        gap: 10px;
+        grid-template-columns: minmax(0, 1fr) 158px;
+        gap: 8px;
       }
 
       .dashboard-top .important-info-btn {
-        min-height: 124px;
+        min-height: 116px;
         margin-top: 4px;
-        padding: 8px 4px;
+        padding: 0;
       }
 
       .dashboard-top .folder-icon {
-        width: 58px;
-        min-width: 58px;
+        width: 56px;
+        min-width: 56px;
       }
 
       .dashboard-top .important-info-btn > span:last-child {
-        font-size: 11px;
+        font-size: 10.5px;
+        white-space: nowrap;
       }
     }
   </style>
