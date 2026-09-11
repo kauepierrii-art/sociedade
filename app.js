@@ -1,11 +1,46 @@
 const stages = [
-  { name: 'IDENTIFICAÇÃO', context: 'A referência informada foi validada. O acesso a este processo está autorizado.', mission: 'Nenhuma ação adicional é necessária nesta etapa.' },
-  { name: 'APTIDÃO', context: 'Antes de prosseguir, precisamos verificar se vocês conseguem trabalhar com informações incompletas.', mission: 'MODELO DE CONTEÚDO: aqui entra o primeiro enigma real. Nesta base, use o botão abaixo apenas para simular a conclusão.' },
-  { name: 'OBSERVAÇÃO', context: 'Nem toda informação relevante é apresentada de forma explícita.', mission: 'MODELO DE CONTEÚDO: esta etapa poderá usar imagem, vídeo, mapa ou outro registro externo.' },
-  { name: 'JULGAMENTO', context: 'Informações conflitantes exigem uma decisão antes que o processo possa continuar.', mission: 'MODELO DE CONTEÚDO: aqui poderá existir uma escolha sem resposta objetivamente certa.' },
-  { name: 'INICIATIVA', context: 'Instruções completas nem sempre estarão disponíveis.', mission: 'MODELO DE CONTEÚDO: esta etapa deverá exigir que vocês encontrem o próximo passo sem um comando explícito.' },
-  { name: 'CONFIANÇA', context: 'O acesso seguinte envolve material restrito.', mission: 'MODELO DE CONTEÚDO: etapa final antes da admissão.' },
-  { name: 'ADMISSÃO', context: 'O processo de seleção foi concluído.', mission: 'MODELO DE CONTEÚDO: aqui ocorrerá a revelação e o encaminhamento para o futuro ambiente permanente.' }
+  {
+    name: 'Identificação',
+    short: 'Confirmem quem vocês são.',
+    context: 'A referência informada foi validada. A presença de vocês neste protocolo foi confirmada.',
+    mission: 'Nenhuma ação adicional é necessária nesta etapa. A identificação já foi concluída com sucesso.'
+  },
+  {
+    name: 'Aptidão',
+    short: 'Avaliem seus conhecimentos.',
+    context: 'Antes de prosseguir, precisamos verificar se vocês conseguem interpretar informações incompletas e resolver um primeiro problema.',
+    mission: 'MODELO DE CONTEÚDO: aqui entrará o primeiro enigma real. Nesta base, usem o botão abaixo apenas para simular a conclusão da etapa.'
+  },
+  {
+    name: 'Observação',
+    short: 'Aguardem instruções.',
+    context: 'Nem toda informação relevante é apresentada de forma explícita. Esta etapa avaliará atenção, padrão e detalhe.',
+    mission: 'MODELO DE CONTEÚDO: esta etapa poderá usar imagem, vídeo, mapa ou outro registro externo.'
+  },
+  {
+    name: 'Julgamento',
+    short: 'Confrontem versões.',
+    context: 'Informações conflitantes exigirão uma decisão antes que o processo possa continuar.',
+    mission: 'MODELO DE CONTEÚDO: aqui poderá existir uma escolha sem resposta objetivamente certa.'
+  },
+  {
+    name: 'Iniciativa',
+    short: 'Descubram o próximo passo.',
+    context: 'Instruções completas nem sempre estarão disponíveis. Vocês deverão avançar por iniciativa própria.',
+    mission: 'MODELO DE CONTEÚDO: esta etapa deverá exigir que vocês encontrem o próximo passo sem um comando explícito.'
+  },
+  {
+    name: 'Confiança',
+    short: 'Acesso condicionado.',
+    context: 'O acesso seguinte envolve material restrito e exige que o processo já tenha sido compreendido.',
+    mission: 'MODELO DE CONTEÚDO: etapa final antes da admissão.'
+  },
+  {
+    name: 'Admissão',
+    short: 'Conclusão do protocolo.',
+    context: 'O processo de seleção foi concluído. A continuidade dependerá do resultado desta etapa.',
+    mission: 'MODELO DE CONTEÚDO: aqui ocorrerá a revelação e o encaminhamento para o futuro ambiente permanente.'
+  }
 ];
 
 const VALID_REFS = ['76-01','76-02','76-03','76-04','76-05','76-06','76-07','76-08','76-09'];
@@ -23,7 +58,7 @@ let progress = 1;
 function show(view) {
   [loginView, dashboardView, stageView].forEach(v => v.classList.remove('active'));
   view.classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'instant' });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function normalizeRef(value) {
@@ -31,28 +66,23 @@ function normalizeRef(value) {
 }
 
 function loadProgress(ref) {
-  // MOCK LOCAL: depois isso será substituído por leitura do backend compartilhado.
   const stored = Number(localStorage.getItem(`progress:${ref}`));
-  return Number.isInteger(stored) && stored >= 1 && stored <= stages.length ? stored : 1;
+  return Number.isInteger(stored) && stored >= 1 && stored <= stages.length ? stored : 2;
 }
 
 function saveProgress(ref, value) {
-  // MOCK LOCAL: depois isso será substituído por gravação no backend compartilhado.
   localStorage.setItem(`progress:${ref}`, String(value));
 }
 
 function renderDashboard() {
   document.querySelector('#unitTitle').textContent = currentRef;
-  progressText.textContent = `${progress}/${stages.length}`;
-  const cells = 22;
-  const filled = Math.round((progress / stages.length) * cells);
-  document.querySelector('#progressCells').textContent = '#'.repeat(filled) + '.'.repeat(cells - filled);
+  progressText.textContent = `${Math.min(progress, stages.length)} / ${stages.length}`;
   stageList.innerHTML = '';
 
   stages.forEach((stage, index) => {
     const step = index + 1;
-    const isDone = step < progress || (step === 1 && progress >= 1);
-    const isAvailable = step === progress && step !== 1;
+    const isDone = step < progress || (step === 1 && progress >= 2);
+    const isAvailable = step === progress;
     const isLocked = step > progress;
 
     const btn = document.createElement('button');
@@ -60,8 +90,12 @@ function renderDashboard() {
     btn.disabled = isLocked;
     btn.innerHTML = `
       <span class="num">${String(step).padStart(2, '0')}</span>
-      <span class="name">${stage.name}</span>
-      <span class="state">${isDone ? 'CONCLUÍDO' : isAvailable ? 'DISPONÍVEL' : 'BLOQUEADO'}</span>
+      <span class="copy">
+        <span class="name">${stage.name}</span>
+        <span class="desc">${stage.short}</span>
+      </span>
+      <span class="state">${isDone ? 'concluída' : isAvailable ? 'disponível' : 'bloqueada'}</span>
+      <span class="arrow">›</span>
     `;
     btn.addEventListener('click', () => openStage(index));
     stageList.appendChild(btn);
@@ -79,10 +113,10 @@ function openStage(index) {
   actions.innerHTML = '';
 
   const step = index + 1;
-  if (step === progress && step > 1 && step < stages.length) {
+  if (step === progress && step < stages.length) {
     const complete = document.createElement('button');
-    complete.className = 'dos-action demo-action';
-    complete.textContent = 'SIMULAR CONCLUSÃO DA ETAPA';
+    complete.className = 'primary-btn';
+    complete.textContent = step === 1 ? 'Prosseguir' : 'Simular conclusão';
     complete.addEventListener('click', () => {
       progress += 1;
       saveProgress(currentRef, progress);
@@ -94,11 +128,11 @@ function openStage(index) {
 
   if (step === stages.length && step === progress) {
     const complete = document.createElement('button');
-    complete.className = 'dos-action demo-action';
-    complete.textContent = 'SIMULAR ADMISSÃO';
+    complete.className = 'primary-btn';
+    complete.textContent = 'Simular admissão';
     complete.addEventListener('click', () => {
       document.querySelector('#stageContext').textContent = 'PROCESSO CONCLUÍDO // STATUS: ADMITIDO';
-      document.querySelector('#stageMission').textContent = 'Nesta versão-base, o próximo passo será o encaminhamento para o futuro ambiente permanente.';
+      document.querySelector('#stageMission').textContent = 'Nesta versão-base, o próximo passo será o encaminhamento para o futuro ambiente permanente da Sociedade.';
       actions.innerHTML = '<p class="demo-note">A versão definitiva poderá gerar uma credencial de admissão e liberar o segundo site.</p>';
     });
     actions.appendChild(complete);
@@ -116,7 +150,7 @@ document.querySelector('#accessForm').addEventListener('submit', (event) => {
   event.preventDefault();
   const ref = normalizeRef(referenceInput.value);
   if (!VALID_REFS.includes(ref)) {
-    loginMessage.textContent = 'REFERÊNCIA NÃO LOCALIZADA.';
+    loginMessage.textContent = 'Referência não localizada.';
     return;
   }
   currentRef = ref;
