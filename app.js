@@ -1,49 +1,63 @@
 const stages = [
   {
     name: 'Identificação',
-    short: 'Confirmem quem vocês são.',
     context: 'A referência informada foi validada. A presença de vocês neste protocolo foi confirmada.',
-    mission: 'Nenhuma ação adicional é necessária nesta etapa. A identificação já foi concluída com sucesso.'
+    mission: 'Nenhuma ação adicional é necessária nesta etapa. A identificação foi concluída com sucesso.'
   },
   {
     name: 'Aptidão',
-    short: 'Avaliem seus conhecimentos.',
     context: 'Antes de prosseguir, precisamos verificar se vocês conseguem interpretar informações incompletas e resolver um primeiro problema.',
     mission: 'MODELO DE CONTEÚDO: aqui entrará o primeiro enigma real. Nesta base, usem o botão abaixo apenas para simular a conclusão da etapa.'
   },
   {
     name: 'Observação',
-    short: 'Aguardem instruções.',
     context: 'Nem toda informação relevante é apresentada de forma explícita. Esta etapa avaliará atenção, padrão e detalhe.',
     mission: 'MODELO DE CONTEÚDO: esta etapa poderá usar imagem, vídeo, mapa ou outro registro externo.'
   },
   {
     name: 'Julgamento',
-    short: 'Confrontem versões.',
     context: 'Informações conflitantes exigirão uma decisão antes que o processo possa continuar.',
     mission: 'MODELO DE CONTEÚDO: aqui poderá existir uma escolha sem resposta objetivamente certa.'
   },
   {
     name: 'Iniciativa',
-    short: 'Descubram o próximo passo.',
     context: 'Instruções completas nem sempre estarão disponíveis. Vocês deverão avançar por iniciativa própria.',
     mission: 'MODELO DE CONTEÚDO: esta etapa deverá exigir que vocês encontrem o próximo passo sem um comando explícito.'
   },
   {
     name: 'Confiança',
-    short: 'Acesso condicionado.',
     context: 'O acesso seguinte envolve material restrito e exige que o processo já tenha sido compreendido.',
     mission: 'MODELO DE CONTEÚDO: etapa final antes da admissão.'
   },
   {
     name: 'Admissão',
-    short: 'Conclusão do protocolo.',
     context: 'O processo de seleção foi concluído. A continuidade dependerá do resultado desta etapa.',
     mission: 'MODELO DE CONTEÚDO: aqui ocorrerá a revelação e o encaminhamento para o futuro ambiente permanente.'
   }
 ];
 
-const VALID_REFS = ['76-01','76-02','76-03','76-04','76-05','76-06','76-07','76-08','76-09'];
+const REFERENCES = {
+  LUMEN: 'Lumen',
+  TACITUS: 'Tacitus',
+  SPECULO: 'Speculo',
+  VIGIL: 'Vigil',
+  FERRO: 'Ferro',
+  IGNIS: 'Ignis',
+  PUGNUS: 'Pugnus',
+  CUSTOS: 'Custos',
+  MALLEUS: 'Malleus',
+  DUX: 'Dux',
+  RATIO: 'Ratio',
+  NEXUS: 'Nexus',
+  VERITAS: 'Veritas',
+  ARS: 'Ars',
+  FATUM: 'Fatum',
+  FINIS: 'Finis',
+  ULTOR: 'Ultor',
+  AEQUITAS: 'Aequitas',
+  SICA: 'Sica'
+};
+
 const loginView = document.querySelector('#loginView');
 const dashboardView = document.querySelector('#dashboardView');
 const stageView = document.querySelector('#stageView');
@@ -51,9 +65,12 @@ const loginMessage = document.querySelector('#loginMessage');
 const referenceInput = document.querySelector('#reference');
 const stageList = document.querySelector('#stageList');
 const progressText = document.querySelector('#progressText');
+const processStatus = document.querySelector('#processStatus');
+const stageStatus = document.querySelector('#stageStatus');
 
-let currentRef = null;
-let progress = 1;
+let currentRefKey = null;
+let currentRefLabel = null;
+let completedCount = 1;
 
 function show(view) {
   [loginView, dashboardView, stageView].forEach(v => v.classList.remove('active'));
@@ -65,36 +82,42 @@ function normalizeRef(value) {
   return value.trim().toUpperCase().replace(/\s+/g, '');
 }
 
-function loadProgress(ref) {
-  const stored = Number(localStorage.getItem(`progress:${ref}`));
-  return Number.isInteger(stored) && stored >= 1 && stored <= stages.length ? stored : 2;
+function loadProgress(refKey) {
+  const stored = Number(localStorage.getItem(`progress:${refKey}`));
+  return Number.isInteger(stored) && stored >= 1 && stored <= stages.length ? stored : 1;
 }
 
-function saveProgress(ref, value) {
-  localStorage.setItem(`progress:${ref}`, String(value));
+function saveProgress(refKey, value) {
+  localStorage.setItem(`progress:${refKey}`, String(value));
+}
+
+function getTopStatus() {
+  return completedCount >= stages.length ? 'finalizado' : 'em aberto';
+}
+
+function stageVisualState(step) {
+  if (step <= completedCount) return 'done';
+  if (step === completedCount + 1 && completedCount < stages.length) return 'available';
+  return 'locked';
 }
 
 function renderDashboard() {
-  document.querySelector('#unitTitle').textContent = currentRef;
-  progressText.textContent = `${Math.min(progress, stages.length)} / ${stages.length}`;
+  document.querySelector('#unitTitle').textContent = currentRefLabel;
+  processStatus.textContent = getTopStatus();
+  progressText.textContent = `${completedCount}/${stages.length}`;
   stageList.innerHTML = '';
 
   stages.forEach((stage, index) => {
     const step = index + 1;
-    const isDone = step < progress || (step === 1 && progress >= 2);
-    const isAvailable = step === progress;
-    const isLocked = step > progress;
+    const state = stageVisualState(step);
 
     const btn = document.createElement('button');
-    btn.className = `stage-row ${isDone ? 'done' : ''} ${isAvailable ? 'available' : ''} ${isLocked ? 'locked' : ''}`;
-    btn.disabled = isLocked;
+    btn.className = `stage-row ${state}`;
+    btn.disabled = state === 'locked';
     btn.innerHTML = `
       <span class="num">${String(step).padStart(2, '0')}</span>
-      <span class="copy">
-        <span class="name">${stage.name}</span>
-        <span class="desc">${stage.short}</span>
-      </span>
-      <span class="state">${isDone ? 'concluída' : isAvailable ? 'disponível' : 'bloqueada'}</span>
+      <span class="name">${stage.name}</span>
+      <span class="state">${state === 'done' ? 'concluída' : state === 'available' ? 'disponível' : 'bloqueada'}</span>
       <span class="arrow">›</span>
     `;
     btn.addEventListener('click', () => openStage(index));
@@ -103,36 +126,43 @@ function renderDashboard() {
 }
 
 function openStage(index) {
+  const step = index + 1;
   const stage = stages[index];
-  document.querySelector('#stageCode').textContent = `ETAPA ${String(index + 1).padStart(2, '0')}`;
+  const state = stageVisualState(step);
+
+  document.querySelector('#stageCode').textContent = `ETAPA ${String(step).padStart(2, '0')}`;
   document.querySelector('#stageName').textContent = stage.name;
   document.querySelector('#stageContext').textContent = stage.context;
   document.querySelector('#stageMission').textContent = stage.mission;
+  stageStatus.textContent = state === 'done' ? 'concluída' : state === 'available' ? 'disponível' : 'bloqueada';
 
   const actions = document.querySelector('#stageActions');
   actions.innerHTML = '';
 
-  const step = index + 1;
-  if (step === progress && step < stages.length) {
+  if (state === 'available' && step < stages.length) {
     const complete = document.createElement('button');
     complete.className = 'primary-btn';
-    complete.textContent = step === 1 ? 'Prosseguir' : 'Simular conclusão';
+    complete.textContent = 'Simular conclusão';
     complete.addEventListener('click', () => {
-      progress += 1;
-      saveProgress(currentRef, progress);
+      completedCount = Math.min(stages.length, completedCount + 1);
+      saveProgress(currentRefKey, completedCount);
       renderDashboard();
       show(dashboardView);
     });
     actions.appendChild(complete);
   }
 
-  if (step === stages.length && step === progress) {
+  if (state === 'available' && step === stages.length) {
     const complete = document.createElement('button');
     complete.className = 'primary-btn';
     complete.textContent = 'Simular admissão';
     complete.addEventListener('click', () => {
-      document.querySelector('#stageContext').textContent = 'PROCESSO CONCLUÍDO // STATUS: ADMITIDO';
-      document.querySelector('#stageMission').textContent = 'Nesta versão-base, o próximo passo será o encaminhamento para o futuro ambiente permanente da Sociedade.';
+      completedCount = stages.length;
+      saveProgress(currentRefKey, completedCount);
+      renderDashboard();
+      document.querySelector('#stageContext').textContent = 'PROCESSO CONCLUÍDO.';
+      document.querySelector('#stageMission').textContent = 'Nesta versão-base, o próximo passo será o encaminhamento para o futuro ambiente permanente.';
+      stageStatus.textContent = 'finalizado';
       actions.innerHTML = '<p class="demo-note">A versão definitiva poderá gerar uma credencial de admissão e liberar o segundo site.</p>';
     });
     actions.appendChild(complete);
@@ -148,20 +178,23 @@ function openStage(index) {
 
 document.querySelector('#accessForm').addEventListener('submit', (event) => {
   event.preventDefault();
-  const ref = normalizeRef(referenceInput.value);
-  if (!VALID_REFS.includes(ref)) {
+  const refKey = normalizeRef(referenceInput.value);
+  if (!REFERENCES[refKey]) {
     loginMessage.textContent = 'Referência não localizada.';
     return;
   }
-  currentRef = ref;
-  progress = loadProgress(ref);
+
+  currentRefKey = refKey;
+  currentRefLabel = REFERENCES[refKey];
+  completedCount = loadProgress(refKey);
   loginMessage.textContent = '';
   renderDashboard();
   show(dashboardView);
 });
 
 document.querySelector('#logoutBtn').addEventListener('click', () => {
-  currentRef = null;
+  currentRefKey = null;
+  currentRefLabel = null;
   referenceInput.value = '';
   show(loginView);
 });
