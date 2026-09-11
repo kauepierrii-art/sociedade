@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#020502" />
+  <title>Protocolo de Seleção</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="terminal" aria-live="polite">
+    <header class="bootline">
+      <span>SYS/76</span><span>MEM: OK</span><span class="clock">CANAL 01</span>
+    </header>
+
+    <section id="loginView" class="view active">
+      <pre class="ascii" aria-hidden="true">+----------------------------------+
+|      PROTOCOLO DE SELECAO        |
+|        ACESSO RESTRITO           |
++----------------------------------+</pre>
+
+      <div class="screen-copy">
+        <p>SISTEMA INICIALIZADO.</p>
+        <p>AGUARDANDO IDENTIFICACAO...</p>
+      </div>
+
+      <form id="accessForm" class="dos-form">
+        <label for="reference">C:\PROTOCOLO&gt; INFORME A REFERENCIA</label>
+        <div class="command-line">
+          <span class="prompt">&gt;</span>
+          <input id="reference" name="reference" inputmode="text" autocomplete="off" autocapitalize="characters" placeholder="76-06" maxlength="8" required />
+          <span class="cursor" aria-hidden="true">_</span>
+        </div>
+        <button type="submit" class="dos-action">[ ENTER ] CONFIRMAR</button>
+      </form>
+
+      <p id="loginMessage" class="system-message" role="status"></p>
+      <p class="hint">ESC PARA ENCERRAR // ENTER PARA CONFIRMAR</p>
+    </section>
+
+    <section id="dashboardView" class="view">
+      <pre class="ascii compact" aria-hidden="true">+----------------------------------+
+|        PROCESSO DE SELECAO       |
++----------------------------------+</pre>
+
+      <div class="terminal-block">
+        <p>REFERENCIA........: <strong id="unitTitle">76-06</strong></p>
+        <p>STATUS............: <strong>EM SELECAO</strong></p>
+        <p>PROGRESSO.........: <strong id="progressText">1/7</strong></p>
+      </div>
+
+      <div class="ascii-progress" aria-hidden="true">
+        <span>[</span><span id="progressCells"></span><span>]</span>
+      </div>
+
+      <p class="menu-title">SELECIONE UM PROCEDIMENTO:</p>
+      <div id="stageList" class="stage-list"></div>
+
+      <div class="terminal-note">
+        <p>&gt; O ESTADO DESTA REFERENCIA SERA COMPARTILHADO ENTRE ACESSOS AUTORIZADOS.</p>
+      </div>
+
+      <button id="logoutBtn" class="dos-action secondary">[ X ] ENCERRAR ACESSO</button>
+    </section>
+
+    <section id="stageView" class="view">
+      <button id="backBtn" class="text-command">&lt; RETORNAR AO INDICE</button>
+      <pre class="ascii compact" aria-hidden="true">+----------------------------------+
+|       PROCEDIMENTO EM CURSO      |
++----------------------------------+</pre>
+
+      <div class="terminal-block stage-head">
+        <p id="stageCode">ETAPA 02</p>
+        <p>DESIGNACAO........: <strong id="stageName">APTIDAO</strong></p>
+      </div>
+
+      <div class="stage-text">
+        <p id="stageContext"></p>
+      </div>
+
+      <div id="stageMission" class="mission-box"></div>
+      <div id="stageActions"></div>
+    </section>
+
+    <footer class="terminal-footer">SISTEMA DE ACESSO // REV. 2026.03 // <span class="blink">_</span></footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
