@@ -9,6 +9,76 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    .dashboard-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 210px;
+      gap: 24px;
+      align-items: start;
+      margin-bottom: 22px;
+    }
+
+    .dashboard-top .compact-hero {
+      margin-bottom: 0;
+    }
+
+    .dashboard-top .important-info-btn {
+      width: 100%;
+      margin: 8px 0 0;
+      padding: 10px 8px;
+      min-height: 142px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 9px;
+      background: rgba(17, 23, 47, .42);
+      border: 0;
+      color: var(--text-soft);
+      text-align: center;
+    }
+
+    .dashboard-top .important-info-btn:hover,
+    .dashboard-top .important-info-btn:focus-visible {
+      background: rgba(21, 28, 56, .72);
+      color: var(--text);
+      outline: 1px solid var(--line);
+    }
+
+    .dashboard-top .folder-icon {
+      width: 78px;
+      min-width: 78px;
+      color: var(--yellow);
+    }
+
+    .dashboard-top .important-info-btn > span:last-child {
+      font-size: 14px;
+      line-height: 1.35;
+      font-weight: 500;
+    }
+
+    @media (max-width: 560px) {
+      .dashboard-top {
+        grid-template-columns: minmax(0, 1fr) 142px;
+        gap: 10px;
+      }
+
+      .dashboard-top .important-info-btn {
+        min-height: 124px;
+        margin-top: 4px;
+        padding: 8px 4px;
+      }
+
+      .dashboard-top .folder-icon {
+        width: 58px;
+        min-width: 58px;
+      }
+
+      .dashboard-top .important-info-btn > span:last-child {
+        font-size: 11px;
+      }
+    }
+  </style>
 </head>
 <body>
   <main class="app-shell" aria-live="polite">
@@ -34,11 +104,23 @@
     </section>
 
     <section id="dashboardView" class="view">
-      <div class="hero compact-hero">
-        <h1>PROTOCOLO</h1>
-        <p class="hero-ref">Referência <span id="unitTitle">Ignis</span></p>
-        <div class="hero-divider"></div>
-        <p class="status-line">Status: <strong id="processStatus">em aberto</strong></p>
+      <div class="dashboard-top">
+        <div class="hero compact-hero">
+          <h1>PROTOCOLO</h1>
+          <p class="hero-ref">Referência <span id="unitTitle">Ignis</span></p>
+          <div class="hero-divider"></div>
+          <p class="status-line">Status: <strong id="processStatus">em aberto</strong></p>
+        </div>
+
+        <button id="importantInfoBtn" class="important-info-btn" type="button" aria-haspopup="dialog" aria-controls="printDialog">
+          <span class="folder-icon" aria-hidden="true">
+            <svg viewBox="0 0 64 52" role="img">
+              <path d="M4 12.5A4.5 4.5 0 0 1 8.5 8H25l6 7h24.5A4.5 4.5 0 0 1 60 19.5v24A4.5 4.5 0 0 1 55.5 48h-47A4.5 4.5 0 0 1 4 43.5z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
+              <path d="M4 19h56" fill="none" stroke="currentColor" stroke-width="2.4"/>
+            </svg>
+          </span>
+          <span>Informações importantes</span>
+        </button>
       </div>
 
       <section class="panel stages-panel">
@@ -48,16 +130,6 @@
         </div>
         <div id="stageList" class="stage-list"></div>
       </section>
-
-      <button id="importantInfoBtn" class="important-info-btn" type="button" aria-haspopup="dialog" aria-controls="printDialog">
-        <span class="folder-icon" aria-hidden="true">
-          <svg viewBox="0 0 64 52" role="img">
-            <path d="M4 12.5A4.5 4.5 0 0 1 8.5 8H25l6 7h24.5A4.5 4.5 0 0 1 60 19.5v24A4.5 4.5 0 0 1 55.5 48h-47A4.5 4.5 0 0 1 4 43.5z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
-            <path d="M4 19h56" fill="none" stroke="currentColor" stroke-width="2.4"/>
-          </svg>
-        </span>
-        <span>Informações importantes</span>
-      </button>
 
       <blockquote class="quote">“Nem todos os olhos veem o mesmo.”</blockquote>
       <p class="access-copy">ACESSO RESTRITO</p>
