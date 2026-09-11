@@ -76,3 +76,39 @@ renderDashboard = function() {
       }
     : null;
 };
+
+// Dicas progressivas para a referência inicial.
+let referenceAttemptErrors = 0;
+const accessForm = document.querySelector('#accessForm');
+
+accessForm.addEventListener('submit', function(event) {
+  event.preventDefault();
+  event.stopImmediatePropagation();
+
+  const refKey = normalizeRef(referenceInput.value);
+
+  if (!REFERENCES[refKey]) {
+    referenceAttemptErrors += 1;
+
+    if (referenceAttemptErrors === 1) {
+      loginMessage.innerHTML = `
+        REFERÊNCIA NÃO LOCALIZADA.<br><br>
+        <strong>DICA I</strong><br>
+        A referência não está escrita de forma direta na correspondência. Considere a indicação ao final da carta.`;
+    } else {
+      loginMessage.innerHTML = `
+        REFERÊNCIA NÃO LOCALIZADA.<br><br>
+        <strong>DICA II</strong><br>
+        A palavra associada à sua referência deve ser convertida para o idioma indicado no final da correspondência.`;
+    }
+    return;
+  }
+
+  referenceAttemptErrors = 0;
+  currentRefKey = refKey;
+  currentRefLabel = REFERENCES[refKey];
+  completedCount = loadProgress(refKey);
+  loginMessage.textContent = '';
+  renderDashboard();
+  show(dashboardView);
+}, true);
