@@ -3,86 +3,98 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#020502" />
+  <meta name="theme-color" content="#10142a" />
   <title>Protocolo de Seleção</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <main class="terminal" aria-live="polite">
-    <header class="bootline">
-      <span>SYS/76</span><span>MEM: OK</span><span class="clock">CANAL 01</span>
+  <main class="app-shell" aria-live="polite">
+    <header class="topbar">
+      <div class="brand-mark" aria-hidden="true">
+        <span class="triangle"></span>
+        <span class="dot"></span>
+        <span class="line"></span>
+      </div>
+      <div class="brand-copy">
+        <p class="brand-name">ORDO LUX OBSCURA</p>
+        <p class="brand-motto">VERITAS PER OBSERVATIONEM</p>
+      </div>
+      <button class="menu-ghost" type="button" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
     </header>
 
     <section id="loginView" class="view active">
-      <pre class="ascii" aria-hidden="true">+----------------------------------+
-|      PROTOCOLO DE SELECAO        |
-|        ACESSO RESTRITO           |
-+----------------------------------+</pre>
-
-      <div class="screen-copy">
-        <p>SISTEMA INICIALIZADO.</p>
-        <p>AGUARDANDO IDENTIFICACAO...</p>
+      <div class="hero hero-login">
+        <p class="eyebrow">ACESSO RESTRITO</p>
+        <h1>PROTOCOLO</h1>
+        <p class="hero-subtitle">Insiram a referência contida na correspondência.</p>
       </div>
 
-      <form id="accessForm" class="dos-form">
-        <label for="reference">C:\PROTOCOLO&gt; INFORME A REFERENCIA</label>
-        <div class="command-line">
-          <span class="prompt">&gt;</span>
-          <input id="reference" name="reference" inputmode="text" autocomplete="off" autocapitalize="characters" placeholder="76-06" maxlength="8" required />
-          <span class="cursor" aria-hidden="true">_</span>
-        </div>
-        <button type="submit" class="dos-action">[ ENTER ] CONFIRMAR</button>
+      <form id="accessForm" class="panel form-panel">
+        <label for="reference" class="field-label">Referência</label>
+        <input id="reference" name="reference" inputmode="text" autocomplete="off" autocapitalize="characters" placeholder="76-06" maxlength="8" required />
+        <p class="field-help">Cada referência representa uma unidade de seleção.</p>
+        <button type="submit" class="primary-btn">Confirmar acesso <span aria-hidden="true">→</span></button>
       </form>
 
-      <p id="loginMessage" class="system-message" role="status"></p>
-      <p class="hint">ESC PARA ENCERRAR // ENTER PARA CONFIRMAR</p>
+      <p id="loginMessage" class="feedback" role="status"></p>
+
+      <div class="footer-note">
+        <span>USO INTERNO</span>
+        <span>DESDE 1976</span>
+      </div>
     </section>
 
     <section id="dashboardView" class="view">
-      <pre class="ascii compact" aria-hidden="true">+----------------------------------+
-|        PROCESSO DE SELECAO       |
-+----------------------------------+</pre>
-
-      <div class="terminal-block">
-        <p>REFERENCIA........: <strong id="unitTitle">76-06</strong></p>
-        <p>STATUS............: <strong>EM SELECAO</strong></p>
-        <p>PROGRESSO.........: <strong id="progressText">1/7</strong></p>
+      <div class="hero">
+        <p class="eyebrow">PROTOCOLO DE SELEÇÃO</p>
+        <h1>Referência <span id="unitTitle">76-06</span></h1>
+        <p class="status-line">Status: <strong>em seleção</strong></p>
+        <p class="intro">O processo é dividido em estágios sucessivos. Completem cada etapa para prosseguir.</p>
       </div>
 
-      <div class="ascii-progress" aria-hidden="true">
-        <span>[</span><span id="progressCells"></span><span>]</span>
+      <section class="panel stages-panel">
+        <div class="panel-head">
+          <h2>ESTÁGIOS</h2>
+          <span class="panel-counter" id="progressText">1 / 7</span>
+        </div>
+        <div id="stageList" class="stage-list"></div>
+      </section>
+
+      <blockquote class="quote">“Nem todos os olhos veem o mesmo.”<br><span>— O. L. O.</span></blockquote>
+
+      <div class="footer-note space-top">
+        <span>ORDO LUX OBSCURA</span>
+        <span>ACESSO RESTRITO</span>
       </div>
 
-      <p class="menu-title">SELECIONE UM PROCEDIMENTO:</p>
-      <div id="stageList" class="stage-list"></div>
-
-      <div class="terminal-note">
-        <p>&gt; O ESTADO DESTA REFERENCIA SERA COMPARTILHADO ENTRE ACESSOS AUTORIZADOS.</p>
-      </div>
-
-      <button id="logoutBtn" class="dos-action secondary">[ X ] ENCERRAR ACESSO</button>
+      <button id="logoutBtn" class="ghost-btn">Encerrar acesso</button>
     </section>
 
     <section id="stageView" class="view">
-      <button id="backBtn" class="text-command">&lt; RETORNAR AO INDICE</button>
-      <pre class="ascii compact" aria-hidden="true">+----------------------------------+
-|       PROCEDIMENTO EM CURSO      |
-+----------------------------------+</pre>
+      <button id="backBtn" class="back-link" type="button">← Voltar aos estágios</button>
 
-      <div class="terminal-block stage-head">
-        <p id="stageCode">ETAPA 02</p>
-        <p>DESIGNACAO........: <strong id="stageName">APTIDAO</strong></p>
+      <div class="hero hero-stage">
+        <p class="eyebrow" id="stageCode">ETAPA 02</p>
+        <h1 id="stageName">Aptidão</h1>
+        <p class="hero-subtitle" id="stageContext"></p>
       </div>
 
-      <div class="stage-text">
-        <p id="stageContext"></p>
-      </div>
+      <section class="panel detail-panel">
+        <div class="panel-head">
+          <h2>INSTRUÇÃO</h2>
+          <span class="panel-counter">ATIVA</span>
+        </div>
+        <div id="stageMission" class="mission-copy"></div>
+        <div id="stageActions" class="stage-actions"></div>
+      </section>
 
-      <div id="stageMission" class="mission-box"></div>
-      <div id="stageActions"></div>
+      <div class="footer-note space-top">
+        <span>CONTINUIDADE</span>
+        <span>PROCESSO ATIVO</span>
+      </div>
     </section>
-
-    <footer class="terminal-footer">SISTEMA DE ACESSO // REV. 2026.03 // <span class="blink">_</span></footer>
   </main>
   <script src="app.js"></script>
 </body>
