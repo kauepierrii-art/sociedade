@@ -1,8 +1,8 @@
 const stages = [
   {
     name: 'Identificação',
-    context: 'A referência informada foi validada. A presença de vocês neste protocolo foi confirmada.',
-    mission: 'Nenhuma ação adicional é necessária nesta etapa. A identificação foi concluída com sucesso.'
+    context: 'A origem deste acesso precisa ser confirmada.\n\nA correspondência contém uma segunda marca de validação.',
+    mission: '“O que não se vê ainda pode deixar vestígios.”'
   },
   {
     name: 'Aptidão',
@@ -58,6 +58,10 @@ const REFERENCES = {
   SICA: 'Sica'
 };
 
+// Código provisório da marca física. Trocar quando a sequência definitiva dos três dados for escolhida.
+const IDENTIFICATION_CODE = '352';
+const MAX_COOLDOWN_MINUTES = 15;
+
 const loginView = document.querySelector('#loginView');
 const dashboardView = document.querySelector('#dashboardView');
 const stageView = document.querySelector('#stageView');
@@ -70,7 +74,8 @@ const stageStatus = document.querySelector('#stageStatus');
 
 let currentRefKey = null;
 let currentRefLabel = null;
-let completedCount = 1;
+let completedCount = 0;
+let cooldownTimer = null;
 
 function show(view) {
   [loginView, dashboardView, stageView].forEach(v => v.classList.remove('active'));
@@ -84,7 +89,7 @@ function normalizeRef(value) {
 
 function loadProgress(refKey) {
   const stored = Number(localStorage.getItem(`progress:${refKey}`));
-  return Number.isInteger(stored) && stored >= 1 && stored <= stages.length ? stored : 1;
+  return Number.isInteger(stored) && stored >= 0 && stored <= stages.length ? stored : 0;
 }
 
 function saveProgress(refKey, value) {
@@ -125,10 +130,131 @@ function renderDashboard() {
   });
 }
 
+function penaltyKey(suffix) {
+  return `identification:${suffix}:${currentRefKey}`;
+}
+
+function getPenaltyState() {
+  return {
+    errors: Number(localStorage.getItem(penaltyKey('errors'))) || 0,
+    until: Number(localStorage.getItem(penaltyKey('until'))) || 0
+  };
+}
+
+function clearPenalty() {
+  localStorage.removeItem(penaltyKey('errors'));
+  localStorage.removeItem(penaltyKey('until'));
+}
+
+function formatCountdown(ms) {
+  const totalSeconds = Math.max(0, Math.ceil(ms / 1000));
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+}
+
+function renderIdentificationForm(actions) {
+  actions.innerHTML = `
+    <form id="identificationForm" class="validation-form" autocomplete="off">
+      <label for="validationCode" class="validation-label">CÓDIGO DE VALIDAÇÃO</label>
+      <input
+        id="validationCode"
+        class="validation-code"
+        type="text"
+        inputmode="numeric"
+        pattern="[0-9]{3}"
+        maxlength="3"
+        placeholder="_ _ _"
+        aria-describedby="validationMessage"
+        required
+      />
+      <button id="validationBtn" type="submit" class="primary-btn">VALIDAR</button>
+      <p id="validationMessage" class="validation-message" role="status"></p>
+    </form>
+  `;
+
+  const form = document.querySelector('#identificationForm');
+  const input = document.querySelector('#validationCode');
+  const button = document.querySelector('#validationBtn');
+  const message = document.querySelector('#validationMessage');
+
+  input.addEventListener('input', () => {
+    input.value = input.value.replace(/\D/g, '').slice(0, 3);
+  });
+
+  function applyCooldown() {
+    if (cooldownTimer) clearInterval(cooldownTimer);
+
+    const update = () => {
+      const { until } = getPenaltyState();
+      const remaining = until - Date.now();
+
+      if (remaining <= 0) {
+        input.disabled = false;
+        button.disabled = false;
+        message.textContent = '';
+        clearInterval(cooldownTimer);
+        cooldownTimer = null;
+        return;
+      }
+
+      input.disabled = true;
+      button.disabled = true;
+      message.innerHTML = `VALIDAÇÃO NEGADA<br>Nova tentativa disponível em <strong>${formatCountdown(remaining)}</strong>.`;
+    };
+
+    update();
+    cooldownTimer = setInterval(update, 1000);
+  }
+
+  const initialPenalty = getPenaltyState();
+  if (initialPenalty.until > Date.now()) applyCooldown();
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const { until, errors } = getPenaltyState();
+    if (until > Date.now()) {
+      applyCooldown();
+      return;
+    }
+
+    if (input.value === IDENTIFICATION_CODE) {
+      clearPenalty();
+      completedCount = Math.max(completedCount, 1);
+      saveProgress(currentRefKey, completedCount);
+      message.textContent = 'IDENTIFICAÇÃO CONFIRMADA.';
+      input.disabled = true;
+      button.disabled = true;
+
+      setTimeout(() => {
+        renderDashboard();
+        show(dashboardView);
+      }, 900);
+      return;
+    }
+
+    const newErrors = errors + 1;
+    const rawMinutes = 2 ** (newErrors - 1);
+    const waitMinutes = Math.min(rawMinutes, MAX_COOLDOWN_MINUTES);
+    const blockedUntil = Date.now() + waitMinutes * 60 * 1000;
+
+    localStorage.setItem(penaltyKey('errors'), String(newErrors));
+    localStorage.setItem(penaltyKey('until'), String(blockedUntil));
+    input.value = '';
+    applyCooldown();
+  });
+}
+
 function openStage(index) {
   const step = index + 1;
   const stage = stages[index];
   const state = stageVisualState(step);
+
+  if (cooldownTimer) {
+    clearInterval(cooldownTimer);
+    cooldownTimer = null;
+  }
 
   document.querySelector('#stageCode').textContent = `ETAPA ${String(step).padStart(2, '0')}`;
   document.querySelector('#stageName').textContent = stage.name;
@@ -138,6 +264,12 @@ function openStage(index) {
 
   const actions = document.querySelector('#stageActions');
   actions.innerHTML = '';
+
+  if (step === 1 && state === 'available') {
+    renderIdentificationForm(actions);
+    show(stageView);
+    return;
+  }
 
   if (state === 'available' && step < stages.length) {
     const complete = document.createElement('button');
@@ -168,10 +300,12 @@ function openStage(index) {
     actions.appendChild(complete);
   }
 
-  const note = document.createElement('p');
-  note.className = 'demo-note';
-  note.textContent = 'Conteúdo provisório para validar navegação, estética e experiência no celular.';
-  actions.appendChild(note);
+  if (step > 1) {
+    const note = document.createElement('p');
+    note.className = 'demo-note';
+    note.textContent = 'Conteúdo provisório para validar navegação, estética e experiência no celular.';
+    actions.appendChild(note);
+  }
 
   show(stageView);
 }
@@ -193,6 +327,10 @@ document.querySelector('#accessForm').addEventListener('submit', (event) => {
 });
 
 document.querySelector('#logoutBtn').addEventListener('click', () => {
+  if (cooldownTimer) {
+    clearInterval(cooldownTimer);
+    cooldownTimer = null;
+  }
   currentRefKey = null;
   currentRefLabel = null;
   referenceInput.value = '';
@@ -200,6 +338,10 @@ document.querySelector('#logoutBtn').addEventListener('click', () => {
 });
 
 document.querySelector('#backBtn').addEventListener('click', () => {
+  if (cooldownTimer) {
+    clearInterval(cooldownTimer);
+    cooldownTimer = null;
+  }
   renderDashboard();
   show(dashboardView);
 });
