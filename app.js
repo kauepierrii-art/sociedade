@@ -2,7 +2,7 @@ const stages = [
   {
     name: 'Identificação',
     context: 'A origem deste acesso precisa ser confirmada.\n\nA correspondência contém uma segunda marca de validação.',
-    mission: '“O que não se vê ainda pode deixar vestígios.”'
+    mission: '“O que não se vê ainda pode deixar vestígios. Nem toda marca resiste da mesma forma ao calor.”'
   },
   {
     name: 'Aptidão',
