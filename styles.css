@@ -337,6 +337,29 @@ button:disabled { opacity: .6; cursor: not-allowed; }
 }
 .validation-message strong { color: var(--yellow); }
 
+.identification-hint {
+  margin-top: 14px;
+  padding: 14px 15px;
+  border: 1px solid rgba(244, 226, 167, .24);
+  background: rgba(244, 226, 167, .045);
+}
+.identification-hint[hidden] { display: none; }
+.hint-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--yellow);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.identification-hint p {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
 @media (max-width: 420px) {
   .app-shell { padding-left: 14px; padding-right: 14px; }
   .login-hero h1 { font-size: clamp(34px, 9.5vw, 44px); }
