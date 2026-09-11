@@ -327,6 +327,13 @@ button:disabled { opacity: .6; cursor: not-allowed; }
   letter-spacing: .35em;
   color: rgba(177, 183, 222, .48);
 }
+.validation-quote {
+  margin: 15px 2px 0;
+  color: var(--text-soft);
+  font-size: 14px;
+  line-height: 1.7;
+  font-style: italic;
+}
 .validation-message {
   min-height: 42px;
   margin: 14px 0 0;
