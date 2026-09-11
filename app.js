@@ -79,6 +79,9 @@ const stageList = document.querySelector('#stageList');
 const progressText = document.querySelector('#progressText');
 const processStatus = document.querySelector('#processStatus');
 const stageStatus = document.querySelector('#stageStatus');
+const importantInfoBtn = document.querySelector('#importantInfoBtn');
+const printDialog = document.querySelector('#printDialog');
+const closePrintDialog = document.querySelector('#closePrintDialog');
 
 let currentRefKey = null;
 let currentRefLabel = null;
@@ -351,6 +354,27 @@ function openStage(index) {
 
   show(stageView);
 }
+
+function openPrintDialog() {
+  printDialog.hidden = false;
+  document.body.style.overflow = 'hidden';
+  closePrintDialog.focus();
+}
+
+function closePrintModal() {
+  printDialog.hidden = true;
+  document.body.style.overflow = '';
+  importantInfoBtn.focus();
+}
+
+importantInfoBtn.addEventListener('click', openPrintDialog);
+closePrintDialog.addEventListener('click', closePrintModal);
+printDialog.addEventListener('click', (event) => {
+  if (event.target === printDialog) closePrintModal();
+});
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && !printDialog.hidden) closePrintModal();
+});
 
 document.querySelector('#accessForm').addEventListener('submit', (event) => {
   event.preventDefault();
