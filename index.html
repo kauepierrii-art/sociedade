@@ -44,10 +44,20 @@
       <section class="panel stages-panel">
         <div class="panel-head">
           <h2>ESTÁGIOS</h2>
-          <span class="panel-counter" id="progressText">1/7</span>
+          <span class="panel-counter" id="progressText">0/7</span>
         </div>
         <div id="stageList" class="stage-list"></div>
       </section>
+
+      <button id="importantInfoBtn" class="important-info-btn" type="button" aria-haspopup="dialog" aria-controls="printDialog">
+        <span class="folder-icon" aria-hidden="true">
+          <svg viewBox="0 0 64 52" role="img">
+            <path d="M4 12.5A4.5 4.5 0 0 1 8.5 8H25l6 7h24.5A4.5 4.5 0 0 1 60 19.5v24A4.5 4.5 0 0 1 55.5 48h-47A4.5 4.5 0 0 1 4 43.5z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
+            <path d="M4 19h56" fill="none" stroke="currentColor" stroke-width="2.4"/>
+          </svg>
+        </span>
+        <span>Informações importantes</span>
+      </button>
 
       <blockquote class="quote">“Nem todos os olhos veem o mesmo.”</blockquote>
       <p class="access-copy">ACESSO RESTRITO</p>
@@ -77,6 +87,29 @@
       <p class="access-copy stage-foot">ACESSO RESTRITO</p>
     </section>
   </main>
+
+  <div id="printDialog" class="modal-backdrop" hidden>
+    <section class="print-modal panel" role="dialog" aria-modal="true" aria-labelledby="printDialogTitle">
+      <button id="closePrintDialog" class="modal-close" type="button" aria-label="Fechar">×</button>
+      <p class="eyebrow">DOCUMENTOS DE APOIO</p>
+      <h2 id="printDialogTitle">ARQUIVO PARA IMPRESSÃO</h2>
+
+      <div class="print-copy">
+        <p>Os documentos abaixo também estão disponíveis no sistema e não precisam ser impressos para a conclusão do protocolo.</p>
+        <p>A impressão é recomendada para facilitar a consulta, comparação e análise dos registros ao longo das etapas.</p>
+        <p>Ainda assim, para quem preferir acompanhar os registros em papel, fazer anotações e analisar os materiais com mais liberdade, recomendamos a versão impressa do conteúdo, que pode tornar a leitura mais confortável e o acompanhamento das etapas mais agradável.</p>
+      </div>
+
+      <div class="print-file-placeholder" aria-disabled="true">
+        <span class="file-mark">PDF</span>
+        <span>
+          <strong>Arquivo completo do protocolo</strong>
+          <small>Será disponibilizado aqui quando o material estiver concluído.</small>
+        </span>
+      </div>
+    </section>
+  </div>
+
   <script src="app.js"></script>
 </body>
 </html>
