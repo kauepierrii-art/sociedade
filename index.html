@@ -5,36 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#10142a" />
   <title>Protocolo de Seleção</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <main class="app-shell" aria-live="polite">
-    <header class="topbar">
-      <div class="brand-mark" aria-hidden="true">
-        <span class="triangle"></span>
-        <span class="dot"></span>
-        <span class="line"></span>
-      </div>
-      <div class="brand-copy">
-        <p class="brand-name">ORDO LUX OBSCURA</p>
-        <p class="brand-motto">VERITAS PER OBSERVATIONEM</p>
-      </div>
-      <button class="menu-ghost" type="button" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </button>
-    </header>
-
-    <section id="loginView" class="view active">
-      <div class="hero hero-login">
-        <p class="eyebrow">ACESSO RESTRITO</p>
-        <h1>PROTOCOLO</h1>
-        <p class="hero-subtitle">Insiram a referência contida na correspondência.</p>
+    <section id="loginView" class="view login-view active">
+      <div class="login-hero">
+        <p class="eyebrow centered">PROTOCOLO DE IDENTIFICAÇÃO</p>
+        <h1 class="centered">ACESSO RESTRITO</h1>
       </div>
 
       <form id="accessForm" class="panel form-panel">
-        <label for="reference" class="field-label">Referência</label>
-        <input id="reference" name="reference" inputmode="text" autocomplete="off" autocapitalize="characters" placeholder="76-06" maxlength="8" required />
-        <p class="field-help">Cada referência representa uma unidade de seleção.</p>
+        <label for="reference" class="field-label">Informe a referência</label>
+        <input id="reference" name="reference" inputmode="text" autocomplete="off" autocapitalize="characters" placeholder="IGNIS" maxlength="10" required />
+        <p class="field-help">Sistema interno de identificação</p>
         <button type="submit" class="primary-btn">Confirmar acesso <span aria-hidden="true">→</span></button>
       </form>
 
@@ -47,38 +34,34 @@
     </section>
 
     <section id="dashboardView" class="view">
-      <div class="hero">
-        <p class="eyebrow">PROTOCOLO DE SELEÇÃO</p>
-        <h1>Referência <span id="unitTitle">76-06</span></h1>
-        <p class="status-line">Status: <strong>em seleção</strong></p>
-        <p class="intro">O processo é dividido em estágios sucessivos. Completem cada etapa para prosseguir.</p>
+      <div class="hero compact-hero">
+        <h1>PROTOCOLO</h1>
+        <p class="hero-ref">Referência <span id="unitTitle">Ignis</span></p>
+        <div class="hero-divider"></div>
+        <p class="status-line">Status: <strong id="processStatus">em aberto</strong></p>
       </div>
 
       <section class="panel stages-panel">
         <div class="panel-head">
           <h2>ESTÁGIOS</h2>
-          <span class="panel-counter" id="progressText">1 / 7</span>
+          <span class="panel-counter" id="progressText">1/7</span>
         </div>
         <div id="stageList" class="stage-list"></div>
       </section>
 
-      <blockquote class="quote">“Nem todos os olhos veem o mesmo.”<br><span>— O. L. O.</span></blockquote>
-
-      <div class="footer-note space-top">
-        <span>ORDO LUX OBSCURA</span>
-        <span>ACESSO RESTRITO</span>
-      </div>
-
+      <blockquote class="quote">“Nem todos os olhos veem o mesmo.”</blockquote>
+      <p class="access-copy">ACESSO RESTRITO</p>
       <button id="logoutBtn" class="ghost-btn">Encerrar acesso</button>
     </section>
 
     <section id="stageView" class="view">
       <button id="backBtn" class="back-link" type="button">← Voltar aos estágios</button>
 
-      <div class="hero hero-stage">
+      <div class="hero compact-hero stage-hero">
         <p class="eyebrow" id="stageCode">ETAPA 02</p>
         <h1 id="stageName">Aptidão</h1>
-        <p class="hero-subtitle" id="stageContext"></p>
+        <div class="hero-divider"></div>
+        <p class="status-line"><strong id="stageStatus">disponível</strong></p>
       </div>
 
       <section class="panel detail-panel">
@@ -86,14 +69,12 @@
           <h2>INSTRUÇÃO</h2>
           <span class="panel-counter">ATIVA</span>
         </div>
+        <div id="stageContext" class="context-copy"></div>
         <div id="stageMission" class="mission-copy"></div>
         <div id="stageActions" class="stage-actions"></div>
       </section>
 
-      <div class="footer-note space-top">
-        <span>CONTINUIDADE</span>
-        <span>PROCESSO ATIVO</span>
-      </div>
+      <p class="access-copy stage-foot">ACESSO RESTRITO</p>
     </section>
   </main>
   <script src="app.js"></script>
