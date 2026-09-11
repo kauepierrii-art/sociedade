@@ -1,19 +1,25 @@
 # Protocolo de Seleção — Base minimalista
 
-Protótipo mobile-first para validar estética e navegação do ARG.
+Protótipo mobile-first para validar estética, navegação e estrutura do ARG.
 
 ## Como testar
 1. Abra o site publicado no Vercel.
-2. Use uma referência de teste, por exemplo `76-06`.
+2. Use uma das referências em latim, por exemplo `IGNIS`.
+
+## Referências de teste
+`LUMEN`, `TACITUS`, `SPECULO`, `VIGIL`, `FERRO`, `IGNIS`, `PUGNUS`, `CUSTOS`, `MALLEUS`, `DUX`, `RATIO`, `NEXUS`, `VERITAS`, `ARS`, `FATUM`, `FINIS`, `ULTOR`, `AEQUITAS`, `SICA`.
 
 ## Estado atual
-- Visual minimalista escuro, inspirado na referência escolhida.
-- Navegação adaptada para toque no celular.
-- Referências de teste `76-01` a `76-09`.
+- Visual minimalista escuro e mobile-first.
+- Tela de acesso centralizada.
+- Status geral `em aberto`, alterado para `finalizado` após 7/7 etapas concluídas.
+- Contador exibe somente etapas concluídas; uma etapa apenas disponível não entra na contagem.
+- Subdescrições removidas da lista de estágios.
 - Progresso salvo localmente no navegador apenas para prototipagem.
-- Futuramente o progresso será movido para backend compartilhado, permitindo vários celulares na mesma referência.
+- Futuramente o progresso será movido para backend compartilhado para sincronizar vários celulares com a mesma referência.
 
 ## Próximos passos
-- Definir enigmas reais.
+- Definir os enigmas reais.
+- Reaproveitar as palavras em latim dentro das etapas e da lore.
 - Ligar progresso compartilhado a banco de dados.
-- Adicionar mídias externas de forma narrativa.
+- Criar a transição para o segundo site.
