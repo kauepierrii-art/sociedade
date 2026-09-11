@@ -139,7 +139,7 @@ function renderDashboard() {
 }
 
 function penaltyKey(suffix) {
-  return `identification:${suffix}:${currentRefKey}`;
+  return `identification:v2:${suffix}:${currentRefKey}`;
 }
 
 function getPenaltyState() {
@@ -198,6 +198,7 @@ function renderIdentificationForm(actions) {
         aria-describedby="validationMessage identificationHint"
         required
       />
+      <p class="validation-quote">${stages[0].mission}</p>
       <button id="validationBtn" type="submit" class="primary-btn">VALIDAR</button>
       <p id="validationMessage" class="validation-message" role="status"></p>
       <div id="identificationHint" class="identification-hint" hidden></div>
@@ -295,7 +296,11 @@ function openStage(index) {
   document.querySelector('#stageCode').textContent = `ETAPA ${String(step).padStart(2, '0')}`;
   document.querySelector('#stageName').textContent = stage.name;
   document.querySelector('#stageContext').textContent = stage.context;
-  document.querySelector('#stageMission').textContent = stage.mission;
+
+  const stageMission = document.querySelector('#stageMission');
+  stageMission.hidden = step === 1;
+  stageMission.textContent = step === 1 ? '' : stage.mission;
+
   stageStatus.textContent = state === 'done' ? 'concluída' : state === 'available' ? 'disponível' : 'bloqueada';
 
   const actions = document.querySelector('#stageActions');
@@ -329,7 +334,8 @@ function openStage(index) {
       saveProgress(currentRefKey, completedCount);
       renderDashboard();
       document.querySelector('#stageContext').textContent = 'PROCESSO CONCLUÍDO.';
-      document.querySelector('#stageMission').textContent = 'Nesta versão-base, o próximo passo será o encaminhamento para o futuro ambiente permanente.';
+      stageMission.hidden = false;
+      stageMission.textContent = 'Nesta versão-base, o próximo passo será o encaminhamento para o futuro ambiente permanente.';
       stageStatus.textContent = 'finalizado';
       actions.innerHTML = '<p class="demo-note">A versão definitiva poderá gerar uma credencial de admissão e liberar o segundo site.</p>';
     });
