@@ -130,6 +130,8 @@ input:focus {
   border-color: rgba(216, 220, 251, 0.58);
   box-shadow: 0 0 0 3px rgba(184, 239, 189, 0.08);
 }
+input:disabled { opacity: .55; cursor: not-allowed; }
+button:disabled { opacity: .6; cursor: not-allowed; }
 .field-help {
   margin: 10px 0 0;
   color: var(--text-dim);
@@ -285,8 +287,13 @@ input:focus {
   color: var(--text-soft);
   font-size: 15px;
   line-height: 1.7;
+  white-space: pre-line;
 }
-.mission-copy { padding-top: 14px; }
+.mission-copy {
+  padding-top: 14px;
+  font-style: italic;
+  color: var(--text);
+}
 .stage-actions { padding: 14px 18px 0; }
 .demo-note {
   margin: 12px 0 0;
@@ -295,6 +302,40 @@ input:focus {
   line-height: 1.6;
 }
 .stage-foot { margin-top: 24px; }
+
+.validation-form {
+  margin-top: 6px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(187, 195, 234, 0.14);
+}
+.validation-label {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+.validation-code {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: .55em;
+  padding-left: calc(18px + .55em);
+}
+.validation-code::placeholder {
+  letter-spacing: .35em;
+  color: rgba(177, 183, 222, .48);
+}
+.validation-message {
+  min-height: 42px;
+  margin: 14px 0 0;
+  color: var(--danger);
+  font-size: 13px;
+  line-height: 1.55;
+  text-transform: uppercase;
+}
+.validation-message strong { color: var(--yellow); }
 
 @media (max-width: 420px) {
   .app-shell { padding-left: 14px; padding-right: 14px; }
@@ -314,6 +355,7 @@ input:focus {
   .stage-row .name { font-size: 17px; }
   .stage-row .num { font-size: 15px; }
   .stage-row .arrow { font-size: 20px; }
+  .validation-code { font-size: 28px; }
 }
 
 @media (min-width: 700px) {
