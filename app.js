@@ -62,6 +62,14 @@ const REFERENCES = {
 const IDENTIFICATION_CODE = '352';
 const MAX_COOLDOWN_MINUTES = 15;
 
+const IDENTIFICATION_HINTS = [
+  'Examine também os elementos que parecem apenas decorativos.',
+  'Há três marcas que pertencem ao mesmo conjunto.',
+  'Algumas tintas só se revelam sob certas condições.',
+  'Calor suave pode tornar certas marcas visíveis.',
+  'A marca foi feita com tinta invisível. Aplique calor suave ao papel para revelar os três valores. Não utilize chama direta.'
+];
+
 const loginView = document.querySelector('#loginView');
 const dashboardView = document.querySelector('#dashboardView');
 const stageView = document.querySelector('#stageView');
@@ -153,6 +161,28 @@ function formatCountdown(ms) {
   return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 }
 
+function romanHintNumber(index) {
+  return ['I', 'II', 'III', 'IV'][index] || 'AJUDA FINAL';
+}
+
+function renderHint(hintBox, errors) {
+  if (!errors) {
+    hintBox.innerHTML = '';
+    hintBox.hidden = true;
+    return;
+  }
+
+  const hintIndex = Math.min(errors - 1, IDENTIFICATION_HINTS.length - 1);
+  const isFinal = hintIndex === IDENTIFICATION_HINTS.length - 1;
+  const label = isFinal ? 'AJUDA FINAL' : `DICA ${romanHintNumber(hintIndex)} DESBLOQUEADA`;
+
+  hintBox.hidden = false;
+  hintBox.innerHTML = `
+    <span class="hint-label">${label}</span>
+    <p>${IDENTIFICATION_HINTS[hintIndex]}</p>
+  `;
+}
+
 function renderIdentificationForm(actions) {
   actions.innerHTML = `
     <form id="identificationForm" class="validation-form" autocomplete="off">
@@ -165,11 +195,12 @@ function renderIdentificationForm(actions) {
         pattern="[0-9]{3}"
         maxlength="3"
         placeholder="_ _ _"
-        aria-describedby="validationMessage"
+        aria-describedby="validationMessage identificationHint"
         required
       />
       <button id="validationBtn" type="submit" class="primary-btn">VALIDAR</button>
       <p id="validationMessage" class="validation-message" role="status"></p>
+      <div id="identificationHint" class="identification-hint" hidden></div>
     </form>
   `;
 
@@ -177,6 +208,7 @@ function renderIdentificationForm(actions) {
   const input = document.querySelector('#validationCode');
   const button = document.querySelector('#validationBtn');
   const message = document.querySelector('#validationMessage');
+  const hintBox = document.querySelector('#identificationHint');
 
   input.addEventListener('input', () => {
     input.value = input.value.replace(/\D/g, '').slice(0, 3);
@@ -186,8 +218,9 @@ function renderIdentificationForm(actions) {
     if (cooldownTimer) clearInterval(cooldownTimer);
 
     const update = () => {
-      const { until } = getPenaltyState();
+      const { until, errors } = getPenaltyState();
       const remaining = until - Date.now();
+      renderHint(hintBox, errors);
 
       if (remaining <= 0) {
         input.disabled = false;
@@ -208,6 +241,7 @@ function renderIdentificationForm(actions) {
   }
 
   const initialPenalty = getPenaltyState();
+  renderHint(hintBox, initialPenalty.errors);
   if (initialPenalty.until > Date.now()) applyCooldown();
 
   form.addEventListener('submit', (event) => {
@@ -224,6 +258,7 @@ function renderIdentificationForm(actions) {
       completedCount = Math.max(completedCount, 1);
       saveProgress(currentRefKey, completedCount);
       message.textContent = 'IDENTIFICAÇÃO CONFIRMADA.';
+      hintBox.hidden = true;
       input.disabled = true;
       button.disabled = true;
 
@@ -242,6 +277,7 @@ function renderIdentificationForm(actions) {
     localStorage.setItem(penaltyKey('errors'), String(newErrors));
     localStorage.setItem(penaltyKey('until'), String(blockedUntil));
     input.value = '';
+    renderHint(hintBox, newErrors);
     applyCooldown();
   });
 }
