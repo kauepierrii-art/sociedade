@@ -1,4 +1,4 @@
-# Protocolo de Seleção — Base retrô MS-DOS
+# Protocolo de Seleção — Base minimalista
 
 Protótipo mobile-first para validar estética e navegação do ARG.
 
@@ -7,7 +7,7 @@ Protótipo mobile-first para validar estética e navegação do ARG.
 2. Use uma referência de teste, por exemplo `76-06`.
 
 ## Estado atual
-- Visual inspirado em terminal MS-DOS/CRT preto e verde.
+- Visual minimalista escuro, inspirado na referência escolhida.
 - Navegação adaptada para toque no celular.
 - Referências de teste `76-01` a `76-09`.
 - Progresso salvo localmente no navegador apenas para prototipagem.
@@ -16,5 +16,4 @@ Protótipo mobile-first para validar estética e navegação do ARG.
 ## Próximos passos
 - Definir enigmas reais.
 - Ligar progresso compartilhado a banco de dados.
-- Publicar no Vercel.
 - Adicionar mídias externas de forma narrativa.
