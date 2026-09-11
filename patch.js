@@ -112,3 +112,153 @@ accessForm.addEventListener('submit', function(event) {
   renderDashboard();
   show(dashboardView);
 }, true);
+
+// Aceita também uma resposta natural para a Aptidão.
+document.addEventListener('submit', function(event) {
+  if (!event.target || event.target.id !== 'aptitudeForm') return;
+
+  const answerInput = document.querySelector('#aptitudeAnswer');
+  if (!answerInput) return;
+
+  const answer = normalizeAnswer(answerInput.value);
+  if (answer !== 'caixa do espelho') return;
+
+  event.preventDefault();
+  event.stopImmediatePropagation();
+
+  completedCount = Math.max(completedCount, 2);
+  saveProgress(currentRefKey, completedCount);
+
+  const message = document.querySelector('#aptitudeMessage');
+  if (message) {
+    message.style.color = 'var(--green)';
+    message.textContent = 'DIVERGÊNCIA CONFIRMADA.';
+  }
+
+  setTimeout(() => {
+    renderDashboard();
+    show(dashboardView);
+  }, 900);
+}, true);
+
+// No celular, documentos abertos passam a ocupar quase toda a largura útil.
+// A ideia é manter os registros recolhíveis, mas tratar o conteúdo como uma área de leitura.
+const readingStyle = document.createElement('style');
+readingStyle.textContent = `
+  @media (max-width: 700px) {
+    #stageActions {
+      padding-left: 7px;
+      padding-right: 7px;
+    }
+
+    .records-list {
+      gap: 8px;
+    }
+
+    .record-toggle,
+    .attachment-toggle {
+      padding: 14px 12px;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .record-content {
+      padding: 2px 11px 16px;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .record-content p,
+    .record-content li,
+    .record-content blockquote {
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .record-content h3 {
+      font-size: 17px;
+      line-height: 1.35;
+      margin-top: 20px;
+    }
+
+    .record-content h4 {
+      font-size: 15px;
+      line-height: 1.4;
+      margin-top: 18px;
+    }
+
+    .attachments-list {
+      margin-left: -7px;
+      margin-right: -7px;
+      gap: 10px;
+    }
+
+    .attachment-item {
+      border-left-color: #21483c;
+      border-right-color: #21483c;
+    }
+
+    .attachment-content {
+      padding: 4px 13px 18px;
+      font-size: 14px;
+      line-height: 1.82;
+      background: #07100d;
+    }
+
+    .attachment-content p,
+    .attachment-content li,
+    .attachment-content blockquote {
+      font-size: 14px;
+      line-height: 1.82;
+    }
+
+    .doc-meta {
+      font-size: 11.5px;
+      line-height: 1.7;
+    }
+
+    .doc-section-title {
+      font-size: 12px;
+      line-height: 1.5;
+      margin-top: 18px;
+    }
+
+    .doc-list {
+      margin-left: 20px;
+    }
+  }
+
+  @media (max-width: 430px) {
+    .stage-card {
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+
+    .detail-panel {
+      border-left-color: #16362d;
+      border-right-color: #16362d;
+    }
+
+    .context-copy,
+    .mission-copy {
+      padding-left: 13px;
+      padding-right: 13px;
+      font-size: 14px;
+    }
+
+    .record-content,
+    .attachment-content {
+      font-size: 14.5px;
+    }
+
+    .record-content p,
+    .record-content li,
+    .record-content blockquote,
+    .attachment-content p,
+    .attachment-content li,
+    .attachment-content blockquote {
+      font-size: 14.5px;
+    }
+  }
+`;
+document.head.appendChild(readingStyle);
