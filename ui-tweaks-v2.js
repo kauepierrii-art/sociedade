@@ -38,9 +38,12 @@
       // Insere o bloco objetivo logo antes da instrução final.
       objectiveLines.forEach(text => {
         const p = document.createElement('p');
+        p.className = 'stage-two-bottom-copy';
         p.textContent = text;
         panel.insertBefore(p, finalInstruction);
       });
+
+      finalInstruction.classList.add('stage-two-final-instruction');
     };
   }
 
@@ -77,6 +80,28 @@
       color: var(--green);
       border-color: var(--green);
       outline: none;
+    }
+
+    .answer-panel .stage-two-bottom-copy,
+    .answer-panel .stage-two-final-instruction {
+      color: #a4c3ba;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .answer-panel .stage-two-bottom-copy {
+      margin: 0 0 16px;
+    }
+
+    .answer-panel .stage-two-final-instruction {
+      margin: 0 0 16px;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .answer-panel .stage-two-final-instruction strong {
+      color: var(--text);
+      font-weight: 700;
     }
   `;
   document.head.appendChild(style);
