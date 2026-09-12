@@ -1,12 +1,47 @@
 // Ajustes de cópia e navegação da Etapa 02.
 (function () {
-  const objectiveContext = 'Nem toda divergência é relevante.\n\nAlgumas, no entanto, justificam uma segunda análise.\n\nOs documentos disponibilizados pertencem ao mesmo conjunto e foram preservados por razões que serão esclarecidas posteriormente.\n\nAnalise o material e identifique a inconsistência.';
+  const introContext = 'Antes de prosseguir, precisamos avaliar como você lida com informações conflitantes.\n\nOs registros apresentados não foram reunidos para contar uma história completa. Eles foram preservados porque, em algum momento, alguém considerou que certas diferenças mereciam uma segunda análise.\n\nSeu objetivo não é provar uma teoria, nem confirmar a autenticidade de qualquer objeto.\n\nÉ mais simples que isso.';
 
-  // A abertura da Etapa 02 fica com a instrução objetiva.
-  // O texto contextual "Antes de prosseguir..." permanece na parte inferior,
-  // imediatamente antes de "Leia, compare e identifique...", como já é renderizado pela etapa.
+  const objectiveLines = [
+    'Nem toda divergência é relevante.',
+    'Algumas, no entanto, justificam uma segunda análise.',
+    'Os documentos disponibilizados pertencem ao mesmo conjunto e foram preservados por razões que serão esclarecidas posteriormente.'
+  ];
+
+  // Topo da Etapa 02: texto contextual.
   if (Array.isArray(stages) && stages[1]) {
-    stages[1].context = objectiveContext;
+    stages[1].context = introContext;
+  }
+
+  // Parte inferior da Etapa 02: texto objetivo imediatamente antes da instrução final.
+  if (typeof renderStageTwo === 'function') {
+    const originalRenderStageTwoCopy = renderStageTwo;
+    renderStageTwo = function (actions) {
+      originalRenderStageTwoCopy(actions);
+
+      const panel = actions.querySelector('.answer-panel');
+      if (!panel) return;
+
+      const finalInstruction = Array.from(panel.querySelectorAll('p')).find(p =>
+        p.textContent.includes('Leia, compare e identifique qual elemento apresenta uma inconsistência entre os registros.')
+      );
+      if (!finalInstruction) return;
+
+      // Remove o bloco contextual antigo que vinha antes da instrução final.
+      let node = panel.firstElementChild;
+      while (node && node !== finalInstruction) {
+        const next = node.nextElementSibling;
+        node.remove();
+        node = next;
+      }
+
+      // Insere o bloco objetivo logo antes da instrução final.
+      objectiveLines.forEach(text => {
+        const p = document.createElement('p');
+        p.textContent = text;
+        panel.insertBefore(p, finalInstruction);
+      });
+    };
   }
 
   // Botão de retorno compacto em todas as etapas.
