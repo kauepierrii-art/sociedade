@@ -85,11 +85,12 @@
     const chevron = panel.querySelector('.hint-history-chevron');
 
     count.textContent = `(${errors})`;
-    content.innerHTML = identificationHints.slice(0, errors).map((hint, index) => `
+    const html = identificationHints.slice(0, errors).map((hint, index) => `
       <div class="hint-history-item${index === errors - 1 ? ' latest' : ''}">
         <span class="hint-label">${index === identificationHints.length - 1 ? 'AJUDA FINAL' : `DICA ${romans[index]}`}</span>
         <p>${hint}</p>
       </div>`).join('');
+    if (content.innerHTML !== html) content.innerHTML = html;
 
     if (forceOpen) {
       toggle.setAttribute('aria-expanded', 'true');
@@ -119,8 +120,6 @@
 
     completedCount = Math.max(completedCount, 2);
     saveProgress(currentRefKey, completedCount);
-
-    // limpa histórico de erro da Aptidão após acerto
     localStorage.removeItem(`aptitude:v2:errors:${currentRefKey || 'unknown'}`);
 
     const message = document.querySelector('#aptitudeMessage');
@@ -135,8 +134,18 @@
     }, 700);
   }, true);
 
-  const observer = new MutationObserver(() => {
-    if (document.querySelector('#identificationForm')) renderIdentificationArchive(false);
+  // Observa apenas a criação de um novo formulário de Identificação.
+  // Não reage às próprias alterações dentro do histórico, evitando loop infinito.
+  const observer = new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      for (const node of mutation.addedNodes) {
+        if (!(node instanceof Element)) continue;
+        if (node.id === 'identificationForm' || node.querySelector?.('#identificationForm')) {
+          setTimeout(() => renderIdentificationArchive(false), 0);
+          return;
+        }
+      }
+    }
   });
   observer.observe(document.body, { childList: true, subtree: true });
 
