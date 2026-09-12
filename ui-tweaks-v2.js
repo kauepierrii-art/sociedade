@@ -1,56 +1,12 @@
 // Ajustes de cópia e navegação da Etapa 02.
 (function () {
-  const introContext = 'Antes de prosseguir, precisamos avaliar como você lida com informações conflitantes.\n\nOs registros apresentados não foram reunidos para contar uma história completa. Eles foram preservados porque, em algum momento, alguém considerou que certas diferenças mereciam uma segunda análise.\n\nSeu objetivo não é provar uma teoria, nem confirmar a autenticidade de qualquer objeto.\n\nÉ mais simples que isso.';
+  const objectiveContext = 'Nem toda divergência é relevante.\n\nAlgumas, no entanto, justificam uma segunda análise.\n\nOs documentos disponibilizados pertencem ao mesmo conjunto e foram preservados por razões que serão esclarecidas posteriormente.\n\nAnalise o material e identifique a inconsistência.';
 
-  const materialIntro = [
-    'Nem toda divergência é relevante.',
-    'Algumas, no entanto, justificam uma segunda análise.',
-    'Os documentos disponibilizados pertencem ao mesmo conjunto e foram preservados por razões que serão esclarecidas posteriormente.',
-    'Analise o material e identifique a inconsistência.'
-  ];
-
-  // Coloca o texto mais contextual na abertura da Etapa 02.
+  // A abertura da Etapa 02 fica com a instrução objetiva.
+  // O texto contextual "Antes de prosseguir..." permanece na parte inferior,
+  // imediatamente antes de "Leia, compare e identifique...", como já é renderizado pela etapa.
   if (Array.isArray(stages) && stages[1]) {
-    stages[1].context = introContext;
-  }
-
-  // Troca o texto introdutório do primeiro registro pelo texto objetivo de análise.
-  if (typeof renderStageTwo === 'function') {
-    const renderStageTwoBeforeCopySwap = renderStageTwo;
-    renderStageTwo = function (actions) {
-      renderStageTwoBeforeCopySwap(actions);
-
-      const firstRecord = actions.querySelector('.record-content');
-      if (!firstRecord) return;
-
-      const firstHeading = firstRecord.querySelector('h3');
-      if (!firstHeading) return;
-
-      const nodesToRemove = [];
-      let node = firstHeading.nextSibling;
-      while (node) {
-        if (node.nodeType === 1 && node.tagName === 'H3') break;
-        const next = node.nextSibling;
-        nodesToRemove.push(node);
-        node = next;
-      }
-
-      nodesToRemove.forEach(item => item.remove());
-
-      const fragment = document.createDocumentFragment();
-      materialIntro.forEach((text, index) => {
-        const p = document.createElement('p');
-        p.textContent = text;
-        if (index === 0) {
-          // mantém o início limpo e direto
-        }
-        fragment.appendChild(p);
-      });
-
-      firstHeading.insertAdjacentElement('afterend', document.createElement('span'));
-      const marker = firstHeading.nextElementSibling;
-      marker.replaceWith(fragment);
-    };
+    stages[1].context = objectiveContext;
   }
 
   // Botão de retorno compacto em todas as etapas.
