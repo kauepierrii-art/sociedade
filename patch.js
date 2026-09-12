@@ -141,10 +141,130 @@ document.addEventListener('submit', function(event) {
   }, 900);
 }, true);
 
+// ETAPA 03 — OBSERVAÇÃO
+stages[2].subtitle = 'avaliação de observação';
+stages[2].context = 'Nem toda informação relevante está contida no mesmo registro.\n\nObserve o material disponibilizado antes de responder.';
+stages[2].mission = '';
+
+function renderStageThree(actions, readOnly = false) {
+  actions.innerHTML = `
+    <div class="observation-material">
+      <p class="observation-label">REGISTRO AUDIOVISUAL</p>
+      <a class="observation-video-link" href="https://youtu.be/e6t1TFzlgIk" target="_blank" rel="noopener">
+        https://youtu.be/e6t1TFzlgIk <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+    <div class="answer-panel observation-answer-panel">
+      <p><strong>Qual objeto de poder incomum aparece na sala?</strong></p>
+      ${readOnly ? '' : `
+      <form id="observationForm" autocomplete="off">
+        <label for="observationAnswer" class="validation-label">RESPOSTA</label>
+        <input id="observationAnswer" class="answer-input" type="text" required />
+        <button class="primary-btn" type="submit">VALIDAR</button>
+        <p id="observationMessage" class="answer-message" role="status"></p>
+      </form>`}
+    </div>`;
+
+  if (readOnly) return;
+
+  const form = document.querySelector('#observationForm');
+  const message = document.querySelector('#observationMessage');
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    const answer = normalizeAnswer(document.querySelector('#observationAnswer').value);
+    const accepted = [
+      'espelho',
+      'espelho negro',
+      'espelho de obsidiana',
+      'espelho obsidiana',
+      'black mirror'
+    ];
+
+    if (accepted.includes(answer)) {
+      completedCount = Math.max(completedCount, 3);
+      saveProgress(currentRefKey, completedCount);
+      message.style.color = 'var(--green)';
+      message.textContent = 'OBSERVAÇÃO CONFIRMADA.';
+      setTimeout(() => {
+        renderDashboard();
+        show(dashboardView);
+      }, 900);
+    } else {
+      message.style.color = 'var(--danger)';
+      message.textContent = 'RESPOSTA NÃO CONFIRMADA.';
+    }
+  });
+}
+
+const originalOpenStage = openStage;
+openStage = function(index) {
+  if (index !== 2) {
+    originalOpenStage(index);
+    return;
+  }
+
+  const step = 3;
+  const stage = stages[2];
+  const state = stageVisualState(step);
+  if (state === 'locked' || state === 'info-required') return;
+  if (cooldownTimer) { clearInterval(cooldownTimer); cooldownTimer = null; }
+
+  document.querySelector('#stageCode').textContent = 'ETAPA 03';
+  document.querySelector('#stageName').textContent = stage.name;
+  document.querySelector('#stageContext').textContent = stage.context;
+
+  const stageMission = document.querySelector('#stageMission');
+  stageMission.hidden = true;
+  stageMission.textContent = '';
+  stageStatus.textContent = state === 'done' ? 'concluída' : 'disponível';
+
+  const actions = document.querySelector('#stageActions');
+  actions.innerHTML = '';
+  renderStageThree(actions, state === 'done');
+  show(stageView);
+};
+
 // No celular, documentos abertos passam a ocupar quase toda a largura útil.
 // A ideia é manter os registros recolhíveis, mas tratar o conteúdo como uma área de leitura.
 const readingStyle = document.createElement('style');
 readingStyle.textContent = `
+  .observation-material {
+    padding: 15px 16px;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    background: #08110e;
+  }
+
+  .observation-label {
+    margin: 0 0 9px;
+    color: var(--text-soft);
+    font-size: 10px;
+    letter-spacing: .14em;
+  }
+
+  .observation-video-link {
+    color: var(--green);
+    font-size: 13px;
+    line-height: 1.5;
+    word-break: break-all;
+    text-decoration: none;
+  }
+
+  .observation-video-link:hover,
+  .observation-video-link:focus-visible {
+    text-decoration: underline;
+  }
+
+  .observation-answer-panel {
+    margin-top: 18px;
+  }
+
+  .observation-answer-panel > p:first-child {
+    margin-top: 0;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
   @media (max-width: 700px) {
     #stageActions {
       padding-left: 7px;
