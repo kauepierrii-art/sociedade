@@ -10,13 +10,8 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
   <style>
-    .shield-mark {
-      transform: none !important;
-    }
-    .shield-mark svg {
-      display: block;
-      transform: none !important;
-    }
+    .shield-mark { transform: none !important; }
+    .shield-mark svg { display: block; transform: none !important; }
   </style>
 </head>
 <body>
@@ -33,7 +28,6 @@
           <p class="eyebrow centered">PROTOCOLO DE IDENTIFICAÇÃO</p>
           <h1 class="centered">ACESSO RESTRITO</h1>
         </div>
-
         <form id="accessForm" class="login-form-panel">
           <label for="reference" class="field-label">Informe a referência</label>
           <input id="reference" name="reference" inputmode="text" autocomplete="off" autocapitalize="characters" maxlength="10" required />
@@ -52,7 +46,6 @@
             <h1>PROTOCOLO DELECTUS</h1>
             <p class="status-line">status: <strong id="processStatus">em aberto</strong></p>
           </div>
-
           <button id="importantInfoBtn" class="important-info-btn" type="button" aria-haspopup="dialog" aria-controls="printDialog">
             <span class="notification-dot" aria-hidden="true"></span>
             <span class="folder-icon" aria-hidden="true">
@@ -61,21 +54,14 @@
             <span>Informações<br>importantes</span>
           </button>
         </header>
-
-        <section class="stages-wrap">
-          <div id="stageList" class="stage-list"></div>
-        </section>
-
+        <section class="stages-wrap"><div id="stageList" class="stage-list"></div></section>
         <footer class="dashboard-footer">
           <blockquote class="quote">“Nem todos os olhos veem o mesmo.”</blockquote>
           <p class="access-copy">ACESSO RESTRITO</p>
           <div class="dashboard-actions">
             <button id="logoutBtn" class="ghost-btn">Encerrar acesso</button>
             <button id="continueBtn" class="continue-btn" type="button" disabled>
-              <svg class="inline-lock" viewBox="0 0 24 24" width="13" height="13" aria-hidden="true">
-                <rect x="5" y="10" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/>
-                <path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-              </svg>
+              <svg class="inline-lock" viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
               Continuar
             </button>
           </div>
@@ -91,12 +77,8 @@
           <h1 id="stageName">Aptidão</h1>
           <p class="stage-status-line"><strong id="stageStatus">disponível</strong></p>
         </div>
-
         <section class="detail-panel">
-          <div class="panel-head">
-            <h2>INSTRUÇÃO</h2>
-            <span>ATIVA</span>
-          </div>
+          <div class="panel-head"><h2>INSTRUÇÃO</h2><span>ATIVA</span></div>
           <div id="stageContext" class="context-copy"></div>
           <div id="stageMission" class="mission-copy"></div>
           <div id="stageActions" class="stage-actions"></div>
@@ -116,17 +98,14 @@
         <p>A impressão é recomendada para facilitar a consulta, comparação e análise dos registros ao longo das etapas.</p>
         <p>Para quem preferir acompanhar os registros em papel, fazer anotações e analisar os materiais com mais liberdade, recomendamos a versão impressa do conteúdo, que pode tornar a leitura mais confortável e o acompanhamento das etapas mais agradável.</p>
       </div>
-      <div class="print-file-placeholder" aria-disabled="true">
-        <span class="file-mark">PDF</span>
-        <span><strong>Arquivo completo do protocolo</strong><small>Será disponibilizado aqui quando o material estiver concluído.</small></span>
-      </div>
+      <div class="print-file-placeholder" aria-disabled="true"><span class="file-mark">PDF</span><span><strong>Arquivo completo do protocolo</strong><small>Será disponibilizado aqui quando o material estiver concluído.</small></span></div>
     </section>
   </div>
 
-  <script src="app.js?v=20260912c"></script>
-  <script src="patch.js?v=20260912c"></script>
-  <script src="observation-hints.js?v=20260912c"></script>
-  <script src="access-hints.js?v=20260912c"></script>
-  <script src="protocol-fixes.js?v=20260912c"></script>
+  <script src="app.js?v=20260912d"></script>
+  <script src="patch.js?v=20260912d"></script>
+  <script src="observation-hints.js?v=20260912d"></script>
+  <script src="access-hints.js?v=20260912d"></script>
+  <script src="protocol-fixes.js?v=20260912d"></script>
 </body>
 </html>
