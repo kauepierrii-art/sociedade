@@ -63,12 +63,12 @@
     panel.className = 'hint-history-panel';
     panel.hidden = true;
     panel.innerHTML = `
-      <button class="hint-history-toggle" type="button" aria-expanded="true">
+      <button class="hint-history-toggle" type="button" aria-expanded="false">
         <span class="hint-history-title">DICAS DESBLOQUEADAS</span>
         <span class="hint-history-count"></span>
-        <span class="hint-history-chevron" aria-hidden="true">−</span>
+        <span class="hint-history-chevron" aria-hidden="true">＋</span>
       </button>
-      <div class="hint-history-content"></div>`;
+      <div class="hint-history-content" hidden></div>`;
 
     form.appendChild(panel);
 
@@ -80,7 +80,7 @@
       const expanded = toggle.getAttribute('aria-expanded') === 'true';
       toggle.setAttribute('aria-expanded', String(!expanded));
       content.hidden = expanded;
-      chevron.textContent = expanded ? '+' : '−';
+      chevron.textContent = expanded ? '＋' : '−';
     });
 
     return panel;
@@ -106,11 +106,12 @@
     const chevron = panel.querySelector('.hint-history-chevron');
 
     count.textContent = `(${errors})`;
-    content.innerHTML = config.hints.slice(0, errors).map((hint, index) => `
+    const html = config.hints.slice(0, errors).map((hint, index) => `
       <div class="hint-history-item${index === errors - 1 ? ' latest' : ''}">
         <span class="hint-label">DICA ${roman[index]}</span>
         <p>${hint}</p>
       </div>`).join('');
+    if (content.innerHTML !== html) content.innerHTML = html;
 
     if (forceOpen) {
       toggle.setAttribute('aria-expanded', 'true');
@@ -137,10 +138,18 @@
     setTimeout(() => renderHints(form.id, true), 0);
   }, true);
 
-  const observer = new MutationObserver(function () {
-    Object.keys(configs).forEach(formId => {
-      if (document.getElementById(formId)) renderHints(formId, false);
-    });
+  // Observa apenas a criação dos formulários, não alterações internas dos painéis.
+  const observer = new MutationObserver(function (mutations) {
+    for (const mutation of mutations) {
+      for (const node of mutation.addedNodes) {
+        if (!(node instanceof Element)) continue;
+        for (const formId of Object.keys(configs)) {
+          if (node.id === formId || node.querySelector?.(`#${formId}`)) {
+            setTimeout(() => renderHints(formId, false), 0);
+          }
+        }
+      }
+    }
   });
 
   observer.observe(document.body, { childList: true, subtree: true });
@@ -171,53 +180,15 @@
       cursor: pointer;
     }
 
-    .hint-history-title {
-      font-weight: 700;
-    }
-
-    .hint-history-count {
-      color: var(--text-soft, #9aa9a3);
-    }
-
-    .hint-history-chevron {
-      margin-left: auto;
-      font-size: 15px;
-      line-height: 1;
-    }
-
-    .hint-history-content {
-      border-top: 1px solid rgba(109, 86, 48, .55);
-      padding: 2px 12px 11px;
-    }
-
-    .hint-history-item {
-      padding: 10px 0 8px;
-      border-bottom: 1px solid rgba(109, 86, 48, .28);
-    }
-
-    .hint-history-item:last-child {
-      border-bottom: 0;
-    }
-
-    .hint-history-item.latest .hint-label {
-      color: var(--amber, #d5a64a);
-    }
-
-    .hint-history-item .hint-label {
-      display: block;
-      margin-bottom: 5px;
-      color: var(--text-soft, #9aa9a3);
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: .1em;
-    }
-
-    .hint-history-item p {
-      margin: 0;
-      color: var(--text, #d8e4df);
-      font-size: 12.5px;
-      line-height: 1.6;
-    }
+    .hint-history-title { font-weight: 700; }
+    .hint-history-count { color: var(--text-soft, #9aa9a3); }
+    .hint-history-chevron { margin-left: auto; font-size: 15px; line-height: 1; }
+    .hint-history-content { border-top: 1px solid rgba(109, 86, 48, .55); padding: 2px 12px 11px; }
+    .hint-history-item { padding: 10px 0 8px; border-bottom: 1px solid rgba(109, 86, 48, .28); }
+    .hint-history-item:last-child { border-bottom: 0; }
+    .hint-history-item.latest .hint-label { color: var(--amber, #d5a64a); }
+    .hint-history-item .hint-label { display: block; margin-bottom: 5px; color: var(--text-soft, #9aa9a3); font-size: 10px; font-weight: 700; letter-spacing: .1em; }
+    .hint-history-item p { margin: 0; color: var(--text, #d8e4df); font-size: 12.5px; line-height: 1.6; }
   `;
   document.head.appendChild(style);
 })();
