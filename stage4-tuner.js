@@ -53,7 +53,7 @@
         <div class="stage4-tuner-meta"><span>Nº SÉRIE 08-1925</span><i class="stage4-led" aria-label="Indicador desligado"></i></div>
       </div>
       <div class="stage4-switch-row">
-        <button class="stage4-lever" type="button" aria-pressed="false" aria-label="Alavanca desligada"><span class="stage4-lever-track"><span class="stage4-lever-stick"></span></span><strong>OFF</strong></button>
+        <button class="stage4-lever" type="button" aria-pressed="false" aria-label="Alavanca desligada"><span class="stage4-lever-track"><span class="stage4-lever-on">ON</span><span class="stage4-lever-stick"></span><span class="stage4-lever-off">OFF</span></span><strong>CHAVE</strong></button>
         <p>LEVANTE A ALAVANCA<br><small>APÓS AJUSTAR OS CANAIS</small></p>
       </div>
       <div class="stage4-knobs" aria-label="Controles de sintonia"></div>
@@ -66,6 +66,7 @@
     const status = panel.querySelector('.stage4-tuner-status');
     const mainAudio = audio(AUDIO.success);
     let values = [1, 1, 1, 1];
+    let rotations = [-160, -160, -160, -160];
     let on = false;
     let returnTimer;
 
@@ -85,6 +86,7 @@
       lever.setAttribute('aria-label', next ? 'Alavanca ligada' : 'Alavanca desligada');
       lever.querySelector('strong').textContent = next ? 'ON' : 'OFF';
       if (!next) {
+        panel.classList.remove('is-playing', 'is-error');
         mainAudio.pause();
         mainAudio.currentTime = 0;
         led.className = 'stage4-led';
@@ -96,7 +98,7 @@
     function updateKnob(index) {
       const knob = knobs.children[index];
       const value = values[index];
-      knob.querySelector('.stage4-knob-pointer').style.transform = `rotate(${(value - 1) * 40 - 160}deg)`;
+      knob.querySelector('.stage4-knob-pointer').style.transform = `rotate(${rotations[index]}deg)`;
       knob.querySelectorAll('.stage4-knob-scale-number').forEach(number => {
         number.classList.toggle('is-selected', Number(number.textContent) === value);
       });
@@ -106,6 +108,7 @@
     function adjust(index, direction) {
       if (on) return;
       values[index] = ((values[index] - 1 + direction + 9) % 9) + 1;
+      rotations[index] += direction * 40;
       updateKnob(index);
       playEffect(AUDIO.potentiometer);
       status.textContent = `CANAL ${['I', 'II', 'III', 'IV'][index]} AJUSTADO`;
@@ -210,6 +213,7 @@
 
     randomValues().then(initial => {
       values = initial;
+      rotations = initial.map(value => (value - 1) * 40 - 160);
       values.forEach((_, index) => updateKnob(index));
     });
   }
@@ -237,4 +241,10 @@
     .stage4-tuner{position:relative;margin:22px 0 4px;padding:13px 13px 15px;border:2px solid #070605;border-radius:19px;background:radial-gradient(ellipse at 18% 4%,rgba(126,91,57,.2),transparent 35%),repeating-linear-gradient(120deg,rgba(255,255,255,.018) 0 1px,transparent 1px 5px),#171311;box-shadow:inset 0 0 0 1px #4b4038,inset 0 -16px 22px #080706,0 16px 26px rgba(0,0,0,.42);color:#d7b77d}.stage4-tuner:after{content:"";position:absolute;right:12px;bottom:10px;width:34px;height:3px;border-radius:99px;background:#574939;box-shadow:0 -2px #090807}.stage4-reel-window{position:relative;display:flex;align-items:center;justify-content:space-around;height:113px;margin:0 2px 13px;padding:10px 18px;border:4px solid #0a0908;border-radius:11px;background:linear-gradient(135deg,rgba(156,180,168,.36),rgba(10,12,11,.92) 23%,rgba(10,9,8,.92) 75%,rgba(151,177,161,.18)),#151412;box-shadow:inset 0 0 0 1px #748277,inset 0 0 22px #000,0 3px 0 #0a0908}.stage4-reel{position:relative;z-index:1;width:78px;height:78px;border:7px solid #8f632e;border-radius:50%;background:repeating-radial-gradient(circle,#b88a4d 0 2px,#6a421e 3px 5px);box-shadow:inset 0 0 0 2px #d0a25f,inset 0 0 11px #2a1609,0 3px 5px #000}.stage4-reel:before{content:"";position:absolute;inset:16px;border-radius:50%;background:radial-gradient(circle,#c99c5c 0 12%,#382014 14% 28%,#c4914d 30% 35%,transparent 36%);box-shadow:0 0 0 2px #54351b}.stage4-reel:after{content:"";position:absolute;inset:7px;border-radius:50%;background:conic-gradient(transparent 0 15%,rgba(40,21,11,.8) 15% 27%,transparent 27% 48%,rgba(40,21,11,.8) 48% 60%,transparent 60% 82%,rgba(40,21,11,.8) 82% 94%,transparent 94%)}.stage4-reel i{position:absolute;z-index:2;top:33px;left:33px;width:6px;height:6px;border-radius:50%;background:#1b120b;box-shadow:0 0 0 2px #d0a25f}.stage4-tape-path{position:absolute;z-index:0;left:23%;right:23%;top:53px;height:8px;border-radius:8px;background:linear-gradient(#2b160d,#75411e,#2b160d);box-shadow:0 0 5px #000}.stage4-window-screw{position:absolute;z-index:3;width:7px;height:7px;border:1px solid #211b16;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#9c9482 35%,#34302a 40%)}.stage4-window-screw.s1{top:7px;left:8px}.stage4-window-screw.s2{top:7px;right:8px}.stage4-window-screw.s3{bottom:7px;left:8px}.stage4-window-screw.s4{right:8px;bottom:7px}.stage4-tuner-head{position:relative;padding:7px 9px 8px;border:1px solid #5c4632;border-radius:4px 4px 0 0;background:linear-gradient(110deg,#18120e,#342719 50%,#120f0d);box-shadow:inset 0 1px rgba(255,222,162,.12)}.stage4-tuner-head p{color:#a98351;font-size:7px}.stage4-tuner-head h3{color:#e2c188;font-family:Georgia,serif;font-size:11px;letter-spacing:.09em}.stage4-tuner-meta{color:#b89360;font-size:7px}.stage4-led{width:13px;height:13px;border:2px solid #260b06;background:#42110a;box-shadow:inset 0 0 3px #000}.stage4-tuner.is-playing .stage4-led{background:#9ed15b;box-shadow:0 0 10px #a8eb52,inset 0 0 3px #efffa5}.stage4-switch-row{position:relative;margin:0;padding:11px 12px 7px;border:1px solid #5c4632;border-top:0;background:linear-gradient(112deg,#261d16,#13100e 72%)}.stage4-switch-row p{color:#c6a675;font-family:Georgia,serif;font-size:10px}.stage4-switch-row small{color:#8e704b;font-family:"IBM Plex Mono",monospace}.stage4-lever{width:68px;color:#d8b780;font-family:Georgia,serif;font-size:11px}.stage4-lever-track{width:38px;height:57px;border:4px solid #8d7458;border-radius:50%;background:radial-gradient(circle,#1a120d 0 34%,#5d4a37 36% 44%,#211914 46%);box-shadow:inset 0 0 8px #000,0 2px 3px #000}.stage4-lever-stick{left:14px;bottom:8px;width:8px;height:34px;background:linear-gradient(90deg,#3a2e23,#f0d2a0 45%,#604a35 54%,#1c1510);box-shadow:0 0 0 2px #19120d;border-radius:6px}.stage4-knobs{gap:4px;padding:9px 8px 5px;border:1px solid #5c4632;border-top:0;border-radius:0 0 6px 6px;background:linear-gradient(118deg,#30241b,#17120f 68%,#261b13)}.stage4-knob{min-height:159px;border:0;border-radius:0;background:transparent;color:#c5a373}.stage4-knob-label{color:#e4bf82;font-family:Georgia,serif;font-size:22px;font-style:italic;text-shadow:1px 1px #000}.stage4-knob-dial{width:118px;height:118px;margin:0 auto}.stage4-knob-face{inset:25px;border:6px solid #1b120b;background:radial-gradient(circle at 36% 29%,#f0cb84,#a66f35 31%,#513217 42%,#1b120d 52%,#070605 57%);box-shadow:inset 0 0 0 1px #edc785,inset 0 0 10px #150b05,0 3px 5px #000}.stage4-knob-pointer{top:8px;left:calc(50% - 1px);height:34px;background:#2b180c;box-shadow:0 0 0 1px #f5d58e;transform-origin:50% 39px}.stage4-knob-scale-number{color:#a77d4a;font-family:Georgia,serif;font-size:11px;text-shadow:1px 1px #080604;transform:rotate(var(--scale-angle)) translateY(-51px) rotate(calc(-1 * var(--scale-angle)))}.stage4-knob-scale-number.is-selected{color:#ffe0a0;text-shadow:0 0 7px #e5a94e}.stage4-knob-hint{color:#8c6a45;font-size:6px}.stage4-tuner-status{margin:9px 8px 0;min-height:29px;padding:9px 4px 2px;border-top:1px solid #624a32;color:#d3aa69;font-size:8px;text-shadow:1px 1px #000}.stage4-tuner.is-on .stage4-knob{opacity:.56}@media(max-width:390px){.stage4-reel-window{height:99px}.stage4-reel{width:67px;height:67px}.stage4-reel i{top:28px;left:28px}.stage4-reel:before{inset:13px}.stage4-tape-path{top:47px}.stage4-knobs{padding-left:3px;padding-right:3px}.stage4-knob-dial{width:108px;height:108px}.stage4-knob-face{inset:23px}.stage4-knob-scale-number{transform:rotate(var(--scale-angle)) translateY(-47px) rotate(calc(-1 * var(--scale-angle)))}}
   `;
   document.head.appendChild(visualStyle);
+
+  const detailStyle = document.createElement('style');
+  detailStyle.textContent = `
+    .stage4-knob-pointer{top:8px;left:calc(50% - 2px);width:4px;height:17px;border-radius:4px;background:#f5dcab;box-shadow:0 0 0 1px #2c190c,0 0 3px rgba(255,235,189,.6);transform-origin:50% 26px;transition:transform .12s linear}.stage4-lever{width:76px}.stage4-lever-track{position:relative;width:60px;height:73px;border:0;border-radius:0;background:linear-gradient(90deg,#13100e,#55463a 22%,#17110e 52%,#665b50 76%,#18130f);box-shadow:inset 0 0 0 2px #82725f,inset 0 0 9px #000,0 2px 3px #000}.stage4-lever-track:before{content:"";position:absolute;z-index:1;left:13px;top:19px;width:33px;height:33px;border:4px solid #b9aa95;border-radius:50%;background:radial-gradient(circle,#16100c 0 31%,#625243 33% 42%,#211913 44%);box-shadow:0 0 0 2px #33271f,0 2px 3px #000}.stage4-lever-on,.stage4-lever-off{position:absolute;z-index:3;left:2px;width:27px;padding:2px 0;color:#d8d1c5;font-family:Georgia,serif;font-size:10px;font-style:italic;line-height:1;text-align:center}.stage4-lever-on{top:2px;background:#47191a}.stage4-lever-off{bottom:2px;background:#1b1b1c}.stage4-tuner.is-on .stage4-lever-on{background:#a82b32;color:#fff1e5;text-shadow:0 0 3px #fff}.stage4-lever-stick{z-index:4;left:26px;bottom:22px;width:9px;height:44px;border-radius:7px;background:linear-gradient(90deg,#2c2119,#f3d6a4 43%,#7b6045 58%,#19120d);box-shadow:0 0 0 2px #18110c,2px 2px 3px #000;transform:rotate(28deg);transform-origin:50% 100%;transition:transform .18s ease}.stage4-tuner.is-on .stage4-lever-stick{transform:translateY(-8px) rotate(-28deg)}.stage4-tuner.is-playing .stage4-reel-left{animation:stage4-reel-spin 1.35s linear infinite}.stage4-tuner.is-playing .stage4-reel-right{animation:stage4-reel-spin 1.05s linear infinite reverse}@keyframes stage4-reel-spin{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){.stage4-tuner.is-playing .stage4-reel{animation:none}}
+  `;
+  document.head.appendChild(detailStyle);
 })();
