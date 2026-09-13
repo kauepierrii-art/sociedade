@@ -34,22 +34,22 @@
       label: 'MAPA B'
     },
     {
-      full: 'assets/stage4/mapa-c.png.png?v=20260913i',
-      thumb: 'assets/stage4/mapa-c.png.png?v=20260913i',
+      full: 'assets/stage4/mapa-c.png.png?v=20260913j',
+      thumb: 'assets/stage4/mapa-c.png.png?v=20260913j',
       label: 'MAPA C'
     }
   ];
 
   const photoGallery = [
-    { full: 'https://pracadase.wordpress.com/wp-content/uploads/2010/11/pracadaseiniciodosanoscinquentaanos50.jpg', thumb: 'https://pracadase.wordpress.com/wp-content/uploads/2010/11/pracadaseiniciodosanoscinquentaanos50.jpg?w=700', label: 'FOTOGRAFIA A' },
-    { full: 'https://pracadase.wordpress.com/wp-content/uploads/2010/11/pracadaseconstrucaocatedralanos50.jpg', thumb: 'https://pracadase.wordpress.com/wp-content/uploads/2010/11/pracadaseconstrucaocatedralanos50.jpg?w=700', label: 'FOTOGRAFIA B' },
-    { full: 'https://pracadase.wordpress.com/wp-content/uploads/2010/11/pracadaseanoscinquentacatedralemconstrucaoacervojosecarlosneveslopes.jpg', thumb: 'https://pracadase.wordpress.com/wp-content/uploads/2010/11/pracadaseanoscinquentacatedralemconstrucaoacervojosecarlosneveslopes.jpg?w=900', label: 'FOTOGRAFIA C' }
+    { full: 'assets/stage4/fotografia-a.jpg.jpg?v=20260913j', thumb: 'assets/stage4/fotografia-a.jpg.jpg?v=20260913j', label: 'FOTOGRAFIA A' },
+    { full: 'assets/stage4/fotografia-b.jpg.jpg?v=20260913j', thumb: 'assets/stage4/fotografia-b.jpg.jpg?v=20260913j', label: 'FOTOGRAFIA B' },
+    { full: 'assets/stage4/fotografia-c.jpg.jpg?v=20260913j', thumb: 'assets/stage4/fotografia-c.jpg.jpg?v=20260913j', label: 'FOTOGRAFIA C' }
   ];
 
   const imageGallery = [
-    { full: 'assets/stage4/imagem-a.jfif.jfif?v=20260913i', thumb: 'assets/stage4/imagem-a.jfif.jfif?v=20260913i', label: 'IMAGEM A' },
-    { full: 'assets/stage4/imagem-b.jfif.jfif?v=20260913i', thumb: 'assets/stage4/imagem-b.jfif.jfif?v=20260913i', label: 'IMAGEM B' },
-    { full: 'assets/stage4/imagem-c.png.png?v=20260913i', thumb: 'assets/stage4/imagem-c.png.png?v=20260913i', label: 'IMAGEM C' }
+    { full: 'assets/stage4/imagem-a.jfif.jfif?v=20260913j', thumb: 'assets/stage4/imagem-a.jfif.jfif?v=20260913j', label: 'IMAGEM A' },
+    { full: 'assets/stage4/imagem-b.jfif.jfif?v=20260913j', thumb: 'assets/stage4/imagem-b.jfif.jfif?v=20260913j', label: 'IMAGEM B' },
+    { full: 'assets/stage4/imagem-c.png.png?v=20260913j', thumb: 'assets/stage4/imagem-c.png.png?v=20260913j', label: 'IMAGEM C' }
   ];
 
   const galleries = { maps: mapGallery, photos: photoGallery, images: imageGallery };
