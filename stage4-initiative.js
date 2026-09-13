@@ -10,15 +10,15 @@
   initiativeStage.context = [
     'Em 1987, um conjunto de materiais sem catalogação foi encaminhado a um de nossos colaboradores para análise.',
     'O conjunto foi localizado durante o inventário de um espólio e encaminhado para análise antes da destinação definitiva dos bens. À primeira vista, os itens pareciam não guardar qualquer relação entre si.',
-    'Entre os materiais estavam documentos antigos, mapas, fotografias, uma gravação parcial e um aparelho sonoro sem identificação de fabricante ou modelo.',
-    'O equipamento possui quatro controles independentes.',
-    'Durante a inspeção, foi identificada em seu interior uma pequena fita magnética em formato incomum.',
+    'Entre os materiais estavam documentos antigos, mapas, fotografias, uma gravação parcial e um aparelho sonoro incomum, sem identificação de fabricante ou modelo.',
+    'O aparelho sonoro incomum possui quatro controles independentes.',
+    'Durante a inspeção do aparelho sonoro incomum, foi identificada em seu interior uma pequena fita magnética em formato incomum.',
     'Não foi possível reproduzi-la.',
-    'Junto ao aparelho havia apenas uma anotação:',
+    'Junto ao aparelho sonoro incomum havia apenas uma anotação:',
     '“Quatro canais. Ajuste independente.”',
     'Nosso colaborador iniciou a análise do conjunto, mas o trabalho permaneceu incompleto.',
     'Alguns dos materiais possuem marcas de uso, anotações e referências cuja função nunca foi determinada com segurança.',
-    'Descubra como os itens se relacionam e como acessar o conteúdo da fita.'
+    'Descubra como os itens se relacionam e como acessar o conteúdo da fita do aparelho sonoro incomum.'
   ].join('\n\n');
   initiativeStage.mission = '';
 
@@ -59,7 +59,7 @@
     { label: 'REGISTRO 03 — IMAGENS', description: 'Imagens encontradas entre os materiais analisados.', gallery: 'images' },
     { label: 'REGISTRO 04 — GRAVAÇÃO', description: 'Registro sonoro preservado junto aos demais materiais.' },
     { label: 'REGISTRO 05 — FOLHA TÉCNICA', description: 'Documento técnico contendo referências e valores.' },
-    { label: 'REGISTRO 06 — EQUIPAMENTO SONORO', description: 'Aparelho de quatro canais contendo uma fita magnética de formato incomum.' }
+    { label: 'REGISTRO 06 — APARELHO SONORO INCOMUM', description: 'Aparelho sonoro incomum de quatro canais contendo uma fita magnética de formato incomum.' }
   ];
 
   function galleryMarkup(key) {
