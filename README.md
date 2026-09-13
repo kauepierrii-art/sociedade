@@ -18,9 +18,10 @@ Projeto experimental de interface para um protocolo de seleção e investigaçã
 
 Envie estes arquivos para `assets/stage4/` quando estiverem prontos:
 
-- `tuner-click.mp3` — clique dos potenciômetros
+- `tuner-potentiometer.mp3` — clique de cada giro dos potenciômetros
+- `tuner-lever.mp3` — movimento da alavanca, ao ligar e desligar
 - `tuner-error.mp3` — tentativa de frequência inválida
-- `tuner-recovered.mp3` — gravação liberada pela frequência correta
+- `tuner-success.mp3` — sinal de acerto e gravação liberada pela frequência correta
 
 O código do sintonizador é verificado por um digest derivado, em vez de aparecer
 como texto no script. Em um site estático, porém, nenhum segredo no navegador é

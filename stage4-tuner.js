@@ -1,9 +1,10 @@
 // ETAPA 04 — sintonizador da fita interna
 (function () {
   const AUDIO = {
-    click: 'assets/stage4/tuner-click.mp3',
+    potentiometer: 'assets/stage4/tuner-potentiometer.mp3',
+    lever: 'assets/stage4/tuner-lever.mp3',
     error: 'assets/stage4/tuner-error.mp3',
-    main: 'assets/stage4/tuner-recovered.mp3'
+    success: 'assets/stage4/tuner-success.mp3'
   };
 
   // Static hosting cannot keep a client-side secret. This verifies a derived
@@ -24,10 +25,10 @@
     return digest(values.join('')).then(hash => hash === expected ? randomValues() : values);
   }
 
-  function audio(path) {
-    const player = new Audio(path);
-    player.preload = 'none';
-    return player;
+    function audio(path, preload) {
+      const player = new Audio(path);
+      player.preload = preload || 'auto';
+      return player;
   }
 
   function renderTuner() {
@@ -57,21 +58,22 @@
     const lever = panel.querySelector('.stage4-lever');
     const led = panel.querySelector('.stage4-led');
     const status = panel.querySelector('.stage4-tuner-status');
-    const clickAudio = audio(AUDIO.click);
-    const errorAudio = audio(AUDIO.error);
-    const mainAudio = audio(AUDIO.main);
+    const mainAudio = audio(AUDIO.success);
     let values = [1, 1, 1, 1];
     let on = false;
     let returnTimer;
 
-    function play(player) {
+    function playEffect(path) {
+      const player = audio(path, 'auto');
       player.currentTime = 0;
       player.play().catch(() => {});
     }
 
-    function setPower(next) {
+    function setPower(next, withLeverSound) {
+      if (on === next) return;
       on = next;
       clearTimeout(returnTimer);
+      if (withLeverSound) playEffect(AUDIO.lever);
       panel.classList.toggle('is-on', next);
       lever.setAttribute('aria-pressed', String(next));
       lever.setAttribute('aria-label', next ? 'Alavanca ligada' : 'Alavanca desligada');
@@ -97,7 +99,7 @@
       if (on) return;
       values[index] = ((values[index] - 1 + direction + 9) % 9) + 1;
       updateKnob(index);
-      play(clickAudio);
+      playEffect(AUDIO.potentiometer);
       status.textContent = `CANAL ${['I', 'II', 'III', 'IV'][index]} AJUSTADO`;
     }
 
@@ -118,19 +120,19 @@
     });
 
     lever.addEventListener('click', async () => {
-      if (on) return setPower(false);
-      setPower(true);
+      if (on) return setPower(false, true);
+      setPower(true, true);
       status.textContent = 'VERIFICANDO FREQUÊNCIA…';
       const valid = await digest(values.join('')) === expected;
       if (!on) return;
       if (!valid) {
-        play(errorAudio);
+        playEffect(AUDIO.error);
         panel.classList.add('is-error');
         led.setAttribute('aria-label', 'Indicador de erro');
         status.textContent = 'FREQUÊNCIA NÃO RECONHECIDA';
         returnTimer = setTimeout(() => {
           panel.classList.remove('is-error');
-          setPower(false);
+          setPower(false, true);
         }, 800);
         return;
       }
@@ -146,7 +148,7 @@
 
     mainAudio.addEventListener('ended', () => {
       panel.classList.remove('is-playing');
-      setPower(false);
+      setPower(false, true);
     });
 
     randomValues().then(initial => {
