@@ -10,13 +10,13 @@
   initiativeStage.context = [
     'Em 1987, um conjunto de materiais sem catalogação foi localizado durante o inventário de um espólio e encaminhado a um de nossos colaboradores para análise.',
     'Não havia, naquele momento, informações suficientes para determinar a origem do conjunto ou explicar por que aqueles itens haviam sido preservados juntos.',
-    'Entre os materiais estavam mapas, fotografias, imagens, uma gravação parcial, documentos e um aparelho sonoro incomum, sem identificação de fabricante ou modelo.',
-    'O aparelho possui quatro controles independentes.',
-    'Durante a inspeção, foi identificada em seu interior uma pequena fita magnética de formato não usual, incompatível com os equipamentos de reprodução disponíveis.',
+    'Entre os materiais estavam mapas, fotografias, imagens, documentos, uma fita magnética convencional e um aparelho sonoro incomum.',
+    'Durante a inspeção do aparelho, foi encontrada em seu interior uma segunda fita magnética, menor e de formato não usual, incompatível com os equipamentos de reprodução disponíveis.',
+    'O conteúdo da fita convencional pôde ser parcialmente recuperado. A fita encontrada no interior do aparelho, porém, permaneceu inacessível.',
     'Entre os documentos encontrados junto ao aparelho havia registros emitidos pela:',
     '“SONOTÉCNICA BRASILEIRA LTDA.”',
     'Nosso colaborador iniciou a análise do conjunto, mas o trabalho permaneceu incompleto.',
-    'Até o momento, não foi possível reproduzir o conteúdo da fita.'
+    'Até o momento, não foi possível reproduzir o conteúdo da fita encontrada no interior do aparelho.'
   ].join('\n\n');
   initiativeStage.mission = '';
 
