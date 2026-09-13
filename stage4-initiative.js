@@ -55,9 +55,9 @@
   const galleries = { maps: mapGallery, photos: photoGallery, images: imageGallery };
   const materials = [
     { label: 'REGISTRO 01 — MAPAS', description: 'Material cartográfico pertencente ao conjunto original.', gallery: 'maps' },
-    { label: 'REGISTRO 02 — GRAVAÇÃO', description: 'Registro sonoro preservado junto aos demais materiais.' },
-    { label: 'REGISTRO 03 — FOTOGRAFIAS', description: 'Conjunto de fotografias sem identificação conclusiva.', gallery: 'photos' },
-    { label: 'REGISTRO 04 — IMAGENS', description: 'Imagens encontradas entre os materiais analisados.', gallery: 'images' },
+    { label: 'REGISTRO 02 — FOTOGRAFIAS', description: 'Conjunto de fotografias sem identificação conclusiva.', gallery: 'photos' },
+    { label: 'REGISTRO 03 — IMAGENS', description: 'Imagens encontradas entre os materiais analisados.', gallery: 'images' },
+    { label: 'REGISTRO 04 — GRAVAÇÃO', description: 'Registro sonoro preservado junto aos demais materiais.' },
     { label: 'REGISTRO 05 — FOLHA TÉCNICA', description: 'Documento técnico contendo referências e valores.' },
     { label: 'REGISTRO 06 — EQUIPAMENTO SONORO', description: 'Aparelho de quatro canais contendo uma fita magnética de formato incomum.' }
   ];
