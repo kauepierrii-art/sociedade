@@ -8,17 +8,15 @@
   const initiativeStage = stages[initiativeIndex];
   initiativeStage.subtitle = 'análise de material incompleto';
   initiativeStage.context = [
-    'Em 1987, um conjunto de materiais sem catalogação foi encaminhado a um de nossos colaboradores para análise.',
-    'O conjunto foi localizado durante o inventário de um espólio e encaminhado para análise antes da destinação definitiva dos bens. À primeira vista, os itens pareciam não guardar qualquer relação entre si.',
-    'Entre os materiais estavam documentos antigos, mapas, fotografias, uma gravação parcial e um aparelho sonoro incomum, sem identificação de fabricante ou modelo.',
-    'O aparelho sonoro incomum possui quatro controles independentes.',
-    'Durante a inspeção do aparelho sonoro incomum, foi identificada em seu interior uma pequena fita magnética em formato incomum.',
-    'Não foi possível reproduzi-la.',
-    'Junto ao aparelho sonoro incomum havia apenas uma anotação:',
-    '“Quatro canais. Ajuste independente.”',
+    'Em 1987, um conjunto de materiais sem catalogação foi localizado durante o inventário de um espólio e encaminhado a um de nossos colaboradores para análise.',
+    'Não havia, naquele momento, informações suficientes para determinar a origem do conjunto ou explicar por que aqueles itens haviam sido preservados juntos.',
+    'Entre os materiais estavam mapas, fotografias, imagens, uma gravação parcial, documentos e um aparelho sonoro incomum, sem identificação de fabricante ou modelo.',
+    'O aparelho possui quatro controles independentes.',
+    'Durante a inspeção, foi identificada em seu interior uma pequena fita magnética de formato não usual, incompatível com os equipamentos de reprodução disponíveis.',
+    'Entre os documentos encontrados junto ao aparelho havia registros emitidos pela:',
+    '“SONOTÉCNICA BRASILEIRA LTDA.”',
     'Nosso colaborador iniciou a análise do conjunto, mas o trabalho permaneceu incompleto.',
-    'Alguns dos materiais possuem marcas de uso, anotações e referências cuja função nunca foi determinada com segurança.',
-    'Descubra como os itens se relacionam e como acessar o conteúdo da fita do aparelho sonoro incomum.'
+    'Até o momento, não foi possível reproduzir o conteúdo da fita.'
   ].join('\n\n');
   initiativeStage.mission = '';
 
@@ -133,9 +131,9 @@
     const actions = document.getElementById('stageActions');
     if (!context || !mission || !actions) return;
 
-    context.innerHTML = initiativeStage.context.split('\n\n').map((paragraph, index) => {
-      if (paragraph === '“Quatro canais. Ajuste independente.”') return `<blockquote class="initiative-note"><strong>${paragraph}</strong></blockquote>`;
-      return `<p class="initiative-copy${index === 10 ? ' initiative-objective' : ''}">${paragraph}</p>`;
+    context.innerHTML = initiativeStage.context.split('\n\n').map((paragraph, index, paragraphs) => {
+      if (paragraph === '“SONOTÉCNICA BRASILEIRA LTDA.”') return `<blockquote class="initiative-note"><strong>${paragraph}</strong></blockquote>`;
+      return `<p class="initiative-copy${index === paragraphs.length - 1 ? ' initiative-objective' : ''}">${paragraph}</p>`;
     }).join('');
 
     mission.innerHTML = '';
@@ -158,6 +156,8 @@
   const originalOpenStageInitiative = openStage;
   openStage = function (index) {
     originalOpenStageInitiative(index);
+    const panelTitle = document.querySelector('.detail-panel .panel-head h2');
+    if (panelTitle) panelTitle.textContent = stages[index] && stages[index].name === 'Iniciativa' ? 'APARELHO INCOMUM' : 'INSTRUÇÃO';
     if (stages[index] && stages[index].name === 'Iniciativa') renderInitiativeContent();
   };
 
