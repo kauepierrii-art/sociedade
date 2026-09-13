@@ -1,6 +1,9 @@
 // ETAPA 04 — player da fita magnética convencional
 (function () {
-  const AUDIO_SRC = 'assets/stage4/coordenadas-oficial.mp3';
+  const AUDIO_SOURCES = [
+    'assets/stage4/coordenadas-oficial.mp3.MP3',
+    'assets/stage4/coordenadas-site.mp3'
+  ];
 
   function enhanceStageFourAudio() {
     const stageName = document.getElementById('stageName');
@@ -36,7 +39,9 @@
         <strong>GRAVAÇÃO RECUPERADA — TRECHO 01</strong>
         <span>00:56</span>
       </div>
-      <audio controls preload="metadata" src="${AUDIO_SRC}">
+      <audio controls preload="metadata">
+        <source src="${AUDIO_SOURCES[0]}" type="audio/mpeg">
+        <source src="${AUDIO_SOURCES[1]}" type="audio/mpeg">
         Seu navegador não oferece suporte à reprodução de áudio.
       </audio>
       <p class="stage4-audio-note">Conteúdo parcialmente recuperado da fita magnética convencional.</p>`;
