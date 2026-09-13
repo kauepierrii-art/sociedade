@@ -4,7 +4,7 @@
     potentiometer: 'assets/stage4/tuner-potentiometer.mp3',
     lever: 'assets/stage4/tuner-lever.mp3',
     error: 'assets/stage4/tuner-error.mp3',
-    success: 'assets/stage4/tuner-success.mp3'
+    success: 'assets/stage4/tuner-success.MP3'
   };
 
   // Static hosting cannot keep a client-side secret. This verifies a derived
