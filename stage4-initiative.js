@@ -77,7 +77,7 @@
     lightbox.className = 'initiative-lightbox';
     lightbox.hidden = true;
     lightbox.innerHTML = `
-      <div class="initiative-lightbox-dialog" role="dialog" aria-modal="true" aria-label="Visualização ampliada">
+      <div class="initiative-lightbox-dialog" role="dialog" aria-modal="true" aria-label="Visualização em tamanho original">
         <button class="initiative-lightbox-close" type="button" aria-label="Fechar">×</button>
         <img class="initiative-lightbox-image" src="" alt="" />
         <p class="initiative-lightbox-label"></p>
@@ -102,9 +102,13 @@
 
   function openLightbox(src, label) {
     const lightbox = ensureLightbox();
-    lightbox.querySelector('.initiative-lightbox-image').src = src;
-    lightbox.querySelector('.initiative-lightbox-label').textContent = label;
+    const image = lightbox.querySelector('.initiative-lightbox-image');
+    image.src = src;
+    image.alt = label;
+    lightbox.querySelector('.initiative-lightbox-label').textContent = `${label} · TAMANHO ORIGINAL`;
     lightbox.hidden = false;
+    lightbox.scrollTop = 0;
+    lightbox.scrollLeft = 0;
     document.body.classList.add('initiative-lightbox-open');
     lightbox.querySelector('.initiative-lightbox-close').focus();
   }
@@ -185,18 +189,19 @@
 
     body.initiative-lightbox-open { overflow: hidden; }
     .initiative-lightbox[hidden] { display: none; }
-    .initiative-lightbox { position: fixed; inset: 0; z-index: 2000; display: grid; place-items: center; padding: 24px; background: rgba(0, 0, 0, .88); }
-    .initiative-lightbox-dialog { position: relative; display: flex; flex-direction: column; align-items: center; max-width: min(1100px, 96vw); max-height: 94vh; }
-    .initiative-lightbox-image { display: block; max-width: 100%; max-height: 84vh; object-fit: contain; border: 1px solid #345247; background: #050806; box-shadow: 0 14px 50px rgba(0,0,0,.55); }
-    .initiative-lightbox-label { margin: 10px 0 0; color: #a4c3ba; font-size: 10px; font-weight: 700; letter-spacing: .10em; }
-    .initiative-lightbox-close { position: absolute; top: -16px; right: -16px; z-index: 1; width: 34px; height: 34px; border: 1px solid #547266; border-radius: 50%; background: #07110e; color: var(--text); font-size: 22px; line-height: 1; cursor: pointer; }
+    .initiative-lightbox { position: fixed; inset: 0; z-index: 2000; overflow: auto; padding: 28px; background: rgba(0, 0, 0, .92); }
+    .initiative-lightbox-dialog { position: relative; width: max-content; min-width: calc(100vw - 56px); min-height: calc(100vh - 56px); margin: 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .initiative-lightbox-image { display: block; width: auto; height: auto; max-width: none; max-height: none; flex: 0 0 auto; border: 1px solid #345247; background: #050806; box-shadow: 0 14px 50px rgba(0,0,0,.55); }
+    .initiative-lightbox-label { margin: 10px 0 0; color: #a4c3ba; font-size: 10px; font-weight: 700; letter-spacing: .10em; align-self: center; }
+    .initiative-lightbox-close { position: fixed; top: 14px; right: 18px; z-index: 2002; width: 38px; height: 38px; border: 1px solid #547266; border-radius: 50%; background: rgba(7,17,14,.96); color: var(--text); font-size: 24px; line-height: 1; cursor: pointer; }
     .initiative-lightbox-close:hover, .initiative-lightbox-close:focus-visible { border-color: var(--green); color: var(--green); outline: none; }
 
     @media (max-width: 620px) {
       .initiative-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .initiative-thumb img { height: 112px; }
       .initiative-lightbox { padding: 14px; }
-      .initiative-lightbox-close { top: 8px; right: 8px; background: rgba(7,17,14,.92); }
+      .initiative-lightbox-dialog { min-width: calc(100vw - 28px); min-height: calc(100vh - 28px); }
+      .initiative-lightbox-close { top: 8px; right: 8px; }
     }
   `;
   document.head.appendChild(style);
