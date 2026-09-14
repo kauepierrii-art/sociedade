@@ -132,7 +132,7 @@
         const angle = value * 40 - 160;
         return `<span class="stage4-knob-scale-number" data-value="${value + 1}" style="--scale-angle:${angle}deg">${value + 1}</span>`;
       }).join('');
-      knob.innerHTML = `<span class="stage4-knob-label">${label}</span><span class="stage4-knob-dial"><span class="stage4-knob-face"><span class="stage4-knob-pointer"></span></span>${scale}</span><span class="stage4-knob-hint">ARRASTE PARA GIRAR</span>`;
+      knob.innerHTML = `<span class="stage4-knob-label">${label}</span><span class="stage4-knob-dial"><span class="stage4-knob-face"><span class="stage4-knob-pointer"></span></span>${scale}</span>`;
       let activePointer = null;
       let lastAngle = 0;
       let accumulated = 0;
