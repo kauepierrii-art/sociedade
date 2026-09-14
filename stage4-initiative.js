@@ -8,15 +8,18 @@
   const initiativeStage = stages[initiativeIndex];
   initiativeStage.subtitle = 'análise de material incompleto';
   initiativeStage.context = [
-    'Em 1987, um conjunto de materiais sem catalogação foi localizado durante o inventário de um espólio e encaminhado a um de nossos colaboradores para análise.',
-    'Não havia, naquele momento, informações suficientes para determinar a origem do conjunto ou explicar por que aqueles itens haviam sido preservados juntos.',
-    'Entre os materiais estavam mapas, fotografias, imagens, documentos, uma fita magnética convencional e um aparelho sonoro incomum.',
-    'Durante a inspeção do aparelho, foi encontrada em seu interior uma segunda fita magnética, menor e de formato não usual, incompatível com os equipamentos de reprodução disponíveis.',
-    'O conteúdo da fita convencional pôde ser parcialmente recuperado. A fita encontrada no interior do aparelho, porém, permaneceu inacessível.',
-    'Entre os documentos encontrados junto ao aparelho havia registros emitidos pela:',
-    '“SONOTÉCNICA BRASILEIRA LTDA.”',
-    'Nosso colaborador iniciou a análise do conjunto, mas o trabalho permaneceu incompleto.',
-    'Até o momento, não foi possível reproduzir o conteúdo da fita encontrada no interior do aparelho.'
+    'Em 1987, durante o inventário de um espólio particular, foi localizado um conjunto de materiais sem qualquer registro de procedência.',
+    'Entre os itens estavam mapas, fotografias, documentos, uma fita magnética convencional e um aparelho de função desconhecida.',
+    'O aparelho apresentava construção incomum, com estrutura metálica blindada e sem acesso aparente aos seus componentes internos.',
+    'Durante a inspeção, foi identificada em seu interior uma segunda fita magnética, menor e de formato não convencional.',
+    'Assim como o aparelho, a fita encontrava-se protegida por um invólucro rígido, impossibilitando sua reprodução em equipamentos comuns ou sua remoção sem risco de dano.',
+    'A fita convencional pôde ser parcialmente recuperada.',
+    'A segunda permaneceu inacessível.',
+    'Entre os documentos preservados junto ao conjunto havia registros emitidos pela:',
+    'SONOTÉCNICA BRASILEIRA LTDA.',
+    'A análise dos materiais foi iniciada, mas nunca concluída.',
+    'Parte das fotografias, mapas e anotações parece indicar uma localização específica, embora não haja qualquer registro conhecido que explique o motivo de sua importância.',
+    'Até o momento, o conteúdo da fita encontrada no interior do aparelho jamais foi recuperado.'
   ].join('\n\n');
   initiativeStage.mission = '';
 
@@ -220,7 +223,7 @@
     if (!context || !mission || !actions) return;
 
     context.innerHTML = initiativeStage.context.split('\n\n').map((paragraph, index, paragraphs) => {
-      if (paragraph === '“SONOTÉCNICA BRASILEIRA LTDA.”') return `<blockquote class="initiative-note"><strong>${paragraph}</strong></blockquote>`;
+      if (paragraph === 'SONOTÉCNICA BRASILEIRA LTDA.') return `<blockquote class="initiative-note"><strong>${paragraph}</strong></blockquote>`;
       return `<p class="initiative-copy${index === paragraphs.length - 1 ? ' initiative-objective' : ''}">${paragraph}</p>`;
     }).join('');
 
