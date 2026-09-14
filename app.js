@@ -15,7 +15,15 @@ const stages = [
   },
   { name: 'Observação', subtitle: 'Material não catalogado', icon: '◉', context: 'Nem toda informação relevante é apresentada de forma explícita. Esta etapa avaliará atenção, padrão e detalhe.', mission: 'Conteúdo em desenvolvimento.' },
   { name: 'Iniciativa', subtitle: 'Material incompleto', icon: '◌', context: 'Instruções completas nem sempre estarão disponíveis. Vocês deverão avançar por iniciativa própria.', mission: 'Conteúdo em desenvolvimento.' },
-  { name: 'Convergência', subtitle: 'Correlação de registros', icon: '⚖', context: 'Informações conflitantes exigirão uma decisão antes que o processo possa continuar.', mission: 'Conteúdo em desenvolvimento.' },
+  {
+    name: 'Convergência',
+    subtitle: 'Correlação de registros',
+    icon: '⚖',
+    panelTitle: 'LINHA DO TEMPO',
+    context: 'Os materiais analisados até aqui foram apresentados de forma independente.\n\nNesta etapa, eles devem ser considerados em conjunto.\n\nOrganize os registros na ordem em que os eventos ocorreram.\n\nAlgumas informações não estão explicitamente datadas. Use os documentos, imagens e referências obtidas nas etapas anteriores para determinar sua posição cronológica.\n\nA sequência correta revelará uma inconsistência.',
+    mission: 'Monte a linha do tempo.',
+    missionEmphasis: true
+  },
   { name: 'Discernimento', subtitle: 'Análise de inconsistências', icon: '◇', context: 'O acesso seguinte envolve material restrito e exige que o processo já tenha sido compreendido.', mission: 'Conteúdo em desenvolvimento.' },
   { name: 'Admissão', subtitle: 'Resultado do protocolo', icon: '⚿', context: 'O processo de seleção foi concluído. A continuidade dependerá do resultado desta etapa.', mission: 'Conteúdo em desenvolvimento.' }
 ];
@@ -427,10 +435,13 @@ function openStage(index) {
 
   document.querySelector('#stageCode').textContent = `ETAPA ${String(step).padStart(2, '0')}`;
   document.querySelector('#stageName').textContent = stage.name;
+  const panelTitle = document.querySelector('.detail-panel .panel-head h2');
+  if (panelTitle) panelTitle.textContent = stage.panelTitle || 'INSTRUÇÃO';
   document.querySelector('#stageContext').textContent = stage.context;
   const stageMission = document.querySelector('#stageMission');
   stageMission.hidden = !stage.mission || step === 1;
   stageMission.textContent = stageMission.hidden ? '' : stage.mission;
+  stageMission.classList.toggle('mission-copy--emphasis', Boolean(stage.missionEmphasis));
   stageStatus.textContent = state === 'done' ? 'concluída' : 'disponível';
 
   const actions = document.querySelector('#stageActions');

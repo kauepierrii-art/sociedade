@@ -379,6 +379,7 @@ input::placeholder { color: #4d6e65; }
   white-space: pre-line;
 }
 .mission-copy { color: var(--text); }
+.mission-copy--emphasis { font-weight: 700; }
 .stage-actions { padding-bottom: 18px; }
 .stage-foot { margin-top: 18px; text-align: center; }
 
