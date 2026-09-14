@@ -315,45 +315,40 @@ function renderStageTwo(actions) {
   const annexB = `
     <div class="doc-meta">Origem documental: Arquivo comercial da transportadora · Procedência: verificada · Documento original: inglês · 3 de novembro de 1911</div>
     <h4>ORIGINAL</h4>
-    <p><strong>CALDWELL & FINCH</strong><br><em>Carriers of Paintings, Antiquities and Delicate Articles</em><br><strong>Shipping Record No. 4117</strong><br>London, 3 November 1911</p>
-    <p><strong>Consignor:</strong> A. Wetherby<br><strong>Consignee:</strong> H. L. Harrington</p>
-    <p><strong>Declared contents:</strong> One wooden transport box containing one old leather-covered fitted case; one circular object of polished black stone; one sealed envelope containing three papers; one small cloth pouch containing two unidentified mineral fragments; one folded inventory sheet.</p>
-    <p><strong>Total declared weight:</strong> 3.8 kilograms<br><strong>Declared insurance value:</strong> £35</p>
-    <p><strong>Handling instructions:</strong><br>Keep dry. Do not place beside heating apparatus. Do not open the inner fitted case unless required by the consignee. Documents are to remain with the principal article.</p>
-    <p><strong>Inspection record:</strong><br>The package was temporarily retained following a request for clarification concerning the undeclared nature of the mineral fragments. Exterior transport box opened in the presence of the carrier's clerk. Sealed document envelope intact. Inner leather case not opened. Package released at 16:40.</p>
-    <p><strong>Signed:</strong> H. L. Harrington</p>
+    <p>The object examined on the 9th instant was presented without formal provenance.</p>
+    <p>Its dimensions, surface characteristics and mounting arrangement are consistent with earlier descriptions of the black speculum traditionally associated with Dr. John Dee.</p>
+    <p>However, the object was observed in circumstances incompatible with the documented chain of custody currently accepted for the specimen.</p>
+    <p>No conclusion should be drawn from visual similarity alone.</p>
+    <p>Further comparison is recommended, particularly regarding edge wear, rear mounting marks and the dimensions of the protective case.</p>
+    <p>The present observation is to remain outside the official record until independent confirmation can be obtained.</p>
     <h4>TRADUÇÃO TÉCNICA</h4>
-    <p><strong>CALDWELL & FINCH</strong><br><em>Transportadores de Pinturas, Antiguidades e Objetos Delicados</em><br><strong>Registro de Transporte nº 4117</strong><br>Londres, 3 de novembro de 1911</p>
-    <p><strong>Remetente:</strong> A. Wetherby<br><strong>Destinatário:</strong> H. L. Harrington</p>
-    <p><strong>Conteúdo declarado:</strong> Uma caixa de transporte em madeira contendo um estojo antigo ajustado, revestido em couro; um objeto circular de pedra negra polida; um envelope lacrado contendo três documentos; uma pequena bolsa de tecido contendo dois fragmentos minerais não identificados; uma folha de inventário dobrada.</p>
-    <p><strong>Peso total declarado:</strong> 3,8 quilogramas<br><strong>Valor declarado para seguro:</strong> £35</p>
-    <p><strong>Instruções de manuseio:</strong><br>Manter seco. Não posicionar próximo a equipamentos de aquecimento. Não abrir o estojo interno ajustado, salvo por solicitação do destinatário. Os documentos deverão permanecer junto ao objeto principal.</p>
-    <p><strong>Assinado:</strong> H. L. Harrington</p>`;
+    <p>O objeto examinado no dia 9 do corrente mês foi apresentado sem documentação formal de procedência.</p>
+    <p>Suas dimensões, características de superfície e forma de montagem são compatíveis com descrições anteriores do espelho negro tradicionalmente associado ao Dr. John Dee.</p>
+    <p>Contudo, o objeto foi observado em circunstâncias incompatíveis com a cadeia de custódia atualmente aceita para o exemplar.</p>
+    <p>Nenhuma conclusão deve ser estabelecida apenas com base na semelhança visual.</p>
+    <p>Recomenda-se comparação adicional, especialmente quanto ao desgaste das bordas, marcas de fixação posteriores e dimensões do estojo de proteção.</p>
+    <p>A presente observação deverá permanecer fora do registro oficial até que seja obtida confirmação independente.</p>`;
 
   const annexC = `
     <div class="doc-meta">Origem documental: Arquivo familiar Harrington · Procedência: verificada · Documento original: inglês · 27 de maio de 1923</div>
     <h4>ORIGINAL</h4>
-    <p>27 May 1923</p><p>Edward,</p>
-    <p>I found the papers you asked about.</p>
-    <p>They were kept with Father's records, in the same drawer as the receipts concerning the black mirror.</p>
-    <p>Father never regarded the thing as particularly valuable in the ordinary sense. He owned paintings worth considerably more and never treated any of them with the same caution.</p>
-    <p>He insisted that the mirror remain with the papers and with the case in which it had come to the family.</p>
-    <p>He said that separating them would make it impossible, one day, to know what had actually passed through our hands.</p>
-    <p>On two occasions he considered offering the object to an institution. Both attempts ended after he received conflicting opinions regarding its history.</p>
-    <blockquote><strong>“A story survives only for as long as its evidence does.”</strong></blockquote>
-    <p>After his death I found transport papers, an old repair account, several notes concerning previous owners and a sealed envelope whose contents I was instructed not to separate.</p>
-    <p>But since you asked me to preserve everything, I have done so.</p><p>Eleanor</p>
+    <p>Repeated observation sessions have produced visual phenomena which cannot be adequately preserved by written description alone.</p>
+    <p>It is therefore recommended that future sessions be recorded by mechanical means.</p>
+    <p>The recording apparatus must operate independently of the observation surface and should remain concealed during use, in order to avoid interference with the procedure and unnecessary exposure of the object.</p>
+    <p>Particular attention must be given to recurring architectural features, objects and persons observed during separate sessions.</p>
+    <p>Any visual recurrence should be compared against later documentary records whenever such material becomes available.</p>
+    <p>No attempt should be made to interpret the observed scenes during the session itself.</p>
+    <p><strong>Record first.</strong></p>
+    <p><strong>Compare later.</strong></p>
     <h4>TRADUÇÃO TÉCNICA</h4>
-    <p>27 de maio de 1923</p><p>Edward,</p>
-    <p>encontrei os documentos sobre os quais você perguntou.</p>
-    <p>Eles estavam guardados junto aos registros de meu pai, na mesma gaveta dos recibos relacionados ao espelho negro.</p>
-    <p>Meu pai nunca considerou o objeto particularmente valioso no sentido comum. Possuía pinturas de valor muito superior e jamais tratou nenhuma delas com o mesmo cuidado.</p>
-    <p>Ele insistia que o espelho permanecesse junto dos documentos e do estojo com o qual havia chegado à família.</p>
-    <p>Ele respondeu que separá-los tornaria impossível, algum dia, saber o que realmente havia passado por nossas mãos.</p>
-    <p>Em duas ocasiões ele cogitou oferecer o objeto a uma instituição. Ambas as tentativas terminaram depois que recebeu opiniões contraditórias sobre sua história.</p>
-    <blockquote><strong>“Uma história sobrevive apenas enquanto suas evidências sobreviverem.”</strong></blockquote>
-    <p>Depois de sua morte, encontrei documentos de transporte, uma antiga conta de reparo, diversas anotações sobre proprietários anteriores e um envelope lacrado cujo conteúdo fui instruída a não separar.</p>
-    <p>Mas, como você me pediu para preservar tudo, foi o que fiz.</p><p>Eleanor</p>`;
+    <p>Sessões repetidas de observação produziram fenômenos visuais que não podem ser preservados adequadamente apenas por descrição escrita.</p>
+    <p>Recomenda-se, portanto, que as sessões futuras sejam registradas por meios mecânicos.</p>
+    <p>O equipamento de registro deverá operar de forma independente da superfície de observação e permanecer oculto durante sua utilização, de modo a evitar interferência no procedimento e exposição desnecessária do objeto.</p>
+    <p>Deverá ser dada atenção especial a características arquitetônicas, objetos e pessoas que se repitam em sessões distintas.</p>
+    <p>Toda recorrência visual deverá ser comparada com registros documentais posteriores, sempre que esse material se tornar disponível.</p>
+    <p>Nenhuma tentativa de interpretação das cenas observadas deverá ser realizada durante a própria sessão.</p>
+    <p><strong>Registrar primeiro.</strong></p>
+    <p><strong>Comparar depois.</strong></p>`;
 
   const record3 = `
     <h3>CORRESPONDÊNCIA ELETRÔNICA — REVISÃO DE PROCEDÊNCIA</h3>
