@@ -7,13 +7,6 @@
   const roman = ['I', 'II', 'III', 'IV'];
   const timerHandles = new Map();
 
-  // Ordem atual do protocolo: 04 Iniciativa, 05 Julgamento.
-  if (Array.isArray(stages) && stages.length >= 5 && stages[3].name === 'Julgamento' && stages[4].name === 'Iniciativa') {
-    const tmp = stages[3];
-    stages[3] = stages[4];
-    stages[4] = tmp;
-  }
-
   const configs = {
     identification: {
       formId: 'identificationForm',

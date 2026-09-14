@@ -1,23 +1,23 @@
 const stages = [
   {
     name: 'Identificação',
-    subtitle: 'correspondência confirmada',
+    subtitle: 'Correspondência confirmada',
     icon: '♙',
     context: 'A origem deste acesso precisa ser confirmada.\n\nA correspondência contém uma segunda marca de validação.',
     mission: '“O que não se vê ainda pode deixar vestígios. Nem toda marca resiste da mesma forma ao calor.”'
   },
   {
-    name: 'Aptidão',
-    subtitle: 'avaliação de raciocínio',
+    name: 'Origem',
+    subtitle: 'Registro histórico',
     icon: '⌘',
     context: 'Nem toda divergência é relevante.\n\nAlgumas, no entanto, justificam uma segunda análise.\n\nOs documentos disponibilizados pertencem ao mesmo conjunto e foram preservados por razões que serão esclarecidas posteriormente.\n\nAnalise o material e identifique a inconsistência.',
     mission: ''
   },
-  { name: 'Observação', subtitle: 'arquivo indisponível', icon: '◉', context: 'Nem toda informação relevante é apresentada de forma explícita. Esta etapa avaliará atenção, padrão e detalhe.', mission: 'Conteúdo em desenvolvimento.' },
-  { name: 'Julgamento', subtitle: 'arquivo indisponível', icon: '⚖', context: 'Informações conflitantes exigirão uma decisão antes que o processo possa continuar.', mission: 'Conteúdo em desenvolvimento.' },
-  { name: 'Iniciativa', subtitle: 'arquivo indisponível', icon: '◌', context: 'Instruções completas nem sempre estarão disponíveis. Vocês deverão avançar por iniciativa própria.', mission: 'Conteúdo em desenvolvimento.' },
-  { name: 'Confiança', subtitle: 'arquivo indisponível', icon: '◇', context: 'O acesso seguinte envolve material restrito e exige que o processo já tenha sido compreendido.', mission: 'Conteúdo em desenvolvimento.' },
-  { name: 'Admissão', subtitle: 'arquivo indisponível', icon: '⚿', context: 'O processo de seleção foi concluído. A continuidade dependerá do resultado desta etapa.', mission: 'Conteúdo em desenvolvimento.' }
+  { name: 'Observação', subtitle: 'Material não catalogado', icon: '◉', context: 'Nem toda informação relevante é apresentada de forma explícita. Esta etapa avaliará atenção, padrão e detalhe.', mission: 'Conteúdo em desenvolvimento.' },
+  { name: 'Iniciativa', subtitle: 'Material incompleto', icon: '◌', context: 'Instruções completas nem sempre estarão disponíveis. Vocês deverão avançar por iniciativa própria.', mission: 'Conteúdo em desenvolvimento.' },
+  { name: 'Convergência', subtitle: 'Correlação de registros', icon: '⚖', context: 'Informações conflitantes exigirão uma decisão antes que o processo possa continuar.', mission: 'Conteúdo em desenvolvimento.' },
+  { name: 'Discernimento', subtitle: 'Análise de inconsistências', icon: '◇', context: 'O acesso seguinte envolve material restrito e exige que o processo já tenha sido compreendido.', mission: 'Conteúdo em desenvolvimento.' },
+  { name: 'Admissão', subtitle: 'Resultado do protocolo', icon: '⚿', context: 'O processo de seleção foi concluído. A continuidade dependerá do resultado desta etapa.', mission: 'Conteúdo em desenvolvimento.' }
 ];
 
 const REFERENCES = {
