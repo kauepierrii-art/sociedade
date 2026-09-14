@@ -284,7 +284,7 @@ function renderStageTwo(actions) {
     <p>E ainda assim uma pergunta permanecer:</p>
     <blockquote><strong>é possível demonstrar que o objeto preservado hoje é exatamente o mesmo que esteve nas mãos de John Dee?</strong></blockquote>
     <p>Durante séculos, a resposta aceita foi suficiente.</p>
-    <p><strong>Em 1976, deixou de ser.</strong></p>`;
+    <p><strong>No final do século XIX, deixou de ser.</strong></p>`;
 
   const annexA = `
     <div class="doc-meta">Origem documental: Arquivo comercial privado · Procedência: verificada · Documento original: inglês · 14 de março de 1897</div>
