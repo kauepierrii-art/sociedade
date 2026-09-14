@@ -10,7 +10,7 @@
 
   // Static hosting cannot keep a client-side secret. This verifies a derived
   // digest instead of publishing the four digits as readable source text.
-  const expected = '71ff06745a696e1cc0faada1434b219185c0f06e7f5b1ffa9cb1a131a8932fc4';
+  const expected = '264e4e849a8f9ff7bf1b69df87709c1a02b2ef8250bf402cf71a3a356d97d9f6';
   const glyphs = [83, 79, 78, 79, 45, 56, 45, 58];
 
   function digest(value) {
