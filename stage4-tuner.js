@@ -436,4 +436,61 @@
     }
   `;
   document.head.appendChild(consoleStyle);
+
+  // One compact chassis at every width: this deliberately supersedes the
+  // experimental full-width overlay above, which could crop live controls.
+  const unifiedConsoleStyle = document.createElement('style');
+  unifiedConsoleStyle.textContent = `
+    .stage4-tuner{
+      position:relative!important;
+      display:grid!important;
+      grid-template-columns:86px minmax(0,1fr)!important;
+      column-gap:7px!important;
+      width:min(100%,690px)!important;
+      aspect-ratio:auto!important;
+      min-height:0!important;
+      margin:24px auto 6px!important;
+      padding:12px!important;
+      border:2px solid #090706!important;
+      border-radius:18px!important;
+      background:radial-gradient(ellipse at 18% 4%,rgba(142,97,52,.2),transparent 35%),repeating-linear-gradient(125deg,rgba(255,255,255,.017) 0 1px,transparent 1px 5px),#17120f!important;
+      box-shadow:inset 0 0 0 1px #71533b,inset 0 -17px 24px #080605,0 16px 26px rgba(0,0,0,.42)!important;
+      overflow:hidden!important;
+    }
+    .stage4-tuner:before{display:none!important;content:none!important}
+    .stage4-tuner:after{display:block!important}
+    .stage4-reel-window,.stage4-tuner-head,.stage4-tuner-status{position:relative!important;grid-column:1/-1!important;inset:auto!important;display:flex!important}
+    .stage4-reel-window{height:118px!important;margin:0 1px 10px!important;padding:10px 18px!important;border:4px solid #090706!important;border-radius:11px!important;background:linear-gradient(135deg,rgba(169,185,168,.27),rgba(11,10,9,.9) 24%,rgba(11,9,8,.94) 74%,rgba(120,143,127,.16)),#14110f!important}
+    .stage4-reel{display:block!important;width:80px!important;height:80px!important}
+    .stage4-tuner-head{display:flex!important;justify-content:center!important;align-items:center!important;min-height:54px;padding:7px 10px 8px!important;border:1px solid #60462e!important;border-radius:5px 5px 0 0!important;background:linear-gradient(110deg,#17110d,#382718 50%,#120e0b)!important;text-align:center!important}
+    .stage4-tuner-head p{margin:0 0 5px!important;color:#b88a50!important;font-size:8px!important;letter-spacing:.17em!important}
+    .stage4-tuner-head h3{margin:0!important;color:#e2bc80!important;font-size:12px!important;letter-spacing:.1em!important;white-space:normal!important}
+    .stage4-tuner-meta{position:absolute!important;right:10px!important;bottom:7px!important;left:auto!important;top:auto!important;font-size:7px!important}
+    .stage4-switch-row{position:relative!important;grid-column:1!important;grid-row:3!important;align-self:stretch!important;min-height:326px!important;margin:0!important;padding:9px 6px!important;border:1px solid #775b40!important;border-radius:5px!important;background:linear-gradient(105deg,#19130f,#3a2b1e 50%,#100d0a)!important;box-shadow:inset 0 0 0 2px #0b0908,inset 0 0 12px #000!important}
+    .stage4-lever{display:flex!important;width:100%!important;height:100%!important;justify-content:flex-start!important;align-items:center!important}
+    .stage4-lever-track{display:block!important;width:62px!important;height:244px!important;border:1px solid #896e51!important;border-radius:3px!important;background:linear-gradient(90deg,#17120e,#4a3a2b 48%,#17120e)!important;box-shadow:inset 0 0 0 2px #0a0807,inset 0 0 10px #000!important}
+    .stage4-lever-track:before{left:14px!important;top:54px!important;width:32px!important;height:126px!important;border:0!important;border-radius:15px!important;background:#090807!important;box-shadow:inset 0 0 0 1px #75614c,inset 0 0 8px #000!important}
+    .stage4-lever-track:after{left:20px!important;top:59px!important;width:20px!important;height:116px!important;border-radius:12px!important;background:linear-gradient(90deg,#050403,#31261c 48%,#050403)!important}
+    .stage4-lever-stick{left:25px!important;bottom:71px!important;width:11px!important;height:55px!important;transform:translateY(0)!important}
+    .stage4-tuner.is-on .stage4-lever-stick{transform:translateY(-88px)!important}
+    .stage4-lever-on,.stage4-lever-off{left:7px!important;width:48px!important;font-size:10px!important}
+    .stage4-knobs{position:relative!important;grid-column:2!important;grid-row:3!important;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:4px!important;padding:5px 0!important;border:0!important;border-radius:0!important;background:transparent!important}
+    .stage4-knob{min-height:161px!important;padding:0!important;overflow:visible!important}
+    .stage4-knob-label{font-size:22px!important;line-height:1.1!important}
+    .stage4-knob-dial{width:116px!important;height:116px!important;margin:1px auto 0!important}
+    .stage4-knob-face{inset:24px!important;border:6px solid #1b120b!important}
+    .stage4-knob-pointer{top:23px!important;left:calc(50% - 2px)!important;width:4px!important;height:18px!important;border-radius:4px!important;background:#f5dcab!important;box-shadow:0 0 0 1px #2c190c,0 0 3px rgba(255,235,189,.6)!important;transform-origin:50% 35px!important;transition:transform .12s linear!important}
+    .stage4-knob-scale-number{font-size:11px!important;transform:rotate(var(--scale-angle)) translateY(-50px) rotate(calc(-1 * var(--scale-angle)))!important}
+    .stage4-tuner-status{display:block!important;min-height:31px!important;margin:10px 7px 0!important;padding:9px 4px 3px!important;border-top:1px solid #624a32!important;color:#d3aa69!important;font-size:8px!important;text-align:center!important}
+    .stage4-tuner-status:before{content:"";display:inline-block;width:14px;height:14px;margin:-2px 10px 0 0;vertical-align:middle;border:2px solid #160e0a;border-radius:50%;background:radial-gradient(circle at 35% 30%,#95611e,#3c250a 58%,#160c03);box-shadow:inset 0 0 4px #000,0 0 5px rgba(187,119,32,.28)}
+    .stage4-tuner.is-playing .stage4-tuner-status:before{background:radial-gradient(circle at 35% 30%,#bfd271,#536626 58%,#121a06);box-shadow:inset 0 0 4px #000,0 0 8px rgba(155,192,77,.55)}
+    .stage4-tuner.is-error .stage4-tuner-status:before{background:radial-gradient(circle at 35% 30%,#c04b35,#5b170f 58%,#210805)}
+    @media(max-width:390px){
+      .stage4-tuner{grid-template-columns:76px minmax(0,1fr)!important;padding:10px!important;column-gap:4px!important}
+      .stage4-reel-window{height:101px!important}.stage4-reel{width:68px!important;height:68px!important}.stage4-reel i{top:28px!important;left:28px!important}.stage4-reel:before{inset:13px!important}.stage4-tape-path{top:47px!important}
+      .stage4-switch-row{min-height:298px!important;padding:7px 4px!important}.stage4-lever-track{width:58px!important;height:225px!important}.stage4-lever-track:before{left:13px!important;top:50px!important;height:113px!important}.stage4-lever-track:after{left:19px!important;top:55px!important;height:102px!important}.stage4-lever-stick{left:23px!important;bottom:64px!important}.stage4-tuner.is-on .stage4-lever-stick{transform:translateY(-78px)!important}
+      .stage4-knob{min-height:147px!important}.stage4-knob-dial{width:106px!important;height:106px!important}.stage4-knob-face{inset:22px!important}.stage4-knob-pointer{top:21px!important;transform-origin:50% 32px!important}.stage4-knob-scale-number{transform:rotate(var(--scale-angle)) translateY(-46px) rotate(calc(-1 * var(--scale-angle)))!important}
+    }
+  `;
+  document.head.appendChild(unifiedConsoleStyle);
 })();
