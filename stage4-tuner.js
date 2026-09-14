@@ -53,7 +53,7 @@
         <div class="stage4-tuner-meta"><span>Nº SÉRIE 08-1925</span><i class="stage4-led" aria-label="Indicador desligado"></i></div>
       </div>
       <div class="stage4-switch-row">
-        <button class="stage4-lever" type="button" aria-pressed="false" aria-label="Alavanca desligada"><span class="stage4-lever-track"><span class="stage4-lever-on">ON</span><span class="stage4-lever-stick"></span><span class="stage4-lever-off">OFF</span></span><strong>CHAVE</strong></button>
+        <button class="stage4-lever" type="button" aria-pressed="false" aria-label="Alavanca desligada"><span class="stage4-lever-track"><span class="stage4-lever-on">ON</span><span class="stage4-lever-stick"></span><span class="stage4-lever-off">OFF</span></span></button>
       </div>
       <div class="stage4-knobs" aria-label="Controles de sintonia"></div>
       <p class="stage4-tuner-status" role="status">SISTEMA EM ESPERA</p>`;
@@ -83,7 +83,6 @@
       panel.classList.toggle('is-on', next);
       lever.setAttribute('aria-pressed', String(next));
       lever.setAttribute('aria-label', next ? 'Alavanca ligada' : 'Alavanca desligada');
-      lever.querySelector('strong').textContent = next ? 'ON' : 'OFF';
       if (!next) {
         panel.classList.remove('is-playing', 'is-error');
         mainAudio.pause();
@@ -113,13 +112,25 @@
       status.textContent = `CANAL ${['I', 'II', 'III', 'IV'][index]} AJUSTADO`;
     }
 
+    function selectValue(index, value) {
+      if (on || values[index] === value) return;
+      let steps = value - values[index];
+      if (steps > 4) steps -= 9;
+      if (steps < -4) steps += 9;
+      values[index] = value;
+      rotations[index] += steps * 40;
+      updateKnob(index);
+      playEffect(AUDIO.potentiometer);
+      status.textContent = `CANAL ${['I', 'II', 'III', 'IV'][index]} AJUSTADO`;
+    }
+
     ['I', 'II', 'III', 'IV'].forEach((label, index) => {
       const knob = document.createElement('button');
       knob.className = 'stage4-knob';
       knob.type = 'button';
       const scale = Array.from({ length: 9 }, (_, value) => {
         const angle = value * 40 - 160;
-        return `<span class="stage4-knob-scale-number" style="--scale-angle:${angle}deg">${value + 1}</span>`;
+        return `<span class="stage4-knob-scale-number" data-value="${value + 1}" style="--scale-angle:${angle}deg">${value + 1}</span>`;
       }).join('');
       knob.innerHTML = `<span class="stage4-knob-label">${label}</span><span class="stage4-knob-dial"><span class="stage4-knob-face"><span class="stage4-knob-pointer"></span></span>${scale}</span><span class="stage4-knob-hint">ARRASTE PARA GIRAR</span>`;
       let activePointer = null;
@@ -174,6 +185,13 @@
       knob.addEventListener('keydown', event => {
         if (event.key === 'ArrowUp' || event.key === 'ArrowRight') { event.preventDefault(); adjust(index, 1); }
         if (event.key === 'ArrowDown' || event.key === 'ArrowLeft') { event.preventDefault(); adjust(index, -1); }
+      });
+      knob.querySelectorAll('.stage4-knob-scale-number').forEach(number => {
+        number.addEventListener('pointerdown', event => {
+          event.preventDefault();
+          event.stopPropagation();
+          selectValue(index, Number(number.dataset.value));
+        });
       });
       knobs.appendChild(knob);
     });
@@ -258,4 +276,8 @@
     .stage4-lever-on{border-color:#80602a!important;background:linear-gradient(135deg,#553b15,#a46e22 52%,#3c290f)!important;color:#f0d79a!important;text-shadow:0 1px #2b1c08}.stage4-tuner.is-on .stage4-lever-on{background:linear-gradient(135deg,#79551b,#d79a36 52%,#5b3d12)!important;color:#fff2c8!important;box-shadow:0 0 8px rgba(210,150,48,.42)!important}.stage4-led{width:18px!important;height:18px!important;border:2px solid #160e0a!important;background:radial-gradient(circle at 35% 30%,#7b3322,#35100b 58%,#160805)!important;box-shadow:inset 0 0 5px #000,0 0 2px rgba(130,40,22,.35)!important}.stage4-tuner.is-error .stage4-led{background:radial-gradient(circle at 35% 30%,#c04b35,#5b170f 58%,#210805)!important;box-shadow:inset 0 0 5px #170401,0 0 7px rgba(158,45,29,.48)!important}.stage4-tuner.is-playing .stage4-led{background:radial-gradient(circle at 35% 30%,#9aaf5f,#405124 58%,#111908)!important;box-shadow:inset 0 0 5px #081003,0 0 7px rgba(120,151,60,.42)!important}
   `;
   document.head.appendChild(lightStyle);
+
+  const directSelectStyle = document.createElement('style');
+  directSelectStyle.textContent = `.stage4-knob-scale-number{cursor:pointer;pointer-events:auto}.stage4-knob-scale-number:active{color:#fff1c8!important;text-shadow:0 0 9px #e8af52!important}`;
+  document.head.appendChild(directSelectStyle);
 })();
