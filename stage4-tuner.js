@@ -47,6 +47,7 @@
         <span class="stage4-reel stage4-reel-left"><i></i></span>
         <span class="stage4-tape-path"></span>
         <span class="stage4-reel stage4-reel-right"><i></i></span>
+        <span class="stage4-reel-reference"><span>SESSÃO: 11</span><span>DATA: <strong>17 / 08 / 1928</strong></span></span>
         <b class="stage4-window-screw s1"></b><b class="stage4-window-screw s2"></b><b class="stage4-window-screw s3"></b><b class="stage4-window-screw s4"></b>
       </div>
       <div class="stage4-tuner-head">
@@ -318,6 +319,12 @@
     .stage4-lever-on{border-color:#80602a!important;background:linear-gradient(135deg,#553b15,#a46e22 52%,#3c290f)!important;color:#f0d79a!important;text-shadow:0 1px #2b1c08}.stage4-tuner.is-on .stage4-lever-on{background:linear-gradient(135deg,#79551b,#d79a36 52%,#5b3d12)!important;color:#fff2c8!important;box-shadow:0 0 8px rgba(210,150,48,.42)!important}.stage4-led{width:18px!important;height:18px!important;border:2px solid #160e0a!important;background:radial-gradient(circle at 35% 30%,#7b3322,#35100b 58%,#160805)!important;box-shadow:inset 0 0 5px #000,0 0 2px rgba(130,40,22,.35)!important}.stage4-tuner.is-error .stage4-led{background:radial-gradient(circle at 35% 30%,#c04b35,#5b170f 58%,#210805)!important;box-shadow:inset 0 0 5px #170401,0 0 7px rgba(158,45,29,.48)!important}.stage4-tuner.is-playing .stage4-led{background:radial-gradient(circle at 35% 30%,#9aaf5f,#405124 58%,#111908)!important;box-shadow:inset 0 0 5px #081003,0 0 7px rgba(120,151,60,.42)!important}
   `;
   document.head.appendChild(lightStyle);
+
+  const reelReferenceStyle = document.createElement('style');
+  reelReferenceStyle.textContent = `
+    .stage4-reel-reference{position:absolute;z-index:4;top:22px;bottom:20px;left:31%;right:31%;display:flex;flex-direction:column;align-items:center;justify-content:space-between;color:#c59b5c;font:700 8px/1.1 "IBM Plex Mono",monospace;letter-spacing:.13em;text-align:center;text-shadow:1px 1px #080604;pointer-events:none}.stage4-reel-reference strong{color:#e1bd7d;font-weight:700}@media(max-width:390px){.stage4-reel-reference{top:18px;bottom:17px;left:29%;right:29%;font-size:6px;letter-spacing:.08em}}
+  `;
+  document.head.appendChild(reelReferenceStyle);
 
   const directSelectStyle = document.createElement('style');
   directSelectStyle.textContent = `.stage4-knob-scale-number{cursor:pointer;pointer-events:auto}.stage4-knob-scale-number:active{color:#fff1c8!important;text-shadow:0 0 9px #e8af52!important}`;
