@@ -23,6 +23,10 @@ Envie estes arquivos para `assets/stage4/` quando estiverem prontos:
 - `tuner-error.mp3` — tentativa de frequência inválida
 - `tuner-success.mp3` — sinal de acerto e gravação liberada pela frequência correta
 
+Após o áudio, o site procura o vídeo de apoio em:
+
+- `mensagem-de-apoio.mp4` — vídeo exibido ao fim da fita; quando terminar, libera a próxima etapa
+
 O código do sintonizador é verificado por um digest derivado, em vez de aparecer
 como texto no script. Em um site estático, porém, nenhum segredo no navegador é
 absoluto: alguém com conhecimento técnico pode inspecionar e reproduzir a lógica.

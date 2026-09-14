@@ -6,6 +6,7 @@
     error: 'assets/stage4/tuner-error.mp3',
     success: 'assets/stage4/tuner-success.MP3'
   };
+  const SUPPORT_VIDEO = 'assets/stage4/mensagem-de-apoio.mp4';
 
   // Static hosting cannot keep a client-side secret. This verifies a derived
   // digest instead of publishing the four digits as readable source text.
@@ -68,6 +69,45 @@
     let rotations = [-160, -160, -160, -160];
     let on = false;
     let returnTimer;
+
+    function completeCurrentStage() {
+      const initiativeStep = stages.findIndex(stage => stage && stage.name === 'Iniciativa') + 1;
+      if (!initiativeStep || !currentRefKey) return;
+      completedCount = Math.max(completedCount, initiativeStep);
+      saveProgress(currentRefKey, completedCount);
+    }
+
+    function showSupportVideo() {
+      let overlay = document.getElementById('stage4SupportVideo');
+      if (!overlay) {
+        overlay = document.createElement('section');
+        overlay.id = 'stage4SupportVideo';
+        overlay.className = 'stage4-support-video';
+        overlay.hidden = true;
+        overlay.innerHTML = `<div class="stage4-support-backdrop"><div class="stage4-support-frame"><p>COMUNICAÇÃO RECEBIDA</p><video playsinline preload="metadata"><source src="${SUPPORT_VIDEO}" type="video/mp4"></video><button type="button" hidden>CONTINUAR</button><small></small></div></div>`;
+        document.body.appendChild(overlay);
+        const video = overlay.querySelector('video');
+        const button = overlay.querySelector('button');
+        const note = overlay.querySelector('small');
+        const finish = () => {
+          completeCurrentStage();
+          status.textContent = 'MENSAGEM RECEBIDA — CONTINUE EM FRENTE.';
+          button.hidden = false;
+          note.textContent = 'A PRÓXIMA ETAPA FOI LIBERADA.';
+        };
+        video.addEventListener('ended', finish);
+        video.addEventListener('error', () => { note.textContent = 'VÍDEO AGUARDANDO UPLOAD.'; });
+        button.addEventListener('click', () => { overlay.hidden = true; renderDashboard(); show(dashboardView); });
+      }
+      const video = overlay.querySelector('video');
+      const button = overlay.querySelector('button');
+      const note = overlay.querySelector('small');
+      overlay.hidden = false;
+      button.hidden = true;
+      note.textContent = '';
+      video.currentTime = 0;
+      video.play().catch(() => { video.controls = true; note.textContent = 'TOQUE PARA REPRODUZIR A MENSAGEM.'; });
+    }
 
     function playEffect(path) {
       const player = audio(path, 'auto');
@@ -226,6 +266,8 @@
     mainAudio.addEventListener('ended', () => {
       panel.classList.remove('is-playing');
       setPower(false, true);
+      status.textContent = 'RECUPERAÇÃO CONCLUÍDA — COMUNICAÇÃO RECEBIDA.';
+      showSupportVideo();
     });
 
     randomValues().then(initial => {
@@ -280,4 +322,8 @@
   const directSelectStyle = document.createElement('style');
   directSelectStyle.textContent = `.stage4-knob-scale-number{cursor:pointer;pointer-events:auto}.stage4-knob-scale-number:active{color:#fff1c8!important;text-shadow:0 0 9px #e8af52!important}`;
   document.head.appendChild(directSelectStyle);
+
+  const videoStyle = document.createElement('style');
+  videoStyle.textContent = `.stage4-support-video[hidden]{display:none}.stage4-support-video{position:fixed;z-index:5000;inset:0}.stage4-support-backdrop{display:grid;min-height:100%;place-items:center;padding:18px;background:rgba(0,0,0,.92)}.stage4-support-frame{width:min(100%,720px);padding:13px;border:1px solid #765631;background:#090b09;box-shadow:0 18px 60px #000;text-align:center}.stage4-support-frame p{margin:0 0 10px;color:#d5ad68;font-size:10px;font-weight:700;letter-spacing:.14em}.stage4-support-frame video{display:block;width:100%;max-height:72vh;background:#000}.stage4-support-frame button{margin-top:12px;padding:10px 14px;border:1px solid #a97a39;background:#1c160e;color:#f0d69b;font:700 10px "IBM Plex Mono",monospace;letter-spacing:.08em}.stage4-support-frame small{display:block;min-height:16px;margin-top:10px;color:#b69a6c;font-size:9px;letter-spacing:.08em}`;
+  document.head.appendChild(videoStyle);
 })();
