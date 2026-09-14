@@ -70,6 +70,7 @@
     let rotations = [-160, -160, -160, -160];
     let on = false;
     let returnTimer;
+    let supportTimers = [];
 
     function completeCurrentStage() {
       const initiativeStep = stages.findIndex(stage => stage && stage.name === 'Iniciativa') + 1;
@@ -85,29 +86,57 @@
         overlay.id = 'stage4SupportVideo';
         overlay.className = 'stage4-support-video';
         overlay.hidden = true;
-        overlay.innerHTML = `<div class="stage4-support-backdrop"><div class="stage4-support-frame"><p>COMUNICAÇÃO RECEBIDA</p><video playsinline preload="metadata"><source src="${SUPPORT_VIDEO}" type="video/mp4"></video><button type="button" hidden>CONTINUAR</button><small></small></div></div>`;
+        overlay.innerHTML = `<div class="stage4-support-backdrop"><div class="stage4-support-frame"><div class="stage4-video-sequence"><p class="stage4-video-sequence-title"></p><small class="stage4-video-sequence-copy"></small></div><p class="stage4-video-heading" hidden>MENSAGEM RECEBIDA</p><video controls playsinline preload="metadata" hidden><source src="${SUPPORT_VIDEO}" type="video/mp4"></video><button class="stage4-video-toggle" type="button" hidden>PAUSAR MENSAGEM</button><button class="stage4-video-continue" type="button" hidden>CONTINUAR</button><small class="stage4-video-note"></small></div></div>`;
         document.body.appendChild(overlay);
         const video = overlay.querySelector('video');
-        const button = overlay.querySelector('button');
-        const note = overlay.querySelector('small');
+        const button = overlay.querySelector('.stage4-video-continue');
+        const toggle = overlay.querySelector('.stage4-video-toggle');
+        const note = overlay.querySelector('.stage4-video-note');
         const finish = () => {
           completeCurrentStage();
           status.textContent = 'MENSAGEM RECEBIDA — CONTINUE EM FRENTE.';
           button.hidden = false;
+          toggle.hidden = true;
           note.textContent = 'A PRÓXIMA ETAPA FOI LIBERADA.';
         };
         video.addEventListener('ended', finish);
         video.addEventListener('error', () => { note.textContent = 'VÍDEO AGUARDANDO UPLOAD.'; });
+        video.addEventListener('play', () => { toggle.textContent = 'PAUSAR MENSAGEM'; });
+        video.addEventListener('pause', () => { if (!video.ended) toggle.textContent = 'RETOMAR MENSAGEM'; });
+        toggle.addEventListener('click', () => { if (video.paused) video.play(); else video.pause(); });
         button.addEventListener('click', () => { overlay.hidden = true; renderDashboard(); show(dashboardView); });
       }
       const video = overlay.querySelector('video');
-      const button = overlay.querySelector('button');
-      const note = overlay.querySelector('small');
+      const button = overlay.querySelector('.stage4-video-continue');
+      const toggle = overlay.querySelector('.stage4-video-toggle');
+      const note = overlay.querySelector('.stage4-video-note');
+      const sequence = overlay.querySelector('.stage4-video-sequence');
+      const sequenceTitle = overlay.querySelector('.stage4-video-sequence-title');
+      const sequenceCopy = overlay.querySelector('.stage4-video-sequence-copy');
+      const heading = overlay.querySelector('.stage4-video-heading');
+      supportTimers.forEach(clearTimeout);
+      supportTimers = [];
       overlay.hidden = false;
       button.hidden = true;
+      toggle.hidden = true;
       note.textContent = '';
+      heading.hidden = true;
+      sequence.hidden = false;
+      sequenceTitle.textContent = 'REPRODUÇÃO CONCLUÍDA';
+      sequenceCopy.textContent = 'CONTEÚDO RECUPERADO INTEGRALMENTE.';
+      video.hidden = true;
+      video.pause();
       video.currentTime = 0;
-      video.play().catch(() => { video.controls = true; note.textContent = 'TOQUE PARA REPRODUZIR A MENSAGEM.'; });
+      const setSequence = (title, copy) => { sequenceTitle.textContent = title; sequenceCopy.textContent = copy || ''; };
+      supportTimers.push(setTimeout(() => setSequence('ANALISANDO CONTEÚDO...', 'VERIFICANDO INTEGRIDADE DO REGISTRO.'), 2600));
+      supportTimers.push(setTimeout(() => setSequence('MENSAGEM LOCALIZADA', 'PREPARANDO REPRODUÇÃO.'), 4700));
+      supportTimers.push(setTimeout(() => {
+        sequence.hidden = true;
+        heading.hidden = false;
+        video.hidden = false;
+        toggle.hidden = false;
+        video.play().catch(() => { note.textContent = 'TOQUE NO VÍDEO OU EM “RETOMAR MENSAGEM” PARA INICIAR.'; });
+      }, 5900));
     }
 
     function playEffect(path) {
@@ -333,4 +362,10 @@
   const videoStyle = document.createElement('style');
   videoStyle.textContent = `.stage4-support-video[hidden]{display:none}.stage4-support-video{position:fixed;z-index:5000;inset:0}.stage4-support-backdrop{display:grid;min-height:100%;place-items:center;padding:18px;background:rgba(0,0,0,.92)}.stage4-support-frame{width:min(100%,720px);padding:13px;border:1px solid #765631;background:#090b09;box-shadow:0 18px 60px #000;text-align:center}.stage4-support-frame p{margin:0 0 10px;color:#d5ad68;font-size:10px;font-weight:700;letter-spacing:.14em}.stage4-support-frame video{display:block;width:100%;max-height:72vh;background:#000}.stage4-support-frame button{margin-top:12px;padding:10px 14px;border:1px solid #a97a39;background:#1c160e;color:#f0d69b;font:700 10px "IBM Plex Mono",monospace;letter-spacing:.08em}.stage4-support-frame small{display:block;min-height:16px;margin-top:10px;color:#b69a6c;font-size:9px;letter-spacing:.08em}`;
   document.head.appendChild(videoStyle);
+
+  const videoTransitionStyle = document.createElement('style');
+  videoTransitionStyle.textContent = `
+    .stage4-video-sequence{display:grid;min-height:190px;align-content:center;gap:12px;padding:18px;border:1px solid rgba(166,119,56,.45);background:radial-gradient(circle at 50% 42%,rgba(104,70,28,.2),transparent 48%),#080806}.stage4-support-frame .stage4-video-sequence-title{margin:0;color:#e0b66f;font:700 14px/1.35 Georgia,serif;letter-spacing:.14em}.stage4-support-frame .stage4-video-sequence-copy{min-height:0;margin:0;color:#b89561;font:9px/1.6 "IBM Plex Mono",monospace;letter-spacing:.13em}.stage4-support-frame .stage4-video-heading{margin:0 0 10px}.stage4-video-toggle{display:block;width:100%;margin-top:9px!important}.stage4-video-note{padding:0 6px}@media(max-width:520px){.stage4-video-sequence{min-height:160px}.stage4-support-frame .stage4-video-sequence-title{font-size:12px}}
+  `;
+  document.head.appendChild(videoTransitionStyle);
 })();
