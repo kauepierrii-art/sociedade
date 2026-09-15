@@ -95,7 +95,8 @@
     preloadCardImages();
 
     const partOneComplete = isStage5PartOneComplete();
-    const stageComplete = isStage5Complete();
+    const stageStep = stages.findIndex(stage => stage && stage.name === 'Convergência') + 1;
+    const stageComplete = isStage5Complete() || completedCount >= stageStep;
     let deck = stageComplete ? [] : shuffled(cards);
     let placed = stageComplete ? cards.slice() : Array(7).fill(null);
     let selectedDeck = false;
