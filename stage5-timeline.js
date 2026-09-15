@@ -2,7 +2,7 @@
 (function () {
   const cards = Array.from({ length: 7 }, (_, index) => ({
     id: String(index + 1),
-    image: `assets/stage5/timeline-0${index + 1}.png`
+    image: `assets/stage5/timeline-0${index + 1}.webp`
   }));
   // Troque este par assim que os dois registros definitivos forem definidos.
   const impossiblePair = new Set(['1', '2']);
