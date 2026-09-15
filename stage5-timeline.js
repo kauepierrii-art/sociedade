@@ -141,29 +141,40 @@
 
     function showPartTwo() {
       let selected = [];
+      let lastSelectedId = null;
       partTwo.hidden = false;
       partTwo.innerHTML = `
         <p class="stage5-part-label">PARTE 2 — IDENTIFIQUE A CONEXÃO IMPOSSÍVEL.</p>
         <p class="stage5-part-copy">Há uma relação entre dois registros que a cronologia não explica.<br>Conecte-os.</p>
         <div class="stage5-pair-grid">${placed.map((card, index) => `<button type="button" class="stage5-pair-card" data-card="${card.id}"><span class="stage5-pair-order">${String(index + 1).padStart(2, '0')}</span>${cardMarkup(card, index)}</button>`).join('')}</div>
         <p class="stage5-pair-message" role="status">SELECIONE DOIS REGISTROS.</p>
+        <button class="stage5-pair-zoom" type="button" disabled>AMPLIAR ÚLTIMO REGISTRO SELECIONADO</button>
         <button class="primary-btn stage5-pair-confirm" type="button" disabled>CONFIRMAR CONEXÃO</button>
         <div class="stage5-reward" hidden></div>`;
       const pairMessage = partTwo.querySelector('.stage5-pair-message');
+      const pairZoom = partTwo.querySelector('.stage5-pair-zoom');
       const pairConfirm = partTwo.querySelector('.stage5-pair-confirm');
       const pairCards = partTwo.querySelectorAll('.stage5-pair-card');
       pairCards.forEach(button => button.addEventListener('click', () => {
         const id = button.dataset.card;
-        if (selected.includes(id)) selected = selected.filter(value => value !== id);
-        else if (selected.length < 2) selected.push(id);
-        else {
+        if (selected.includes(id)) {
+          selected = selected.filter(value => value !== id);
+          if (lastSelectedId === id) lastSelectedId = selected[selected.length - 1] || null;
+        } else if (selected.length < 2) {
+          selected.push(id);
+          lastSelectedId = id;
+        } else {
           pairMessage.textContent = 'APENAS DOIS REGISTROS PODEM SER CONECTADOS.';
           return;
         }
         pairCards.forEach(card => card.classList.toggle('is-selected', selected.includes(card.dataset.card)));
+        pairZoom.disabled = !lastSelectedId;
         pairConfirm.disabled = selected.length !== 2;
         pairMessage.textContent = selected.length === 2 ? 'DOIS REGISTROS SELECIONADOS. CONFIRME A CONEXÃO.' : 'SELECIONE DOIS REGISTROS.';
       }));
+      pairZoom.addEventListener('click', () => {
+        openCardViewer(placed.find(card => card.id === lastSelectedId));
+      });
       pairConfirm.addEventListener('click', () => {
         const correct = selected.length === 2 && selected.every(id => impossiblePair.has(id));
         if (!correct) {
@@ -242,7 +253,7 @@
 
   const partTwoStyle = document.createElement('style');
   partTwoStyle.textContent = `
-    .stage5-part-two[hidden]{display:none}.stage5-timeline.is-part-two>.stage5-timeline-intro,.stage5-timeline.is-part-two>.stage5-deck-area,.stage5-timeline.is-part-two>.stage5-timeline-line,.stage5-timeline.is-part-two>.stage5-timeline-message,.stage5-timeline.is-part-two>.stage5-confirm{display:none}.stage5-part-two{padding-top:4px}.stage5-part-label{margin:0;color:#e0b56f;font:700 12px/1.5 Georgia,serif;letter-spacing:.1em;text-align:center}.stage5-part-copy{margin:10px 0 18px;color:#a4c3ba;font-size:12px;line-height:1.7;text-align:center}.stage5-pair-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.stage5-pair-card{position:relative;min-width:0;height:105px;padding:0;border:1px solid #684b2d;background:#100c09;color:#d8b77e;cursor:pointer}.stage5-pair-card:nth-child(n+5){grid-column:span 1}.stage5-pair-card:hover,.stage5-pair-card.is-selected{border-color:#e3b86f;box-shadow:0 0 0 2px rgba(211,157,73,.2)}.stage5-pair-card.is-selected:after{content:"SELECIONADO";position:absolute;z-index:4;right:4px;bottom:4px;left:4px;padding:4px;background:#19110a;color:#f1cb82;font:700 7px "IBM Plex Mono",monospace;letter-spacing:.09em}.stage5-pair-card .stage5-card{height:100%}.stage5-pair-order{position:absolute;z-index:4;top:5px;left:5px;display:grid;width:21px;height:21px;place-items:center;border:1px solid #84623c;border-radius:50%;background:#15100c;color:#e0b56f;font:700 7px "IBM Plex Mono",monospace}.stage5-pair-message{min-height:32px;margin:15px 0 0;padding:9px;border-top:1px solid #60462e;color:#cba36a;font:700 9px/1.5 "IBM Plex Mono",monospace;letter-spacing:.08em;text-align:center}.stage5-pair-confirm{display:block;margin:8px auto 0}.stage5-part-two.is-error .stage5-pair-message{color:#d77a67}@media(max-width:480px){.stage5-pair-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.stage5-pair-card{height:92px}}
+    .stage5-part-two[hidden]{display:none}.stage5-timeline.is-part-two>.stage5-timeline-intro,.stage5-timeline.is-part-two>.stage5-deck-area,.stage5-timeline.is-part-two>.stage5-timeline-line,.stage5-timeline.is-part-two>.stage5-timeline-message,.stage5-timeline.is-part-two>.stage5-confirm{display:none}.stage5-part-two{padding-top:4px}.stage5-part-label{margin:0;color:#e0b56f;font:700 12px/1.5 Georgia,serif;letter-spacing:.1em;text-align:center}.stage5-part-copy{margin:10px 0 18px;color:#a4c3ba;font-size:12px;line-height:1.7;text-align:center}.stage5-pair-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.stage5-pair-card{position:relative;min-width:0;height:105px;padding:0;border:1px solid #684b2d;background:#100c09;color:#d8b77e;cursor:pointer}.stage5-pair-card:nth-child(n+5){grid-column:span 1}.stage5-pair-card:hover,.stage5-pair-card.is-selected{border-color:#e3b86f;box-shadow:0 0 0 2px rgba(211,157,73,.2)}.stage5-pair-card.is-selected:after{content:"SELECIONADO";position:absolute;z-index:4;right:4px;bottom:4px;left:4px;padding:4px;background:#19110a;color:#f1cb82;font:700 7px "IBM Plex Mono",monospace;letter-spacing:.09em}.stage5-pair-card .stage5-card{height:100%}.stage5-pair-order{position:absolute;z-index:4;top:5px;left:5px;display:grid;width:21px;height:21px;place-items:center;border:1px solid #84623c;border-radius:50%;background:#15100c;color:#e0b56f;font:700 7px "IBM Plex Mono",monospace}.stage5-pair-message{min-height:32px;margin:15px 0 0;padding:9px;border-top:1px solid #60462e;color:#cba36a;font:700 9px/1.5 "IBM Plex Mono",monospace;letter-spacing:.08em;text-align:center}.stage5-pair-zoom{display:block;margin:8px auto;padding:7px 10px;border:1px solid #aa7b3d;background:#2a1b0e;color:#f0ce8e;font:700 9px "IBM Plex Mono",monospace;letter-spacing:.08em;cursor:zoom-in}.stage5-pair-zoom:disabled{opacity:.45;cursor:default}.stage5-pair-confirm{display:block;margin:8px auto 0}.stage5-part-two.is-error .stage5-pair-message{color:#d77a67}@media(max-width:480px){.stage5-pair-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.stage5-pair-card{height:92px}}
   `;
   document.head.appendChild(partTwoStyle);
 
