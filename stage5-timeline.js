@@ -23,6 +23,20 @@
     });
   }
 
+  function stage5PartOneKey() {
+    return currentRefKey ? `stage5:part-one:${currentRefKey}` : null;
+  }
+
+  function isStage5PartOneComplete() {
+    const key = stage5PartOneKey();
+    return Boolean(key && localStorage.getItem(key) === '1');
+  }
+
+  function saveStage5PartOneComplete() {
+    const key = stage5PartOneKey();
+    if (key) localStorage.setItem(key, '1');
+  }
+
   function renderTimeline() {
     const stageName = document.getElementById('stageName');
     if (!stageName || stageName.textContent.trim() !== 'Convergência') return;
@@ -51,6 +65,7 @@
     actions.appendChild(timeline);
     preloadCardImages();
 
+    const partOneComplete = isStage5PartOneComplete();
     let deck = shuffled(cards);
     let placed = Array(7).fill(null);
     let selectedDeck = false;
@@ -198,13 +213,19 @@
         setTimeout(() => timeline.classList.remove('is-error'), 500);
         return;
       }
+      saveStage5PartOneComplete();
       timeline.classList.add('is-correct');
       message.textContent = 'SEQUÊNCIA CONFIRMADA — INCONSISTÊNCIA IDENTIFICADA.';
       confirm.disabled = true;
       timeline.classList.add('is-part-two');
       showPartTwo();
     });
-    draw();
+    if (partOneComplete) {
+      timeline.classList.add('is-correct', 'is-part-two');
+      showPartTwo();
+    } else {
+      draw();
+    }
   }
 
   const previousOpenStage = openStage;
