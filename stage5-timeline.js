@@ -5,7 +5,7 @@
     image: `assets/stage5/timeline-0${index + 1}.webp`
   }));
   // Troque este par assim que os dois registros definitivos forem definidos.
-  const impossiblePair = new Set(['1', '2']);
+  const impossiblePair = new Set(['4', '7']);
 
   function shuffled(items) {
     const result = items.slice();
@@ -144,8 +144,13 @@
       let lastSelectedId = null;
       partTwo.hidden = false;
       partTwo.innerHTML = `
-        <p class="stage5-part-label">PARTE 2 — IDENTIFIQUE A CONEXÃO IMPOSSÍVEL.</p>
-        <p class="stage5-part-copy">Há uma relação entre dois registros que a cronologia não explica.<br>Conecte-os.</p>
+        <p class="stage5-part-label">PARTE 2 — CORRELAÇÃO</p>
+        <div class="stage5-part-copy">
+          <p>Todos os registros pertencem à mesma investigação.</p>
+          <p>Entre eles, dois parecem registrar <strong>a mesma cena</strong>.</p>
+          <p>Pela cronologia estabelecida, isso não deveria ser possível.</p>
+          <p><strong>Identifique-os e conecte-os.</strong></p>
+        </div>
         <div class="stage5-pair-grid">${placed.map((card, index) => `<button type="button" class="stage5-pair-card" data-card="${card.id}"><span class="stage5-pair-order">${String(index + 1).padStart(2, '0')}</span>${cardMarkup(card, index)}</button>`).join('')}</div>
         <p class="stage5-pair-message" role="status">SELECIONE DOIS REGISTROS.</p>
         <button class="stage5-pair-zoom" type="button" disabled>AMPLIAR ÚLTIMO REGISTRO SELECIONADO</button>
@@ -183,9 +188,29 @@
           setTimeout(() => partTwo.classList.remove('is-error'), 500);
           return;
         }
-        pairMessage.textContent = 'CORRESPONDÊNCIA CONFIRMADA — PRÓXIMA ETAPA LIBERADA.';
+        pairMessage.textContent = 'CORRELAÇÃO CONFIRMADA — ETAPA 6 LIBERADA.';
         pairConfirm.disabled = true;
         pairCards.forEach(card => { card.disabled = true; });
+        const reward = partTwo.querySelector('.stage5-reward');
+        reward.innerHTML = `
+          <h3>Correlação confirmada.</h3>
+          <p>A gravação descreve a mesma sala registrada nas fotografias.</p>
+          <p>As poltronas.</p>
+          <p>A mesa.</p>
+          <p>A estante.</p>
+          <p>O quadro com a aeronave na parede.</p>
+          <p>O espelho.</p>
+          <p>Não se trata de uma semelhança aproximada.</p>
+          <p>Trata-se do mesmo ambiente.</p>
+          <p>O problema é a data.</p>
+          <p>Quando a sessão foi registrada, aquela sala ainda não existia.</p>
+          <p>Alguns dos elementos descritos sequer pertenciam àquele período.</p>
+          <p>Ainda assim, foram observados.</p>
+          <p>Décadas antes de qualquer registro visual conhecido.</p>
+          <p><strong>A cronologia está correta.</strong></p>
+          <p><strong>A observação é que não deveria ser possível.</strong></p>
+          <blockquote>O que, exatamente, o espelho mostra?</blockquote>`;
+        reward.hidden = false;
         const step = stages.findIndex(stage => stage && stage.name === 'Convergência') + 1;
         if (step && currentRefKey) {
           completedCount = Math.max(completedCount, step);
@@ -253,7 +278,7 @@
 
   const partTwoStyle = document.createElement('style');
   partTwoStyle.textContent = `
-    .stage5-part-two[hidden]{display:none}.stage5-timeline.is-part-two>.stage5-timeline-intro,.stage5-timeline.is-part-two>.stage5-deck-area,.stage5-timeline.is-part-two>.stage5-timeline-line,.stage5-timeline.is-part-two>.stage5-timeline-message,.stage5-timeline.is-part-two>.stage5-confirm{display:none}.stage5-part-two{padding-top:4px}.stage5-part-label{margin:0;color:#e0b56f;font:700 12px/1.5 Georgia,serif;letter-spacing:.1em;text-align:center}.stage5-part-copy{margin:10px 0 18px;color:#a4c3ba;font-size:12px;line-height:1.7;text-align:center}.stage5-pair-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.stage5-pair-card{position:relative;min-width:0;height:105px;padding:0;border:1px solid #684b2d;background:#100c09;color:#d8b77e;cursor:pointer}.stage5-pair-card:nth-child(n+5){grid-column:span 1}.stage5-pair-card:hover,.stage5-pair-card.is-selected{border-color:#e3b86f;box-shadow:0 0 0 2px rgba(211,157,73,.2)}.stage5-pair-card.is-selected:after{content:"SELECIONADO";position:absolute;z-index:4;right:4px;bottom:4px;left:4px;padding:4px;background:#19110a;color:#f1cb82;font:700 7px "IBM Plex Mono",monospace;letter-spacing:.09em}.stage5-pair-card .stage5-card{height:100%}.stage5-pair-order{position:absolute;z-index:4;top:5px;left:5px;display:grid;width:21px;height:21px;place-items:center;border:1px solid #84623c;border-radius:50%;background:#15100c;color:#e0b56f;font:700 7px "IBM Plex Mono",monospace}.stage5-pair-message{min-height:32px;margin:15px 0 0;padding:9px;border-top:1px solid #60462e;color:#cba36a;font:700 9px/1.5 "IBM Plex Mono",monospace;letter-spacing:.08em;text-align:center}.stage5-pair-zoom{display:block;margin:8px auto;padding:7px 10px;border:1px solid #aa7b3d;background:#2a1b0e;color:#f0ce8e;font:700 9px "IBM Plex Mono",monospace;letter-spacing:.08em;cursor:zoom-in}.stage5-pair-zoom:disabled{opacity:.45;cursor:default}.stage5-pair-confirm{display:block;margin:8px auto 0}.stage5-part-two.is-error .stage5-pair-message{color:#d77a67}@media(max-width:480px){.stage5-pair-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.stage5-pair-card{height:92px}}
+    .stage5-part-two[hidden]{display:none}.stage5-timeline.is-part-two>.stage5-timeline-intro,.stage5-timeline.is-part-two>.stage5-deck-area,.stage5-timeline.is-part-two>.stage5-timeline-line,.stage5-timeline.is-part-two>.stage5-timeline-message,.stage5-timeline.is-part-two>.stage5-confirm{display:none}.stage5-part-two{padding-top:4px}.stage5-part-label{margin:0;color:#e0b56f;font:700 12px/1.5 Georgia,serif;letter-spacing:.1em;text-align:center}.stage5-part-copy{margin:10px 0 18px;color:#a4c3ba;font-size:12px;line-height:1.7;text-align:center}.stage5-pair-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.stage5-pair-card{position:relative;min-width:0;height:105px;padding:0;border:1px solid #684b2d;background:#100c09;color:#d8b77e;cursor:pointer}.stage5-pair-card:nth-child(n+5){grid-column:span 1}.stage5-pair-card:hover,.stage5-pair-card.is-selected{border-color:#e3b86f;box-shadow:0 0 0 2px rgba(211,157,73,.2)}.stage5-pair-card.is-selected:after{content:"SELECIONADO";position:absolute;z-index:4;right:4px;bottom:4px;left:4px;padding:4px;background:#19110a;color:#f1cb82;font:700 7px "IBM Plex Mono",monospace;letter-spacing:.09em}.stage5-pair-card .stage5-card{height:100%}.stage5-pair-order{position:absolute;z-index:4;top:5px;left:5px;display:grid;width:21px;height:21px;place-items:center;border:1px solid #84623c;border-radius:50%;background:#15100c;color:#e0b56f;font:700 7px "IBM Plex Mono",monospace}.stage5-pair-message{min-height:32px;margin:15px 0 0;padding:9px;border-top:1px solid #60462e;color:#cba36a;font:700 9px/1.5 "IBM Plex Mono",monospace;letter-spacing:.08em;text-align:center}.stage5-pair-zoom{display:block;margin:8px auto;padding:7px 10px;border:1px solid #aa7b3d;background:#2a1b0e;color:#f0ce8e;font:700 9px "IBM Plex Mono",monospace;letter-spacing:.08em;cursor:zoom-in}.stage5-pair-zoom:disabled{opacity:.45;cursor:default}.stage5-pair-confirm{display:block;margin:8px auto 0}.stage5-reward{margin-top:26px;padding:20px;border:1px solid #745535;background:linear-gradient(145deg,rgba(34,24,15,.74),rgba(9,7,5,.92));color:#d9c6a2;font:14px/1.7 Georgia,serif}.stage5-reward[hidden]{display:none}.stage5-reward h3{margin:0 0 22px;color:#f0ce8e;font:700 18px/1.3 Georgia,serif}.stage5-reward p{margin:0 0 13px}.stage5-reward blockquote{margin:24px 0 0;padding:14px 0 0;border-top:1px solid #765631;color:#f0ce8e;font:italic 16px/1.55 Georgia,serif}.stage5-part-two.is-error .stage5-pair-message{color:#d77a67}@media(max-width:480px){.stage5-pair-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.stage5-pair-card{height:92px}}
   `;
   document.head.appendChild(partTwoStyle);
 
