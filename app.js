@@ -83,6 +83,7 @@ function resetActivities() {
   localStorage.removeItem(`identification:v2:errors:${currentRefKey}`);
   localStorage.removeItem(`identification:v2:until:${currentRefKey}`);
   localStorage.removeItem(`stage5:part-one:${currentRefKey}`);
+  localStorage.removeItem(`stage5:complete:${currentRefKey}`);
   completedCount = 0;
 }
 function infoKey() { return `important-info-seen:${currentRefKey}`; }
