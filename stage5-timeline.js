@@ -90,8 +90,11 @@
     function draw() {
       const front = deck[0];
       deckButton.innerHTML = front ? `${cardMarkup(front, 0)}<span class="stage5-deck-mark">CARTA DA FRENTE</span>` : '<span class="stage5-deck-empty">TODAS AS CARTAS FORAM POSICIONADAS</span>';
+      const selectedCard = selectedSlot !== null ? placed[selectedSlot] : null;
+      const zoomTarget = selectedDeck ? front : (selectedCard || front);
       deckButton.disabled = !front;
-      zoomButton.disabled = !front;
+      zoomButton.disabled = !zoomTarget;
+      zoomButton.textContent = selectedCard && !selectedDeck ? 'AMPLIAR CARTA SELECIONADA' : 'AMPLIAR CARTA';
       deckButton.classList.toggle('is-selected', selectedDeck);
       previousButton.disabled = deck.length < 2 || selectedDeck;
       nextButton.disabled = deck.length < 2 || selectedDeck;
@@ -172,7 +175,10 @@
       message.textContent = selectedDeck ? 'CARTA DA FRENTE SELECIONADA. ESCOLHA UMA POSIÇÃO NA LINHA.' : 'SELEÇÃO CANCELADA.';
       draw();
     });
-    zoomButton.addEventListener('click', () => openCardViewer(deck[0]));
+    zoomButton.addEventListener('click', () => {
+      const card = selectedDeck ? deck[0] : (selectedSlot !== null ? placed[selectedSlot] : deck[0]);
+      openCardViewer(card);
+    });
     previousButton.addEventListener('click', () => {
       deck.unshift(deck.pop());
       message.textContent = 'CARTA ANTERIOR EXIBIDA.';
