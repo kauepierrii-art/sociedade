@@ -137,7 +137,7 @@ function renderDashboard() {
   const nextState = nextIndex >= 0 ? stageVisualState(nextIndex + 1) : 'locked';
   continueBtn.disabled = nextIndex < 0 || nextState !== 'available';
   continueBtn.onclick = continueBtn.disabled ? null : () => openStage(nextIndex);
-  restartActivitiesBtn.hidden = completedCount < stages.length;
+  restartActivitiesBtn.hidden = false;
 }
 
 function penaltyKey(suffix) { return `identification:v2:${suffix}:${currentRefKey}`; }
