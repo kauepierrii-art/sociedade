@@ -365,8 +365,8 @@ function renderStageTwo(actions) {
     <p>Estou enviando as cópias que considero mais úteis.</p><p>— M.</p>
     <div class="attachments-list">
       ${toggleMarkup('ANEXO A — Ordem de serviço e conservação / 1897', annexA, 'attachment')}
-      ${toggleMarkup('ANEXO B — Registro de transporte / 1911', annexB, 'attachment')}
-      ${toggleMarkup('ANEXO C — Correspondência particular / 1923', annexC, 'attachment')}
+      ${toggleMarkup('ANEXO B — RELATÓRIO DE INSPEÇÃO / 1911', annexB, 'attachment')}
+      ${toggleMarkup('ANEXO C — MEMORANDO DE OBSERVAÇÃO / 1923', annexC, 'attachment')}
     </div>`;
 
   const record4 = `

@@ -87,7 +87,7 @@
       let selected = [];
       partTwo.hidden = false;
       partTwo.innerHTML = `
-        <p class="stage5-part-label">PARTE 2 — IDENTIFIQUE A CORRESPONDÊNCIA IMPOSSÍVEL.</p>
+        <p class="stage5-part-label">PARTE 2 — IDENTIFIQUE A CONEXÃO IMPOSSÍVEL.</p>
         <p class="stage5-part-copy">Há uma relação entre dois registros que a cronologia não explica.<br>Conecte-os.</p>
         <div class="stage5-pair-grid">${placed.map((card, index) => `<button type="button" class="stage5-pair-card" data-card="${card.id}"><span class="stage5-pair-order">${String(index + 1).padStart(2, '0')}</span>${cardMarkup(card, index)}</button>`).join('')}</div>
         <p class="stage5-pair-message" role="status">SELECIONE DOIS REGISTROS.</p>
