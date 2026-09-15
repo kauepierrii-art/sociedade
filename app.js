@@ -84,6 +84,7 @@ function resetActivities() {
   localStorage.removeItem(`identification:v2:until:${currentRefKey}`);
   localStorage.removeItem(`stage5:part-one:${currentRefKey}`);
   localStorage.removeItem(`stage5:complete:${currentRefKey}`);
+  ['visited', 'document', 'remaining', 'annotations', 'activated'].forEach(name => localStorage.removeItem(`stage6:${name}:${currentRefKey}`));
   completedCount = 0;
 }
 function infoKey() { return `important-info-seen:${currentRefKey}`; }
@@ -492,17 +493,22 @@ closePrintDialog.addEventListener('click', closePrintModal);
 printDialog.addEventListener('click', event => { if (event.target === printDialog) closePrintModal(); });
 document.addEventListener('keydown', event => { if (event.key === 'Escape' && !printDialog.hidden) closePrintModal(); });
 
-document.querySelector('#accessForm').addEventListener('submit', event => {
-  event.preventDefault();
-  const refKey = normalizeRef(referenceInput.value);
-  if (!REFERENCES[refKey]) { loginMessage.textContent = 'Referência não localizada.'; return; }
+function accessWithReference(refKey) {
+  if (!REFERENCES[refKey]) { loginMessage.textContent = 'Referência não localizada.'; return false; }
   currentRefKey = refKey;
   currentRefLabel = REFERENCES[refKey];
   completedCount = loadProgress(refKey);
   loginMessage.textContent = '';
   renderDashboard();
   show(dashboardView);
+  return true;
+}
+document.querySelector('#accessForm').addEventListener('submit', event => {
+  event.preventDefault();
+  accessWithReference(normalizeRef(referenceInput.value));
 });
+const returnReference = normalizeRef(new URLSearchParams(window.location.search).get('ref') || '');
+if (returnReference && REFERENCES[returnReference]) accessWithReference(returnReference);
 
 restartActivitiesBtn.addEventListener('click', () => {
   if (!window.confirm('Reiniciar todas as atividades deste acesso neste navegador?')) return;
