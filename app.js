@@ -56,6 +56,7 @@ const importantInfoBtn = document.querySelector('#importantInfoBtn');
 const printDialog = document.querySelector('#printDialog');
 const closePrintDialog = document.querySelector('#closePrintDialog');
 const continueBtn = document.querySelector('#continueBtn');
+const restartActivitiesBtn = document.querySelector('#restartActivitiesBtn');
 
 let currentRefKey = null;
 let currentRefLabel = null;
@@ -75,6 +76,15 @@ function loadProgress(refKey) {
   return Number.isInteger(stored) && stored >= 0 && stored <= stages.length ? stored : 0;
 }
 function saveProgress(refKey, value) { localStorage.setItem(`progress:${refKey}`, String(value)); }
+function resetActivities() {
+  if (!currentRefKey) return;
+  localStorage.removeItem(`progress:${currentRefKey}`);
+  localStorage.removeItem(`important-info-seen:${currentRefKey}`);
+  localStorage.removeItem(`identification:v2:errors:${currentRefKey}`);
+  localStorage.removeItem(`identification:v2:until:${currentRefKey}`);
+  localStorage.removeItem(`stage5:part-one:${currentRefKey}`);
+  completedCount = 0;
+}
 function infoKey() { return `important-info-seen:${currentRefKey}`; }
 function hasSeenImportantInfo() { return currentRefKey ? localStorage.getItem(infoKey()) === '1' : false; }
 function markImportantInfoSeen() { if (currentRefKey) localStorage.setItem(infoKey(), '1'); }
@@ -127,6 +137,7 @@ function renderDashboard() {
   const nextState = nextIndex >= 0 ? stageVisualState(nextIndex + 1) : 'locked';
   continueBtn.disabled = nextIndex < 0 || nextState !== 'available';
   continueBtn.onclick = continueBtn.disabled ? null : () => openStage(nextIndex);
+  restartActivitiesBtn.hidden = completedCount < stages.length;
 }
 
 function penaltyKey(suffix) { return `identification:v2:${suffix}:${currentRefKey}`; }
@@ -490,6 +501,12 @@ document.querySelector('#accessForm').addEventListener('submit', event => {
   loginMessage.textContent = '';
   renderDashboard();
   show(dashboardView);
+});
+
+restartActivitiesBtn.addEventListener('click', () => {
+  if (!window.confirm('Reiniciar todas as atividades deste acesso neste navegador?')) return;
+  resetActivities();
+  renderDashboard();
 });
 
 document.querySelector('#logoutBtn').addEventListener('click', () => {
