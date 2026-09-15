@@ -25,6 +25,7 @@
       <p class="stage5-timeline-intro">SELECIONE A CARTA DA FRENTE E POSICIONE-A NA LINHA. AS CARTAS INSERIDAS PODEM SER TROCADAS A QUALQUER MOMENTO.</p>
       <div class="stage5-deck-area">
         <button class="stage5-deck" type="button" aria-label="Selecionar carta da frente"></button>
+        <button class="stage5-zoom" type="button">AMPLIAR CARTA</button>
         <button class="stage5-next" type="button">PRÓXIMA CARTA</button>
         <p class="stage5-deck-count"></p>
       </div>
@@ -39,6 +40,7 @@
     let selectedDeck = false;
     let selectedSlot = null;
     const deckButton = timeline.querySelector('.stage5-deck');
+    const zoomButton = timeline.querySelector('.stage5-zoom');
     const nextButton = timeline.querySelector('.stage5-next');
     const count = timeline.querySelector('.stage5-deck-count');
     const line = timeline.querySelector('.stage5-timeline-line');
@@ -51,10 +53,28 @@
       return `<span class="stage5-card"><img src="${card.image}" alt="Registro visual" onerror="this.hidden=true"><span class="stage5-card-fallback">ARQUIVO ${card.id}</span><span class="stage5-card-label">REGISTRO VISUAL</span></span>`;
     }
 
+    function openCardViewer(card) {
+      if (!card) return;
+      let viewer = document.getElementById('stage5CardViewer');
+      if (!viewer) {
+        viewer = document.createElement('section');
+        viewer.id = 'stage5CardViewer';
+        viewer.className = 'stage5-card-viewer';
+        viewer.hidden = true;
+        viewer.innerHTML = `<div class="stage5-card-viewer-backdrop"><button type="button" aria-label="Fechar ampliação">×</button><img alt="Registro visual ampliado"></div>`;
+        document.body.appendChild(viewer);
+        viewer.querySelector('button').addEventListener('click', () => { viewer.hidden = true; });
+        viewer.querySelector('.stage5-card-viewer-backdrop').addEventListener('click', event => { if (event.target === event.currentTarget) viewer.hidden = true; });
+      }
+      viewer.querySelector('img').src = card.image;
+      viewer.hidden = false;
+    }
+
     function draw() {
       const front = deck[0];
       deckButton.innerHTML = front ? `${cardMarkup(front, 0)}<span class="stage5-deck-mark">CARTA DA FRENTE</span>` : '<span class="stage5-deck-empty">TODAS AS CARTAS FORAM POSICIONADAS</span>';
       deckButton.disabled = !front;
+      zoomButton.disabled = !front;
       deckButton.classList.toggle('is-selected', selectedDeck);
       nextButton.disabled = deck.length < 2 || selectedDeck;
       count.textContent = deck.length ? `${deck.length} CARTA${deck.length === 1 ? '' : 'S'} NO BARALHO` : 'BARALHO VAZIO';
@@ -134,6 +154,7 @@
       message.textContent = selectedDeck ? 'CARTA DA FRENTE SELECIONADA. ESCOLHA UMA POSIÇÃO NA LINHA.' : 'SELEÇÃO CANCELADA.';
       draw();
     });
+    zoomButton.addEventListener('click', () => openCardViewer(deck[0]));
     nextButton.addEventListener('click', () => {
       deck.push(deck.shift());
       message.textContent = 'PRÓXIMA CARTA EXIBIDA.';
@@ -174,4 +195,10 @@
     .stage5-part-two[hidden]{display:none}.stage5-timeline.is-part-two>.stage5-timeline-intro,.stage5-timeline.is-part-two>.stage5-deck-area,.stage5-timeline.is-part-two>.stage5-timeline-line,.stage5-timeline.is-part-two>.stage5-timeline-message,.stage5-timeline.is-part-two>.stage5-confirm{display:none}.stage5-part-two{padding-top:4px}.stage5-part-label{margin:0;color:#e0b56f;font:700 12px/1.5 Georgia,serif;letter-spacing:.1em;text-align:center}.stage5-part-copy{margin:10px 0 18px;color:#a4c3ba;font-size:12px;line-height:1.7;text-align:center}.stage5-pair-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.stage5-pair-card{position:relative;min-width:0;height:105px;padding:0;border:1px solid #684b2d;background:#100c09;color:#d8b77e;cursor:pointer}.stage5-pair-card:nth-child(n+5){grid-column:span 1}.stage5-pair-card:hover,.stage5-pair-card.is-selected{border-color:#e3b86f;box-shadow:0 0 0 2px rgba(211,157,73,.2)}.stage5-pair-card.is-selected:after{content:"SELECIONADO";position:absolute;z-index:4;right:4px;bottom:4px;left:4px;padding:4px;background:#19110a;color:#f1cb82;font:700 7px "IBM Plex Mono",monospace;letter-spacing:.09em}.stage5-pair-card .stage5-card{height:100%}.stage5-pair-order{position:absolute;z-index:4;top:5px;left:5px;display:grid;width:21px;height:21px;place-items:center;border:1px solid #84623c;border-radius:50%;background:#15100c;color:#e0b56f;font:700 7px "IBM Plex Mono",monospace}.stage5-pair-message{min-height:32px;margin:15px 0 0;padding:9px;border-top:1px solid #60462e;color:#cba36a;font:700 9px/1.5 "IBM Plex Mono",monospace;letter-spacing:.08em;text-align:center}.stage5-pair-confirm{display:block;margin:8px auto 0}.stage5-part-two.is-error .stage5-pair-message{color:#d77a67}@media(max-width:480px){.stage5-pair-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.stage5-pair-card{height:92px}}
   `;
   document.head.appendChild(partTwoStyle);
+
+  const readabilityStyle = document.createElement('style');
+  readabilityStyle.textContent = `
+    .stage5-deck{width:min(82vw,330px)!important;height:auto!important;aspect-ratio:0.73!important}.stage5-deck .stage5-card img{object-fit:contain!important}.stage5-deck-mark{top:7px!important;bottom:auto!important}.stage5-zoom{margin-top:17px;padding:7px 10px;border:1px solid #aa7b3d;background:#2a1b0e;color:#f0ce8e;font:700 9px "IBM Plex Mono",monospace;letter-spacing:.1em;cursor:zoom-in}.stage5-zoom:disabled{opacity:.45;cursor:default}.stage5-card-viewer[hidden]{display:none}.stage5-card-viewer{position:fixed;z-index:5200;inset:0}.stage5-card-viewer-backdrop{position:absolute;inset:0;display:grid;place-items:center;padding:22px;background:rgba(0,0,0,.94)}.stage5-card-viewer img{display:block;max-width:94vw;max-height:88vh;object-fit:contain;background:#090604;box-shadow:0 18px 60px #000}.stage5-card-viewer button{position:fixed;z-index:1;top:13px;right:15px;width:40px;height:40px;border:1px solid #aa7b3d;border-radius:50%;background:#17100b;color:#f0ce8e;font:400 25px/1 Georgia,serif;cursor:pointer}@media(max-width:390px){.stage5-deck{width:min(88vw,310px)!important}.stage5-deck-mark{font-size:6px!important}}
+  `;
+  document.head.appendChild(readabilityStyle);
 })();
