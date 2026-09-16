@@ -454,8 +454,8 @@ function openStage(index) {
 
   const actions = document.querySelector('#stageActions');
   actions.innerHTML = '';
-  if (step === 1 && state === 'available') renderIdentificationForm(actions);
-  else if (step === 2 && state === 'available') renderStageTwo(actions);
+  if (step === 1 && (state === 'available' || state === 'done')) renderIdentificationForm(actions);
+  else if (step === 2 && (state === 'available' || state === 'done')) renderStageTwo(actions);
   else if (state === 'available') {
     const complete = document.createElement('button');
     complete.className = 'primary-btn';
@@ -466,10 +466,6 @@ function openStage(index) {
       renderDashboard(); show(dashboardView);
     });
     actions.appendChild(complete);
-  } else if (step === 2 && state === 'done') {
-    renderStageTwo(actions);
-    const form = document.querySelector('#aptitudeForm');
-    if (form) form.remove();
   }
   show(stageView);
 }
