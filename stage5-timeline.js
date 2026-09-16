@@ -251,6 +251,7 @@
         const correct = selected.length === 2 && selected.every(id => impossiblePair.has(id));
         if (!correct) {
           pairMessage.textContent = 'A RELAÇÃO SELECIONADA NÃO EXPLICA A INCONSISTÊNCIA.';
+          window.dispatchEvent(new Event('stage5-hint-error'));
           partTwo.classList.add('is-error');
           setTimeout(() => partTwo.classList.remove('is-error'), 500);
           return;
@@ -293,6 +294,7 @@
       const correct = placed.every((card, index) => card && card.id === String(index + 1));
       if (!correct) {
         message.textContent = 'A SEQUÊNCIA AINDA APRESENTA INCOMPATIBILIDADES.';
+        window.dispatchEvent(new Event('stage5-hint-error'));
         timeline.classList.remove('is-correct');
         timeline.classList.add('is-error');
         setTimeout(() => timeline.classList.remove('is-error'), 500);
@@ -305,6 +307,7 @@
       timeline.classList.add('is-part-two');
       showPartTwo();
     });
+    window.dispatchEvent(new CustomEvent('stage45-hints-mount', { detail: 'stage5' }));
     if (stageComplete) {
       draw();
       showReview();
