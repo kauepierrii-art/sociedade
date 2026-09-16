@@ -250,6 +250,17 @@
     const input = document.getElementById('validationCode');
     const button = document.getElementById('validationBtn');
     const message = document.getElementById('validationMessage');
+    const reviewMode = completedCount >= 1;
+
+    if (reviewMode) {
+      input.value = IDENTIFICATION_CODE;
+      input.disabled = true;
+      button.disabled = true;
+      message.style.color = 'var(--green)';
+      message.textContent = 'IDENTIFICAÇÃO CONFIRMADA — RESPOSTA: ' + IDENTIFICATION_CODE + '.';
+      renderPanel(config, false);
+      return;
+    }
 
     input.addEventListener('input', () => {
       input.value = input.value.replace(/\D/g, '').slice(0, 3);
@@ -290,6 +301,22 @@
     if (!form) return;
 
     const config = configs.aptitude;
+    const reviewMode = completedCount >= 2;
+    const input = document.getElementById('aptitudeAnswer');
+    const submit = form.querySelector('button[type="submit"]');
+    const message = document.getElementById('aptitudeMessage');
+
+    if (reviewMode) {
+      if (input) { input.value = 'Estojo'; input.disabled = true; }
+      if (submit) submit.disabled = true;
+      if (message) {
+        message.style.color = 'var(--green)';
+        message.textContent = 'DIVERGÊNCIA CONFIRMADA — RESPOSTA: ESTOJO.';
+      }
+      renderPanel(config, false);
+      return;
+    }
+
     renderPanel(config, false);
 
     form.addEventListener('submit', function (event) {
