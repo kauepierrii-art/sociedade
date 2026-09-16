@@ -181,7 +181,15 @@
     function showReview() {
       timeline.classList.remove('is-part-two');
       timeline.classList.add('is-correct', 'is-review');
-      opening.innerHTML = completionTextMarkup();
+      opening.innerHTML = '<button type="button" class="stage5-opening-toggle" aria-expanded="false"><span>REGISTRO DE ABERTURA</span><span class="chev">＋</span></button><div class="stage5-opening-content" hidden>' + completionTextMarkup() + '</div>';
+      opening.querySelector('.stage5-opening-toggle').addEventListener('click', () => {
+        const toggle = opening.querySelector('.stage5-opening-toggle');
+        const body = opening.querySelector('.stage5-opening-content');
+        const open = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!open));
+        toggle.querySelector('.chev').textContent = open ? '＋' : '−';
+        body.hidden = open;
+      });
       opening.hidden = false;
     }
 
