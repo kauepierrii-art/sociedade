@@ -83,7 +83,7 @@
     request.disabled = remaining > 0;
     request.textContent = remaining > 0 ? 'SOLICITAR NOVA DICA · ' + format(remaining) : 'SOLICITAR NOVA DICA';
     clearTimeout(box._hintTimer);
-    if (remaining > 0) box._hintTimer = setTimeout(() => render(id, false), remaining + 50);
+    if (remaining > 0) box._hintTimer = setTimeout(() => render(id, false), Math.min(1000, remaining + 50));
   }
   function format(ms) {
     const seconds = Math.max(0, Math.ceil(ms / 1000));
