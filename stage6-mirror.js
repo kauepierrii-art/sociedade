@@ -4,7 +4,8 @@
   const stageStep = stageIndex + 1;
   const correctRunes = ['rune_04', 'rune_11', 'rune_03', 'rune_07', 'rune_14', 'rune_12', 'rune_13'];
   // As sete marcas do procedimento ocupam as posições 03, 04, 07, 11, 12, 13 e 14.
-  const runeSymbols = ['✢','⌬','☭','♆','⊹','⟁','☾','⟟','✧','⨳','⚖','☿','༶','✝'];
+  // Correspondências: acervo ⚖, convite ༶, monumento ♆, The Obscure ☿, obra ☭, registro ✝ e praça ☾.
+  const runeSymbols = ['✢','⌬','⚖','༶','⊹','⟁','♆','⟟','✧','⨳','☿','✝','☾','☭'];
 
   // Fonte, URL e anotações podem ser trocadas aqui sem alterar a lógica do procedimento.
   const runeOccurrences = [
