@@ -43,7 +43,8 @@
     box.className = 'stage45-hints';
     box.hidden = true;
     box.innerHTML = '<div class="stage45-hints-box"><button class="stage45-hints-toggle" type="button" aria-expanded="false"><span>DICAS DESBLOQUEADAS <span class="stage45-hints-count"></span></span><span class="stage45-hints-chev">＋</span></button><div class="stage45-hints-history" hidden></div></div><button class="stage45-hints-request" type="button" disabled></button>';
-    root.insertAdjacentElement('afterend', box);
+    const anchor = root.nextElementSibling && root.nextElementSibling.classList.contains('stage4-replay-video') ? root.nextElementSibling : root;
+    anchor.insertAdjacentElement('afterend', box);
     const toggle = box.querySelector('.stage45-hints-toggle');
     toggle.addEventListener('click', () => {
       const history = box.querySelector('.stage45-hints-history');
