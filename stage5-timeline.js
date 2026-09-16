@@ -339,4 +339,10 @@
     .stage5-deck{width:min(82vw,330px)!important;height:auto!important;aspect-ratio:0.73!important}.stage5-deck .stage5-card img{object-fit:contain!important}.stage5-deck-mark{top:7px!important;bottom:auto!important}.stage5-zoom{margin-top:17px;padding:7px 10px;border:1px solid #aa7b3d;background:#2a1b0e;color:#f0ce8e;font:700 9px "IBM Plex Mono",monospace;letter-spacing:.1em;cursor:zoom-in}.stage5-zoom:disabled{opacity:.45;cursor:default}.stage5-card-viewer[hidden]{display:none}.stage5-card-viewer{position:fixed;z-index:5200;inset:0}.stage5-card-viewer-backdrop{position:absolute;inset:0;display:grid;place-items:center;padding:22px;background:rgba(0,0,0,.94)}.stage5-card-viewer img{display:block;max-width:94vw;max-height:88vh;object-fit:contain;background:#090604;box-shadow:0 18px 60px #000}.stage5-card-viewer button{position:fixed;z-index:1;top:13px;right:15px;width:40px;height:40px;border:1px solid #aa7b3d;border-radius:50%;background:#17100b;color:#f0ce8e;font:400 25px/1 Georgia,serif;cursor:pointer}@media(max-width:390px){.stage5-deck{width:min(88vw,310px)!important}.stage5-deck-mark{font-size:6px!important}}
   `;
   document.head.appendChild(readabilityStyle);
+
+  const stage5OpeningStyle = document.createElement('style');
+  stage5OpeningStyle.textContent = `
+    .stage5-opening{padding:0;border-color:rgba(87,214,178,.58);background:linear-gradient(145deg,rgba(9,35,30,.62),rgba(5,18,16,.92));color:#bcd6ce}.stage5-opening-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;padding:14px 16px;border:0;background:none;color:var(--green);font:700 9px "IBM Plex Mono",monospace;letter-spacing:.12em;text-align:left;cursor:pointer}.stage5-opening-toggle:hover{background:rgba(87,214,178,.06)}.stage5-opening-toggle .chev{font-size:15px}.stage5-opening-content{padding:0 20px 20px;border-top:1px solid rgba(87,214,178,.24)}.stage5-opening-content .stage5-opening-label{padding-top:17px;color:var(--green)}.stage5-opening-content h3{color:#d7eee6}.stage5-opening-content blockquote{border-color:rgba(87,214,178,.42);color:#bce5d9}
+  `;
+  document.head.appendChild(stage5OpeningStyle);
 })();
