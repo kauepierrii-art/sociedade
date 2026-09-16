@@ -19,7 +19,11 @@
     'SONOTÉCNICA BRASILEIRA LTDA.',
     'A análise dos materiais foi iniciada, mas nunca concluída.',
     'Parte das fotografias, mapas e anotações parece indicar uma localização específica, embora não haja qualquer registro conhecido que explique o motivo de sua importância.',
-    'Até o momento, o conteúdo da fita encontrada no interior do aparelho jamais foi recuperado.'
+    'O aparelho possui <strong>quatro canais independentes de ajuste</strong>.',
+    'Nenhum dos materiais fornece, isoladamente, a configuração necessária para operá-los.',
+    'Os registros sugerem, entretanto, que a combinação correta pode ser reconstruída a partir dos elementos preservados no conjunto.',
+    '<strong>Determine os quatro valores e configure o aparelho.</strong>',
+    '<strong>Até o momento, o conteúdo da fita encontrada no interior do aparelho jamais foi recuperado.</strong>'
   ].join('\n\n');
   initiativeStage.mission = '';
 
