@@ -66,6 +66,7 @@
     replayButton.hidden = true;
     replayButton.textContent = 'REASSISTIR MENSAGEM DE VÍDEO';
     panel.insertAdjacentElement('afterend', replayButton);
+    window.dispatchEvent(new CustomEvent('stage45-hints-mount', { detail: 'stage4' }));
 
     const knobs = panel.querySelector('.stage4-knobs');
     const lever = panel.querySelector('.stage4-lever');
@@ -289,6 +290,7 @@
       const valid = await digest(values.join('')) === expected;
       if (!on) return;
       if (!valid) {
+        window.dispatchEvent(new Event('stage4-hint-error'));
         playEffect(AUDIO.error);
         panel.classList.add('is-error');
         led.setAttribute('aria-label', 'Indicador de erro');
