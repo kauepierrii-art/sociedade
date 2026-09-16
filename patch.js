@@ -156,16 +156,19 @@ function renderStageThree(actions, readOnly = false) {
     </div>
     <div class="answer-panel observation-answer-panel">
       <p><strong>Qual objeto de poder incomum aparece na sala?</strong></p>
-      ${readOnly ? '' : `
       <form id="observationForm" autocomplete="off">
         <label for="observationAnswer" class="validation-label">RESPOSTA</label>
-        <input id="observationAnswer" class="answer-input" type="text" required />
-        <button class="primary-btn" type="submit">VALIDAR</button>
-        <p id="observationMessage" class="answer-message" role="status"></p>
-      </form>`}
+        <input id="observationAnswer" class="answer-input" type="text" required${readOnly ? ' value="Espelho negro" disabled' : ''} />
+        <button class="primary-btn" type="submit"${readOnly ? ' disabled' : ''}>VALIDAR</button>
+        <p id="observationMessage" class="answer-message" role="status">${readOnly ? 'OBSERVAÇÃO CONFIRMADA — RESPOSTA: ESPELHO NEGRO.' : ''}</p>
+      </form>
     </div>`;
 
-  if (readOnly) return;
+  if (readOnly) {
+    const message = document.querySelector('#observationMessage');
+    if (message) message.style.color = 'var(--green)';
+    return;
+  }
 
   const form = document.querySelector('#observationForm');
   const message = document.querySelector('#observationMessage');
