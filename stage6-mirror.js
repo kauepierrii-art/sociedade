@@ -32,6 +32,45 @@
     if (key('activated')) localStorage.setItem(key('activated'), '1');
   };
 
+  function renderProcedureDocument() {
+    if (!currentRefKey) return;
+    localStorage.setItem(key('document'), '1');
+    document.querySelector('#stageCode').textContent = 'ARQUIVO DE PROCEDIMENTO';
+    document.querySelector('#stageName').textContent = 'Procedimento do Espelho';
+    document.querySelector('#stageStatus').textContent = 'consultável';
+    const panelHead = document.querySelector('.detail-panel .panel-head h2');
+    if (panelHead) panelHead.textContent = 'NEM TODOS OS OLHOS VEEM O MESMO';
+    const context = document.querySelector('#stageContext');
+    const mission = document.querySelector('#stageMission');
+    context.hidden = true; mission.hidden = true;
+    const actions = document.querySelector('#stageActions');
+    actions.innerHTML = '<section class="procedure-document">' +
+      '<div class="procedure-copy"><p>Os sinais não foram encontrados juntos.</p><p>Ao longo de diferentes investigações, marcas semelhantes foram registradas em objetos, páginas, imagens e lugares sem relação aparente entre si.</p><p>Em tentativas anteriores, todos os sinais conhecidos foram traçados ao redor da superfície, na expectativa de reproduzir as condições associadas às sessões mais estáveis.</p><p>O resultado foi inconclusivo.</p><p>Nem todas as marcas pertencem ao mesmo conjunto.</p><p>Os registros indicam que apenas <strong>sete</strong> devem permanecer.</p><p>As demais devem ser apagadas.</p><p>A posição exata ainda é incerta.</p><p>O conjunto, não.</p><p>Duas ocorrências já passaram diante de você.</p><p>As demais permanecem acessíveis, mas dispersas.</p><p>Algumas foram preservadas em arquivos.<br>Outras permanecem expostas em lugares públicos.<br>Outras sobrevivem apenas em registros que poucos ainda consultam.</p><p><strong>Apague os sinais errados.<br>Mantenha apenas os corretos.</strong></p><p>Quando o conjunto estiver completo, a superfície responderá.</p></div><p class="procedure-known">OCORRÊNCIAS CONHECIDAS</p><div class="procedure-occurrences"></div><blockquote>Sete ocorrências.<br>Sete marcas recorrentes.<br><br>Não procure significado onde talvez não exista nenhum.<br>Procure repetição.</blockquote><button class="mirror-back procedure-back" type="button">VOLTAR AO PROTOCOLO</button></section>';
+    const opened = read('annotations', {});
+    const occurrences = actions.querySelector('.procedure-occurrences');
+    runeOccurrences.forEach(occurrence => {
+      const count = Number(opened[occurrence.id]) || 0;
+      const item = document.createElement('article');
+      item.className = 'procedure-occurrence';
+      item.innerHTML = '<button type="button"><span>' + String(occurrence.id).padStart(2, '0') + '. ' + occurrence.source.toUpperCase() + '</span><span class="procedure-consult"></span></button><div class="procedure-annotation"></div>';
+      const annotation = item.querySelector('.procedure-annotation');
+      const consult = item.querySelector('.procedure-consult');
+      function draw() {
+        annotation.innerHTML = '<p>' + occurrence.description + '</p>' + occurrence.hints.slice(0, Number(opened[occurrence.id]) || 0).map(hint => '<p>' + hint + '</p>').join('');
+        consult.textContent = (Number(opened[occurrence.id]) || 0) < occurrence.hints.length ? 'CONSULTAR ANOTAÇÃO' : 'ANOTAÇÕES CONSULTADAS';
+      }
+      draw();
+      item.querySelector('button').addEventListener('click', () => {
+        if ((Number(opened[occurrence.id]) || 0) >= occurrence.hints.length) return;
+        opened[occurrence.id] = (Number(opened[occurrence.id]) || 0) + 1;
+        write('annotations', opened); draw();
+      });
+      occurrences.appendChild(item);
+    });
+    actions.querySelector('.procedure-back').addEventListener('click', () => { renderDashboard(); show(dashboardView); });
+    show(stageView);
+  }
+
   function enableProtocolClue() {
     const quote = document.querySelector('#dashboardView .quote');
     if (!quote) return;
@@ -42,8 +81,11 @@
       return;
     }
     if (quote.querySelector('a')) return;
-    const ref = encodeURIComponent(currentRefKey || '');
-    quote.innerHTML = '<a href="procedimento-espelho.html?ref=' + ref + '" target="_blank" rel="noopener">“Nem todos os olhos veem o mesmo.”</a>';
+    quote.innerHTML = '<a href="#procedimento-espelho">“Nem todos os olhos veem o mesmo.”</a>';
+    quote.querySelector('a').addEventListener('click', event => {
+      event.preventDefault();
+      renderProcedureDocument();
+    });
   }
 
   const previousDashboard = renderDashboard;
@@ -126,6 +168,7 @@
   const style = document.createElement('style');
   style.textContent = [
     '.mirror-protocol-link a{color:inherit;text-decoration:none;cursor:pointer;transition:opacity .2s,text-shadow .2s}.mirror-protocol-link a:hover{opacity:1;text-shadow:0 0 9px rgba(115,224,201,.48)}',
+    '.procedure-document{padding-top:4px;color:#d9c6a2;font:14px/1.7 Georgia,serif}.procedure-copy{max-width:650px;margin:auto}.procedure-copy p{margin:0 0 13px}.procedure-known{margin:28px 0 0;padding:16px 0;border-top:1px solid var(--line);color:#e0b56f;font:700 10px "IBM Plex Mono",monospace;letter-spacing:.12em}.procedure-occurrence{border-top:1px solid rgba(112,90,58,.62)}.procedure-occurrence:last-child{border-bottom:1px solid rgba(112,90,58,.62)}.procedure-occurrence button{display:flex;align-items:center;justify-content:space-between;width:100%;padding:13px 0;border:0;background:none;color:#d9c6a2;font:700 9px "IBM Plex Mono",monospace;letter-spacing:.07em;text-align:left;cursor:pointer}.procedure-occurrence button:hover{color:#f0ce8e}.procedure-consult{color:#a4c3ba;font-size:8px}.procedure-annotation{padding:0 0 12px;color:#a8c4bb;font-size:13px}.procedure-annotation p{margin:0 0 10px}.procedure-document blockquote{margin:28px 0 0;padding:16px 0 0;border-top:1px solid #765631;color:#f0ce8e;font:italic 16px/1.6 Georgia,serif}.procedure-back{margin-top:22px}',
     '.mirror-procedure{text-align:center;padding:8px 0 4px}.mirror-question{margin:0 0 25px;color:#ded1b1;font:italic 20px/1.45 Georgia,serif}.mirror-field{--size:min(78vw,430px);position:relative;width:var(--size);height:var(--size);margin:0 auto 14px}.mirror-rim,.mirror-surface{position:absolute;border-radius:50%}.mirror-rim{inset:8%;background:radial-gradient(circle at 37% 30%,#4c3b2d,#0b0c0d 52%,#84613c 80%,#17100b 83%);box-shadow:0 0 0 1px #9b7849,0 0 0 5px #15100c,0 22px 35px #000}.mirror-surface{inset:12%;display:grid;place-items:center;overflow:hidden;background:radial-gradient(ellipse at 38% 22%,#1d2c2e 0,#061011 31%,#020405 73%,#000);box-shadow:inset 0 0 45px #000}.mirror-surface:before{content:"";position:absolute;inset:0;background:linear-gradient(118deg,transparent 25%,rgba(143,190,177,.09) 43%,transparent 49%);transform:translateX(-40%)}.mirror-surface span{position:relative;z-index:1;width:64%;color:rgba(196,210,191,.43);font:italic 12px/1.45 Georgia,serif}.mirror-rune{position:absolute;z-index:3;width:34px;height:34px;padding:0;border:0;background:transparent;color:rgba(186,148,92,.27);font:24px/1 Georgia,serif;transform:translate(-50%,-50%);transition:color .35s,opacity .35s,text-shadow .35s;cursor:default}.is-unlocked .mirror-rune{color:rgba(201,163,102,.68);cursor:pointer}.mirror-rune.is-erased{opacity:.12;color:#6c5c45}.mirror-rune:nth-of-type(1){left:51%;top:1%}.mirror-rune:nth-of-type(2){left:66%;top:4%}.mirror-rune:nth-of-type(3){left:80%;top:11%}.mirror-rune:nth-of-type(4){left:91%;top:23%}.mirror-rune:nth-of-type(5){left:97%;top:39%}.mirror-rune:nth-of-type(6){left:96%;top:56%}.mirror-rune:nth-of-type(7){left:89%;top:72%}.mirror-rune:nth-of-type(8){left:77%;top:86%}.mirror-rune:nth-of-type(9){left:62%;top:96%}.mirror-rune:nth-of-type(10){left:45%;top:99%}.mirror-rune:nth-of-type(11){left:29%;top:95%}.mirror-rune:nth-of-type(12){left:15%;top:85%}.mirror-rune:nth-of-type(13){left:5%;top:71%}.mirror-rune:nth-of-type(14){left:1%;top:54%}.mirror-rune:nth-of-type(15){left:4%;top:37%}.mirror-rune:nth-of-type(16){left:11%;top:22%}.mirror-rune:nth-of-type(17){left:23%;top:11%}.mirror-rune:nth-of-type(18){left:37%;top:4%}.mirror-rune:nth-of-type(19){left:51%;top:0%}.mirror-rune:nth-of-type(20){left:67%;top:5%}.mirror-rune:nth-of-type(21){left:81%;top:12%}.mirror-field.is-responding .mirror-rune.is-present,.mirror-field.is-activated .mirror-rune.is-present{color:#ead18d;text-shadow:0 0 9px #e2ba68,0 0 22px rgba(196,140,56,.8)}.mirror-field.is-responding .mirror-surface,.mirror-field.is-activated .mirror-surface{animation:mirrorResponse 2.6s ease-in-out forwards}.mirror-status{min-height:23px;margin:0;color:#d8b77e;font:9px "IBM Plex Mono",monospace;letter-spacing:.1em}.mirror-back{margin-top:16px;border:0;background:none;color:#aabbb2;font:700 9px "IBM Plex Mono",monospace;letter-spacing:.13em;cursor:pointer}.mirror-back:hover{color:#e2bc80}@keyframes mirrorResponse{35%{filter:brightness(.45)}68%{filter:brightness(1.5) contrast(1.15)}100%{filter:brightness(.7)}}@media(max-width:420px){.mirror-rune{font-size:20px;width:28px;height:28px}.mirror-question{font-size:18px}}'
   ].join('');
   document.head.appendChild(style);
