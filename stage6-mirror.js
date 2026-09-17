@@ -39,7 +39,7 @@
     quote.innerHTML = '<a href="' + archiveHref + '">“Nem todos os olhos veem o mesmo.”</a>';
     quote.querySelector('a').addEventListener('click', event => {
       event.preventDefault();
-      renderInvestigationArchive();
+      renderInvestigationArchive(openDashboardArchive());
     });
   }
 
@@ -117,19 +117,46 @@
     // Reservado para a continuação narrativa da Etapa 06.
   };
 
-  function renderInvestigationArchive() {
+  function openDashboardArchive() {
+    const card = document.querySelector('#dashboardView .dashboard-card');
+    const stagesWrap = card && card.querySelector('.stages-wrap');
+    const footer = card && card.querySelector('.dashboard-footer');
+    if (!card || !footer) return null;
+    let slot = card.querySelector('.dashboard-archive-slot');
+    if (!slot) {
+      slot = document.createElement('section');
+      slot.className = 'dashboard-archive-slot';
+      footer.parentNode.insertBefore(slot, footer);
+    }
+    if (stagesWrap) stagesWrap.hidden = true;
+    return slot;
+  }
+
+  function closeDashboardArchive() {
+    const card = document.querySelector('#dashboardView .dashboard-card');
+    const slot = card && card.querySelector('.dashboard-archive-slot');
+    const stagesWrap = card && card.querySelector('.stages-wrap');
+    if (slot) slot.remove();
+    if (stagesWrap) stagesWrap.hidden = false;
+    history.replaceState(null, '', location.pathname + location.search);
+  }
+
+  function renderInvestigationArchive(target) {
     if (!currentRefKey) return;
     visit();
-    document.querySelector('#stageCode').textContent = 'ARQUIVO RECUPERADO';
-    document.querySelector('#stageName').textContent = 'NEM TODOS OS OLHOS VEEM O MESMO.';
-    document.querySelector('#stageStatus').textContent = 'CLASSIFICAÇÃO: PROCEDIMENTO / SUPERFÍCIE REFLEXIVA';
-    const panelHead = document.querySelector('.detail-panel .panel-head');
-    const context = document.querySelector('#stageContext');
-    const mission = document.querySelector('#stageMission');
-    const actions = document.querySelector('#stageActions');
-    if (panelHead) panelHead.hidden = true;
-    if (context) context.hidden = true;
-    if (mission) mission.hidden = true;
+    const onDashboard = Boolean(target);
+    const actions = target || document.querySelector('#stageActions');
+    if (!onDashboard) {
+      document.querySelector('#stageCode').textContent = 'ARQUIVO RECUPERADO';
+      document.querySelector('#stageName').textContent = 'NEM TODOS OS OLHOS VEEM O MESMO.';
+      document.querySelector('#stageStatus').textContent = 'CLASSIFICAÇÃO: PROCEDIMENTO / SUPERFÍCIE REFLEXIVA';
+      const panelHead = document.querySelector('.detail-panel .panel-head');
+      const context = document.querySelector('#stageContext');
+      const mission = document.querySelector('#stageMission');
+      if (panelHead) panelHead.hidden = true;
+      if (context) context.hidden = true;
+      if (mission) mission.hidden = true;
+    }
 
     const historical = [
       'Entre 1581 e 1583, John Dee registrou uma série de conferências nas quais afirmava receber comunicações de anjos e outros espíritos, com auxílio de um vidente e de meios de observação empregados durante as sessões.',
@@ -212,7 +239,10 @@
       if (!valid) { result.textContent = 'DATA NÃO RECONHECIDA'; return; }
       result.textContent = glyph(zodiacFor(day, month));
     });
-    actions.querySelector('.archive-back').addEventListener('click', () => openStage(stageIndex));
+    actions.querySelector('.archive-back').addEventListener('click', () => {
+      if (onDashboard) closeDashboardArchive();
+      else openStage(stageIndex);
+    });
   }
 
   function zodiacFor(day, month) {
@@ -240,11 +270,7 @@
 
   if (location.hash === '#arquivo-etapa-06') {
     setTimeout(() => {
-      if (currentRefKey && stageIndex >= 0) {
-        openStage(stageIndex);
-        setTimeout(renderInvestigationArchive, 0);
-        history.replaceState(null, '', location.pathname + location.search);
-      }
+      if (currentRefKey) renderInvestigationArchive(openDashboardArchive());
     }, 0);
   }
 
