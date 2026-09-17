@@ -323,6 +323,23 @@ input::placeholder { color: #4d6e65; }
   grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
+.protocol-reset-link {
+  margin-top: 17px;
+  padding: 3px 0;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  background: transparent;
+  color: #4b655e;
+  font: 500 9px "IBM Plex Mono", monospace;
+  letter-spacing: .06em;
+  cursor: pointer;
+}
+.protocol-reset-link:hover,
+.protocol-reset-link:focus-visible {
+  border-bottom-color: #6f978c;
+  color: #91b8ac;
+  outline: 0;
+}
 .ghost-btn,
 .continue-btn {
   min-height: 46px;
