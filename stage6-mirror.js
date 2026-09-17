@@ -142,24 +142,24 @@
             const present = remaining.includes(sign);
             return '<button class="zodiac-mark ' + (present ? 'is-present' : 'is-erased') + '" type="button" data-sign="' + sign + '" style="--mark:' + index + '" aria-label="Sinal zodiacal ' + (index + 1) + '">' + glyph(sign) + '</button>';
           }).join('') +
-        '</div><div class="mirror-video-controls" hidden><button class="mirror-video-play" type="button">REPRODUZIR REGISTRO</button><button class="mirror-video-close" type="button">SAIR DO REGISTRO</button></div>' +
+        '</div><div class="mirror-video-controls"' + (stabilized ? '' : ' hidden') + '><button class="mirror-activate" type="button">ATIVAR ESPELHO</button><button class="mirror-deactivate" type="button">DESATIVAR ESPELHO</button></div>' +
       '</section>';
 
     const root = actions.querySelector('.mirror-v2');
     const video = root.querySelector('.mirror-v2-video');
-    const replay = root.querySelector('.mirror-video-play');
     const videoControls = root.querySelector('.mirror-video-controls');
-    const closeVideo = root.querySelector('.mirror-video-close');
+    const activateMirror = root.querySelector('.mirror-activate');
+    const deactivateMirror = root.querySelector('.mirror-deactivate');
     const surface = root.querySelector('.mirror-v2-surface');
     function revealVideo(autoplay) {
       surface.classList.add('is-revealing');
       video.hidden = false;
       root.querySelector('.mirror-whisper').hidden = true;
-      videoControls.hidden = false;
-      replay.hidden = !autoplay;
       if (!autoplay) return;
       video.currentTime = 0;
-      video.play().catch(() => { replay.hidden = false; });
+      video.play().catch(() => {
+        document.querySelector('#stageStatus').textContent = 'TOQUE EM ATIVAR ESPELHO PARA INICIAR O REGISTRO';
+      });
     }
     function hideVideo() {
       video.pause();
@@ -168,11 +168,8 @@
       const whisper = root.querySelector('.mirror-whisper');
       whisper.hidden = false;
       whisper.textContent = 'Superfície estabilizada.';
-      videoControls.hidden = true;
     }
-    video.addEventListener('play', () => { replay.hidden = true; });
     video.addEventListener('ended', () => {
-      replay.hidden = false;
       write('videoWatched', true);
       if (stageStep && currentRefKey) {
         completedCount = Math.max(completedCount, stageStep);
@@ -185,8 +182,8 @@
       const whisper = root.querySelector('.mirror-whisper');
       whisper.textContent = 'Arquivo visual aguardando upload.';
     });
-    replay.addEventListener('click', () => revealVideo(true));
-    closeVideo.addEventListener('click', hideVideo);
+    activateMirror.addEventListener('click', () => revealVideo(true));
+    deactivateMirror.addEventListener('click', hideVideo);
     function draw() {
       root.querySelectorAll('.zodiac-mark').forEach(button => {
         const present = remaining.includes(button.dataset.sign);
@@ -210,6 +207,7 @@
         write('stabilized', true);
         window.onMirrorStabilized();
         document.querySelector('#stageStatus').textContent = 'SUPERFÍCIE ESTABILIZADA';
+        videoControls.hidden = false;
         draw();
         setTimeout(() => revealVideo(true), 700);
         return;
@@ -220,7 +218,6 @@
     if (read('videoWatched', false) === true) {
       document.querySelector('#stageStatus').textContent = 'REGISTRO CONCLUÍDO — ETAPA 07 LIBERADA';
     }
-    if (stabilized) revealVideo(false);
   }
 
   window.onMirrorStabilized = window.onMirrorStabilized || function () {
@@ -475,7 +472,7 @@
 
   const correspondenceStyle = document.createElement('style');
   correspondenceStyle.textContent = `
-    .mirror-video-controls{display:flex;justify-content:center;gap:8px;margin:9px auto 0}.mirror-video-play,.mirror-video-close{padding:9px 12px;border:1px solid #87662e;background:rgba(44,31,12,.3);color:#e5bd76;font:700 9px "IBM Plex Mono",monospace;letter-spacing:.12em;cursor:pointer}.mirror-video-close{border-color:#4b5d54;color:#acc0b6}.mirror-video-play:hover,.mirror-video-play:focus-visible,.mirror-video-close:hover,.mirror-video-close:focus-visible{border-color:#e5bd76;color:#f7d391;outline:0}.correspondence-save{margin:0;padding:9px 11px;border:1px solid #87662e;background:rgba(44,31,12,.22);color:#e5bd76;font:700 9px "IBM Plex Mono",monospace;letter-spacing:.1em;cursor:pointer}.correspondence-saved{margin-top:15px;padding-top:12px;border-top:1px solid rgba(109,86,48,.52)}.correspondence-empty,.correspondence-saved-title{margin:0;color:#91a59c;font:700 9px "IBM Plex Mono",monospace;letter-spacing:.1em}.correspondence-saved-title{margin-bottom:8px;color:#e3bb75}.correspondence-saved-item{display:flex;align-items:center;gap:10px;min-height:33px;border-top:1px solid rgba(54,82,73,.7)}.correspondence-saved-item span{width:20px;color:#e5bd76;font:22px/1 Georgia,serif}.correspondence-saved-item small{flex:1;color:#a4b9ae;font:10px "IBM Plex Mono",monospace}.correspondence-saved-item button{padding:4px 0;border:0;background:none;color:#bd806f;font:700 8px "IBM Plex Mono",monospace;letter-spacing:.08em;cursor:pointer}.correspondence-saved-item button:hover{color:#efaa94}
+    .mirror-video-controls{display:flex;justify-content:center;gap:8px;margin:9px auto 0}.mirror-activate,.mirror-deactivate{padding:9px 12px;border:1px solid #87662e;background:rgba(44,31,12,.3);color:#e5bd76;font:700 9px "IBM Plex Mono",monospace;letter-spacing:.12em;cursor:pointer}.mirror-deactivate{border-color:#4b5d54;color:#acc0b6}.mirror-activate:hover,.mirror-activate:focus-visible,.mirror-deactivate:hover,.mirror-deactivate:focus-visible{border-color:#e5bd76;color:#f7d391;outline:0}.correspondence-save{margin:0;padding:9px 11px;border:1px solid #87662e;background:rgba(44,31,12,.22);color:#e5bd76;font:700 9px "IBM Plex Mono",monospace;letter-spacing:.1em;cursor:pointer}.correspondence-saved{margin-top:15px;padding-top:12px;border-top:1px solid rgba(109,86,48,.52)}.correspondence-empty,.correspondence-saved-title{margin:0;color:#91a59c;font:700 9px "IBM Plex Mono",monospace;letter-spacing:.1em}.correspondence-saved-title{margin-bottom:8px;color:#e3bb75}.correspondence-saved-item{display:flex;align-items:center;gap:10px;min-height:33px;border-top:1px solid rgba(54,82,73,.7)}.correspondence-saved-item span{width:20px;color:#e5bd76;font:22px/1 Georgia,serif}.correspondence-saved-item small{flex:1;color:#a4b9ae;font:10px "IBM Plex Mono",monospace}.correspondence-saved-item button{padding:4px 0;border:0;background:none;color:#bd806f;font:700 8px "IBM Plex Mono",monospace;letter-spacing:.08em;cursor:pointer}.correspondence-saved-item button:hover{color:#efaa94}
   `;
   document.head.appendChild(correspondenceStyle);
 })();
