@@ -137,31 +137,43 @@
             const present = remaining.includes(sign);
             return '<button class="zodiac-mark ' + (present ? 'is-present' : 'is-erased') + '" type="button" data-sign="' + sign + '" style="--mark:' + index + '" aria-label="Sinal zodiacal ' + (index + 1) + '">' + glyph(sign) + '</button>';
           }).join('') +
-        '</div><button class="mirror-video-play" type="button" hidden>REPRODUZIR REGISTRO</button>' +
+        '</div><div class="mirror-video-controls" hidden><button class="mirror-video-play" type="button">REPRODUZIR REGISTRO</button><button class="mirror-video-close" type="button">SAIR DO REGISTRO</button></div>' +
       '</section>';
 
     const root = actions.querySelector('.mirror-v2');
     const video = root.querySelector('.mirror-v2-video');
     const replay = root.querySelector('.mirror-video-play');
+    const videoControls = root.querySelector('.mirror-video-controls');
+    const closeVideo = root.querySelector('.mirror-video-close');
     const surface = root.querySelector('.mirror-v2-surface');
     function revealVideo(autoplay) {
       surface.classList.add('is-revealing');
       video.hidden = false;
       root.querySelector('.mirror-whisper').hidden = true;
-      if (!autoplay) { replay.hidden = false; return; }
+      videoControls.hidden = false;
+      replay.hidden = !autoplay;
+      if (!autoplay) return;
       video.currentTime = 0;
       video.play().catch(() => { replay.hidden = false; });
+    }
+    function hideVideo() {
+      video.pause();
+      video.hidden = true;
+      surface.classList.remove('is-revealing');
+      const whisper = root.querySelector('.mirror-whisper');
+      whisper.hidden = false;
+      whisper.textContent = 'Superfície estabilizada.';
+      videoControls.hidden = true;
     }
     video.addEventListener('play', () => { replay.hidden = true; });
     video.addEventListener('ended', () => { replay.hidden = false; });
     video.addEventListener('error', () => {
-      surface.classList.remove('is-revealing');
-      video.hidden = true;
+      hideVideo();
       const whisper = root.querySelector('.mirror-whisper');
-      whisper.hidden = false;
       whisper.textContent = 'Arquivo visual aguardando upload.';
     });
     replay.addEventListener('click', () => revealVideo(true));
+    closeVideo.addEventListener('click', hideVideo);
     function draw() {
       root.querySelectorAll('.zodiac-mark').forEach(button => {
         const present = remaining.includes(button.dataset.sign);
@@ -330,7 +342,7 @@
         '<section class="stage6-section"><h3>ANEXOS PRESERVADOS</h3><div class="attachments-list">' + annexMarkup + '</div></section>' +
         '<article class="attachment-item"><button class="record-toggle" type="button" aria-expanded="false"><span>REGISTRO 02 — RECONSTRUÇÃO</span><span class="chev">＋</span></button><div class="record-content" hidden><div class="archive-copy">' + paragraphs(reconstruction) + '</div></div></article>' +
         '<section class="stage6-additional-notes" hidden></section>' +
-        '<section class="correspondence-table"><h3>TÁBUA DE CORRESPONDÊNCIA</h3><p><strong>Insira a data reconstruída para consultar o sinal correspondente.</strong></p><form class="correspondence-form"><label>DIA<input name="day" type="number" inputmode="numeric" min="1" max="31" required></label><label>MÊS<input name="month" type="number" inputmode="numeric" min="1" max="12" required></label><button type="submit">CONSULTAR CORRESPONDÊNCIA</button></form><p class="correspondence-result" aria-live="polite"></p></section>' +
+        '<section class="correspondence-table"><h3>TÁBUA DE CORRESPONDÊNCIA</h3><p><strong>Insira a data reconstruída para consultar o sinal correspondente.</strong></p><form class="correspondence-form"><label>DIA<input name="day" type="number" inputmode="numeric" min="1" max="31" required></label><label>MÊS<input name="month" type="number" inputmode="numeric" min="1" max="12" required></label><button type="submit">CONSULTAR CORRESPONDÊNCIA</button></form><p class="correspondence-result" aria-live="polite"></p><button class="correspondence-save" type="button" hidden>GRAVAR SÍMBOLO</button><div class="correspondence-saved" aria-live="polite"></div></section>' +
       '</section>';
 
     updateAdditionalNotes();
@@ -344,14 +356,47 @@
 
     const form = actions.querySelector('.correspondence-form');
     const result = actions.querySelector('.correspondence-result');
+    const saveSymbol = actions.querySelector('.correspondence-save');
+    const savedSymbols = actions.querySelector('.correspondence-saved');
+    let consulted = null;
+    let saved = read('savedCorrespondences', []);
+    if (!Array.isArray(saved)) saved = [];
+    function renderSavedSymbols() {
+      if (!saved.length) {
+        savedSymbols.innerHTML = '<p class="correspondence-empty">NENHUM SÍMBOLO GRAVADO.</p>';
+        return;
+      }
+      savedSymbols.innerHTML = '<p class="correspondence-saved-title">SÍMBOLOS GRAVADOS</p>' + saved.map((entry, index) =>
+        '<div class="correspondence-saved-item"><span>' + glyph(entry.sign) + '</span><small>' + entry.date + '</small><button type="button" data-saved-index="' + index + '" aria-label="Apagar símbolo ' + entry.sign + '">APAGAR</button></div>'
+      ).join('');
+    }
     form.addEventListener('submit', event => {
       event.preventDefault();
       const day = Number(form.elements.day.value);
       const month = Number(form.elements.month.value);
       const valid = Number.isInteger(day) && Number.isInteger(month) && new Date(2000, month - 1, day).getMonth() === month - 1;
-      if (!valid) { result.textContent = 'DATA NÃO RECONHECIDA'; return; }
-      result.textContent = glyph(zodiacFor(day, month));
+      if (!valid) { result.textContent = 'DATA NÃO RECONHECIDA'; saveSymbol.hidden = true; consulted = null; return; }
+      consulted = { sign: zodiacFor(day, month), date: String(day).padStart(2, '0') + '/' + String(month).padStart(2, '0') };
+      result.textContent = glyph(consulted.sign);
+      saveSymbol.hidden = false;
     });
+    saveSymbol.addEventListener('click', () => {
+      if (!consulted) return;
+      if (!saved.some(entry => entry.sign === consulted.sign)) {
+        saved.push(consulted);
+        write('savedCorrespondences', saved);
+      }
+      saveSymbol.hidden = true;
+      renderSavedSymbols();
+    });
+    savedSymbols.addEventListener('click', event => {
+      const button = event.target.closest('[data-saved-index]');
+      if (!button) return;
+      saved.splice(Number(button.dataset.savedIndex), 1);
+      write('savedCorrespondences', saved);
+      renderSavedSymbols();
+    });
+    renderSavedSymbols();
     actions.querySelector('.stage6-top-back').addEventListener('click', () => {
       if (onDashboard) closeDashboardArchive();
       else openStage(stageIndex);
@@ -410,4 +455,10 @@
     .mirror-v2-surface{overflow:hidden}.mirror-v2-video{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000;object-fit:cover}.mirror-v2-surface.is-revealing{background:#000}.mirror-v2-surface.is-revealing:after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 32px rgba(0,0,0,.72)}.mirror-v2-video[hidden]{display:none}.mirror-video-play{margin:9px auto 0;padding:9px 12px;border:1px solid #87662e;background:rgba(44,31,12,.3);color:#e5bd76;font:700 9px "IBM Plex Mono",monospace;letter-spacing:.12em;cursor:pointer}.mirror-video-play:hover,.mirror-video-play:focus-visible{border-color:#e5bd76;color:#f7d391;outline:0}
   `;
   document.head.appendChild(mirrorVideoStyle);
+
+  const correspondenceStyle = document.createElement('style');
+  correspondenceStyle.textContent = `
+    .mirror-video-controls{display:flex;justify-content:center;gap:8px;margin:9px auto 0}.mirror-video-play,.mirror-video-close{padding:9px 12px;border:1px solid #87662e;background:rgba(44,31,12,.3);color:#e5bd76;font:700 9px "IBM Plex Mono",monospace;letter-spacing:.12em;cursor:pointer}.mirror-video-close{border-color:#4b5d54;color:#acc0b6}.mirror-video-play:hover,.mirror-video-play:focus-visible,.mirror-video-close:hover,.mirror-video-close:focus-visible{border-color:#e5bd76;color:#f7d391;outline:0}.correspondence-save{margin:0;padding:9px 11px;border:1px solid #87662e;background:rgba(44,31,12,.22);color:#e5bd76;font:700 9px "IBM Plex Mono",monospace;letter-spacing:.1em;cursor:pointer}.correspondence-saved{margin-top:15px;padding-top:12px;border-top:1px solid rgba(109,86,48,.52)}.correspondence-empty,.correspondence-saved-title{margin:0;color:#91a59c;font:700 9px "IBM Plex Mono",monospace;letter-spacing:.1em}.correspondence-saved-title{margin-bottom:8px;color:#e3bb75}.correspondence-saved-item{display:flex;align-items:center;gap:10px;min-height:33px;border-top:1px solid rgba(54,82,73,.7)}.correspondence-saved-item span{width:20px;color:#e5bd76;font:22px/1 Georgia,serif}.correspondence-saved-item small{flex:1;color:#a4b9ae;font:10px "IBM Plex Mono",monospace}.correspondence-saved-item button{padding:4px 0;border:0;background:none;color:#bd806f;font:700 8px "IBM Plex Mono",monospace;letter-spacing:.08em;cursor:pointer}.correspondence-saved-item button:hover{color:#efaa94}
+  `;
+  document.head.appendChild(correspondenceStyle);
 })();
