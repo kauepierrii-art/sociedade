@@ -28,6 +28,16 @@ const stages = [
   { name: 'Admissão', subtitle: 'Resultado do protocolo', icon: '⚿', context: 'O processo de seleção foi concluído. A continuidade dependerá do resultado desta etapa.', mission: 'Conteúdo em desenvolvimento.' }
 ];
 
+const PANEL_TITLES = [
+  'REGISTRO DE ACESSO',
+  'OBJETO EM ANÁLISE',
+  'REGISTRO FOTOGRÁFICO',
+  'APARELHO INCOMUM',
+  'CORRELAÇÃO DOCUMENTAL',
+  'ARQUIVO DE INVESTIGAÇÃO',
+  'COMUNICAÇÃO FINAL'
+];
+
 const REFERENCES = {
   LUMEN: 'LUMEN', TACITUS: 'TACITUS', SPECULO: 'SPECULO', VIGIL: 'VIGIL', FERRO: 'FERRO', IGNIS: 'IGNIS',
   PUGNUS: 'PUGNUS', CUSTOS: 'CUSTOS', MALLEUS: 'MALLEUS', DUX: 'DUX', RATIO: 'RATIO', NEXUS: 'NEXUS',
@@ -446,7 +456,7 @@ function openStage(index) {
   document.querySelector('#stageCode').textContent = `ETAPA ${String(step).padStart(2, '0')}`;
   document.querySelector('#stageName').textContent = stage.name;
   const panelTitle = document.querySelector('.detail-panel .panel-head h2');
-  if (panelTitle) panelTitle.textContent = stage.panelTitle || 'INSTRUÇÃO';
+  if (panelTitle) panelTitle.textContent = PANEL_TITLES[index] || stage.panelTitle || 'INSTRUÇÃO';
   document.querySelector('#stageContext').textContent = stage.context;
   const stageMission = document.querySelector('#stageMission');
   stageMission.hidden = !stage.mission || step === 1;
