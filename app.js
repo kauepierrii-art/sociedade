@@ -85,6 +85,7 @@ function resetActivities() {
   localStorage.removeItem(`stage5:part-one:${currentRefKey}`);
   localStorage.removeItem(`stage5:complete:${currentRefKey}`);
   ['visited', 'document', 'remaining', 'annotations', 'research', 'activated'].forEach(name => localStorage.removeItem(`stage6:${name}:${currentRefKey}`));
+  ['visited', 'remaining', 'stabilized'].forEach(name => localStorage.removeItem(`stage6:v2:${name}:${currentRefKey}`));
   ['stage4', 'stage5'].forEach(name => ['unlocked', 'nextAt'].forEach(part => localStorage.removeItem(`stage45-hints:${name}:${part}:${currentRefKey}`)));
   completedCount = 0;
 }
