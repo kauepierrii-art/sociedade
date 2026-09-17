@@ -2,7 +2,8 @@
 (function () {
   const stageIndex = stages.findIndex(stage => stage && stage.name === 'Discernimento');
   const stageStep = stageIndex + 1;
-  const zodiac = ['♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓'];
+  // Posições distribuídas ao redor do espelho; não altera a correspondência de cada signo.
+  const zodiac = ['♈','♋','♑','♌','♊','♍','♒','♎','♓','♏','♉','♐'];
   const solution = ['♑','♈','♊','♒','♓'];
   const MIRROR_VIDEO = 'assets/stage6/espelho-revelacao.mp4';
   const additionalNotes = [
