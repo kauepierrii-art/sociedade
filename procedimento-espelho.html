@@ -3,75 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Procedimento do Espelho — Protocolo Delectus</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root{--ink:#07110e;--line:#315148;--paper:#d9c6a2;--gold:#d8b77e;--mint:#8fc7b7}*{box-sizing:border-box}body{min-height:100vh;margin:0;background:radial-gradient(circle at top,#0b211d,#040908 62%);color:var(--paper);font:14px/1.75 Georgia,serif}.page{width:min(860px,calc(100% - 32px));margin:36px auto;padding:28px;border:1px solid var(--line);background:rgba(2,10,8,.84);box-shadow:0 22px 80px #000}.eyebrow{margin:0 0 7px;color:var(--mint);font:9px "IBM Plex Mono",monospace;letter-spacing:.16em}.document-title{margin:0 0 30px;color:#f0ce8e;font:700 clamp(22px,4vw,32px)/1.2 Georgia,serif}.copy{max-width:690px;margin:auto}.copy p{margin:0 0 16px}.copy strong{color:#f0ce8e}.known{margin:36px 0 0;padding-top:20px;border-top:1px solid var(--line);color:#f0ce8e;font:700 11px "IBM Plex Mono",monospace;letter-spacing:.12em}.occurrences{margin-top:18px}.occurrence{border-top:1px solid rgba(112,90,58,.62)}.occurrence:last-child{border-bottom:1px solid rgba(112,90,58,.62)}.occurrence button{display:flex;justify-content:space-between;align-items:center;width:100%;padding:14px 0;border:0;background:none;color:var(--paper);font:700 11px "IBM Plex Mono",monospace;letter-spacing:.07em;text-align:left;cursor:pointer}.occurrence button:hover{color:#f0ce8e}.occurrence p{margin:0 0 12px}.annotation{padding:0 0 13px;color:#a8c4bb;font-size:13px}.annotation[hidden]{display:none}.bottom-note{margin:30px 0;padding:18px 0 0;border-top:1px solid var(--line);color:#f0ce8e;font:italic 16px/1.65 Georgia,serif}.back{display:inline-block;margin-top:28px;padding:10px 14px;border:1px solid #765631;background:#17100b;color:#f0ce8e;font:700 10px "IBM Plex Mono",monospace;letter-spacing:.1em;text-decoration:none}@media(max-width:520px){.page{width:calc(100% - 20px);margin:10px auto;padding:22px}.document-title{font-size:24px}}
-  </style>
+  <title>Arquivo de Investigação — Protocolo Delectus</title>
+  <meta http-equiv="refresh" content="0; url=index.html">
 </head>
 <body>
-  <main class="page">
-    <p class="eyebrow">ARQUIVO DE PROCEDIMENTO</p>
-    <h1 class="document-title">NEM TODOS OS OLHOS VEEM O MESMO.</h1>
-    <div class="copy">
-      <p>Os primeiros registros conhecidos do fenômeno apresentam uma característica que, durante muito tempo, foi tratada como secundária.</p>
-      <p>Havia sinais traçados ao redor da superfície.</p>
-      <p>Não sabemos quem os introduziu.</p>
-      <p>Também não sabemos qual era sua função.</p>
-      <p>Por décadas, foram interpretados como ornamentação, marcação ritual ou simples identificação do procedimento.</p>
-      <p>Essa hipótese mudou quando diferentes registros de sessão foram comparados.</p>
-      <p>Nas experiências em que a imagem permaneceu estável por mais tempo, os sinais estavam presentes.</p>
-      <p>Nas demais, estavam ausentes, incompletos ou dispostos de maneira diferente.</p>
-      <p>O problema surgiu depois.</p>
-      <p>Os registros originais não sobreviveram intactos.</p>
-      <p>As marcas foram copiadas, redesenhadas e reproduzidas por pessoas diferentes, em épocas diferentes.</p>
-      <p>Ao final da investigação, <strong>quatorze sinais distintos</strong> haviam sido associados ao procedimento.</p>
-      <p>Sem qualquer forma segura de determinar quais eram autênticos, todos foram mantidos ao redor da superfície.</p>
-      <p>As tentativas posteriores permaneceram inconclusivas.</p>
-      <p>Até recentemente.</p>
-      <p>Entre materiais ainda não catalogados relacionados às primeiras sessões, foi localizado um documento incompleto.</p>
-      <p>As figuras que originalmente acompanhavam o texto não foram preservadas.</p>
-      <p>Uma informação, porém, permanece legível:</p>
-      <p><strong>o procedimento utilizava sete sinais.</strong></p>
-      <p>Não quatorze.</p>
-      <p>O documento também faz referência a registros independentes nos quais essas mesmas marcas teriam sido encontradas novamente.</p>
-      <p>Se essas referências puderem ser localizadas, talvez seja possível reconstruir o conjunto original.</p>
-      <p>As quatorze marcas permanecem onde foram deixadas.</p>
-      <p><strong>Sete pertencem ao procedimento.</strong></p>
-      <p><strong>Sete não deveriam estar ali.</strong></p>
-      <p>Apague as marcas incorretas.</p>
-      <p>Mantenha apenas o conjunto original.</p>
-      <p>Se os registros estiverem corretos, a superfície deverá responder.</p>
-      <p class="known">OCORRÊNCIAS CONHECIDAS</p>
-      <section id="occurrences" class="occurrences"></section>
-      <blockquote class="bottom-note">Sete ocorrências.<br>Sete marcas recorrentes.<br><br>Não procure significado onde talvez não exista nenhum.<br>Procure repetição.</blockquote>
-      <a id="protocolBack" class="back" href="index.html">VOLTAR AO PROTOCOLO</a>
-    </div>
-  </main>
   <script>
-    (function(){
-      const params=new URLSearchParams(location.search), ref=(params.get('ref')||'').trim().toUpperCase();
-      if(ref){ localStorage.setItem('stage6:document:'+ref,'1'); document.querySelector('#protocolBack').href='index.html?ref='+encodeURIComponent(ref); }
-      const items=[
-        ['I. CONVITE','A primeira esteve em suas mãos antes mesmo de o processo começar.',['Ela antecede seu primeiro acesso ao protocolo.','Não procure entre os arquivos investigados posteriormente.','O sinal foi apresentado quando você ainda não sabia que havia algo a procurar.','Observe novamente o material pelo qual tudo começou.','Examine atentamente os elementos gráficos do convite.']],
-        ['II. THE OBSCURE','A segunda permanece onde o obscuro foi deixado para trás.',['Você já esteve nesse lugar.','Ele não pertence ao protocolo propriamente dito.','Foi encontrado durante uma investigação anterior.','Retorne ao arquivo digital abandonado.','Procure novamente no site The Obscure.']],
-        ['III. INSTITUIÇÃO PÚBLICA','Uma foi preservada por uma instituição pública entre registros que não tratam do oculto.',['O sinal não é o assunto principal do registro.','A instituição responsável não o classifica como elemento esotérico.','Procure entre acervos históricos oficiais.','A ocorrência está associada a um documento ou imagem preservada digitalmente.','A referência direta à instituição escolhida será preservada quando definida.']],
-        ['IV. MONUMENTO','Outra continua exposta em pedra, diante de milhares de pessoas que nunca tiveram motivo para observá-la.',['Ela não está guardada.','Pode ser vista sem autorização ou acesso especial.','Não procure dentro de museus.','O sinal faz parte de um monumento ou estrutura pública.','A referência indireta ao monumento será preservada quando definida.']],
-        ['V. OBRA DIGITALIZADA','Uma sobrevive entre as páginas digitalizadas de uma obra que já não pertence a ninguém.',['Não se trata de uma página da internet originalmente digital.','A obra existia muito antes da rede.','Seu conteúdo pode ser consultado livremente.','Procure em acervos de obras históricas digitalizadas e em domínio público.','O título e a página aproximada serão preservados quando definidos.']],
-        ['VI. IMAGEM HISTÓRICA','Outra foi preservada em uma imagem histórica cujo assunto nada tem a ver com o símbolo que contém.',['O sinal não é o objeto fotografado.','Ele ocupa uma posição secundária na imagem.','Quem catalogou a fotografia provavelmente não o percebeu como relevante.','Observe fundos, paredes, objetos e detalhes periféricos.','A referência ao acervo será preservada quando definida.']],
-        ['VII. VÍDEO','A última ainda pode ser vista em movimento. Está onde muitos assistiram — poucos olharam.',['A ocorrência dura apenas alguns instantes.','Não está no título nem na descrição.','É preciso observar a imagem, não apenas acompanhar o conteúdo.','Ela aparece em material audiovisual disponível publicamente.','A referência e a faixa de tempo serão preservadas quando definidas.']]
-      ];
-      const stored=ref?JSON.parse(localStorage.getItem('stage6:annotations:'+ref)||'{}'):{};
-      const root=document.querySelector('#occurrences');
-      items.forEach((item,index)=>{
-        const open=stored[index]||0, el=document.createElement('article');el.className='occurrence';
-        el.innerHTML='<button type="button"><span>'+item[0]+'</span><span>CONSULTAR ANOTAÇÃO</span></button><div class="annotation"><p>'+item[1]+'</p></div>';
-        const detail=el.querySelector('.annotation');
-        function draw(){ detail.innerHTML='<p>'+item[1]+'</p>'+item[2].slice(0,stored[index]||0).map(x=>'<p>'+x+'</p>').join(''); el.querySelector('button span:last-child').textContent=(stored[index]||0)<5?'CONSULTAR ANOTAÇÃO':'ANOTAÇÕES CONSULTADAS'; }
-        draw();el.querySelector('button').onclick=()=>{if((stored[index]||0)<5){stored[index]=(stored[index]||0)+1;if(ref)localStorage.setItem('stage6:annotations:'+ref,JSON.stringify(stored));draw();}};root.appendChild(el);
-      });
+    (function () {
+      var ref = new URLSearchParams(location.search).get('ref');
+      location.replace('index.html' + (ref ? '?ref=' + encodeURIComponent(ref) : '') + '#arquivo-etapa-06');
     })();
   </script>
 </body>
