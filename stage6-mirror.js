@@ -175,29 +175,48 @@
       '<strong>Partes sobreviveram.<br>Outras foram copiadas.<br>Outras permaneceram separadas.<br>E algumas foram perdidas.</strong>'
     ];
     const analysis = [
-      'A comparação dos registros preservados revela referências recorrentes a instruções atribuídas a Uriel e à preparação dos instrumentos empregados nas sessões.',
-      'Entretanto, a sequência documental apresenta lacunas.',
-      'Não é possível determinar, a partir do material preservado, se determinadas instruções foram simplesmente interrompidas, registradas em folhas posteriormente perdidas ou mantidas separadamente por Dee.',
-      'Entre materiais associados posteriormente ao conjunto, foi identificado um fragmento cuja procedência não pôde ser confirmada.',
-      'O texto parece complementar instruções relacionadas à preparação da superfície utilizada durante as operações de observação.',
-      '<span class="stage6-attention">Doze sinais foram dispostos ao redor da superfície.</span>',
+      'Durante a revisão de materiais reunidos em coleções privadas no início do século XX, foi localizado um pequeno caderno sem catalogação, encadernado junto a documentos de procedência diversa.',
+      'O volume não traz nome, data ou indicação de autoria.',
+      'A maior parte de seu conteúdo consiste em notas fragmentárias, símbolos e referências difíceis de relacionar entre si. Em algumas páginas, porém, aparecem expressões, construções e diagramas muito próximos daqueles encontrados nos registros cerimoniais associados a John Dee.',
+      'A semelhança chamou atenção por um motivo específico.',
+      'Em determinado trecho, o texto descreve a preparação de uma superfície escura cercada por <strong>doze sinais</strong>.',
       '<span class="stage6-attention">Apenas cinco deveriam permanecer.</span>',
-      'A seção que permitiria identificar esses cinco sinais não está preservada.',
-      'Outras anotações, entretanto, parecem indicar que Dee conhecia a configuração e optou por não registrá-la diretamente.',
-      'Em seu lugar, restaram referências breves e aparentemente pessoais.',
-      'Os documentos reunidos nos anexos seguintes foram selecionados por apresentarem possíveis relações com essas referências.',
-      'Sua procedência e relevância não são uniformes. Alguns elementos possuem correlação documental conhecida; outros permanecem sem classificação conclusiva.',
-      '<span class="stage6-attention">Cinco indivíduos parecem ocorrer de maneira indireta e recorrente no conjunto.</span>',
-      '<span class="stage6-attention">Identifique-os.</span>'
+      'Nenhuma lista acompanha a indicação.',
+      'Nenhum dos cinco sinais é nomeado.',
+      'As páginas posteriores também não apresentam uma chave direta. Em vez disso, surgem referências breves, aparentemente pessoais, a lugares, acontecimentos e figuras conhecidas — anotações curtas demais para formar um relato, mas recorrentes o bastante para sugerir intenção.',
+      'A hipótese mais consistente é que Dee não tenha registrado a combinação de maneira explícita.',
+      'Pode ter preferido preservá-la por meio de associações que somente ele seria capaz de reconstruir.',
+      'Não como um código destinado a outra pessoa.',
+      '<strong>Como uma forma de memória.</strong>',
+      'A análise dessas anotações revelou outro padrão.',
+      'As referências não parecem conduzir apenas a indivíduos.',
+      'Em diferentes trechos, uma mesma figura é associada a um acontecimento específico de sua história: em alguns casos, nascimento; em outros, morte, execução, celebração ou outro marco diretamente relacionado àquela pessoa.',
+      'Ao lado de parte dessas referências aparecem registros numéricos breves, geralmente compatíveis com <strong>dia e mês</strong>, mas sem qualquer explicação sobre sua finalidade.',
+      'Isso sugere que a identidade da figura talvez não fosse o destino final da associação.',
+      'Era apenas uma etapa.',
+      'Primeiro, a memória conduzia à pessoa.',
+      'Depois, a um acontecimento.',
+      'E desse acontecimento, a uma data.',
+      'Por que Dee precisaria preservar apenas <strong>dia e mês</strong> permanece incerto.',
+      'Os materiais reunidos nos anexos seguintes parecem derivar dessas anotações ou de tentativas posteriores de interpretá-las.',
+      'Nenhum nome é apresentado de maneira direta.',
+      'Ainda assim, diferentes referências parecem convergir repetidamente para o mesmo pequeno grupo de figuras.',
+      'Se essa leitura estiver correta, os nomes nunca foram a resposta.',
+      '<strong>Eram apenas o caminho para recuperar aquilo que Dee decidiu não escrever.</strong>'
     ];
     const reconstruction = [
       'Os cinco sinais não foram preservados de forma explícita.',
-      'As referências reunidas parecem funcionar como um sistema de memória: cada conjunto conduz a uma figura e, por meio dela, a uma data específica.',
-      'A natureza dessa data não é constante.',
-      'Em alguns casos, o acontecimento indicado parece ser mais importante do que o nascimento da própria figura.',
-      'Se essa interpretação estiver correta, as datas não eram o objetivo final.',
-      '<strong>Eram a forma de recuperar os cinco sinais que Dee decidiu não registrar diretamente.</strong>',
-      '<span class="stage6-attention">Determine as datas associadas às cinco referências.</span>'
+      'A análise das anotações sugere que Dee utilizou uma sequência de associações para reconstruí-los sem precisar registrá-los diretamente.',
+      'Cada referência conduzia a uma figura.',
+      'Cada figura, a um acontecimento específico.',
+      'Cada acontecimento, a uma data.',
+      'O padrão termina aí nos documentos conhecidos.',
+      'Mas uma recorrência aparece em outros materiais cerimoniais associados a Dee: o uso de correspondências astrológicas e zodiacais.',
+      'Se as datas não eram o destino final da associação, então provavelmente funcionavam como uma etapa intermediária.',
+      '<strong>Cada data conduzia a um dos doze sinais.</strong>',
+      'A combinação, portanto, não estava escrita em lugar algum.',
+      'Estava distribuída entre memória, história e correspondência.',
+      '<span class="stage6-attention">Cinco datas. Cinco sinais. Uma única configuração.</span>'
     ];
     const annexes = [
       ['01', 'CARTOGRÁFICA'], ['02', 'MANUSCRITO / TRANSCRIÇÃO'], ['03', 'PRANCHA ICONOGRÁFICA'], ['04', 'RELATÓRIO'],
@@ -209,13 +228,13 @@
 
     actions.innerHTML =
       '<section class="stage6-archive">' +
+        '<button class="stage6-top-back ghost-btn" type="button">VOLTAR</button>' +
         '<header class="stage6-archive-head"><p>ETAPA 06 — DISCERNIMENTO</p><h2>ARQUIVO DE INVESTIGAÇÃO</h2></header>' +
-        '<article class="attachment-item"><button class="record-toggle" type="button" aria-expanded="false"><span>REGISTRO 01 — CONTEXTO DOCUMENTAL</span><span class="chev">＋</span></button><div class="record-content" hidden><p class="doc-meta">MATERIAL HISTÓRICO VERIFICÁVEL</p><div class="archive-copy">' + paragraphs(historical) + '</div><p class="archive-sources">Referências: <a href="https://www.bl.uk/manuscripts/FullDisplay.aspx?ref=Sloane_MS_3188" target="_blank" rel="noopener">British Library</a> · <a href="https://hsm.ox.ac.uk/holy-table" target="_blank" rel="noopener">History of Science Museum</a> · <a href="https://www.britishmuseum.org/collection/object/H_1906-0922-1" target="_blank" rel="noopener">British Museum</a></p></div></article>' +
-        '<article class="attachment-item"><button class="record-toggle" type="button" aria-expanded="false"><span>REGISTRO 02 — MATERIAL EM ANÁLISE</span><span class="chev">＋</span></button><div class="record-content" hidden><p class="doc-meta">PROCEDÊNCIA NÃO CONFIRMADA</p><div class="archive-copy">' + paragraphs(analysis) + '</div></div></article>' +
+        '<article class="stage6-context-document"><p class="doc-meta">MATERIAL HISTÓRICO</p><div class="archive-copy">' + paragraphs(historical) + '</div><p class="archive-sources">Referências: <a href="https://www.bl.uk/manuscripts/FullDisplay.aspx?ref=Sloane_MS_3188" target="_blank" rel="noopener">British Library</a> · <a href="https://hsm.ox.ac.uk/holy-table" target="_blank" rel="noopener">History of Science Museum</a> · <a href="https://www.britishmuseum.org/collection/object/H_1906-0922-1" target="_blank" rel="noopener">British Museum</a></p></article>' +
+        '<article class="attachment-item"><button class="record-toggle" type="button" aria-expanded="false"><span>REGISTRO 01 — MATERIAL EM ANÁLISE</span><span class="chev">＋</span></button><div class="record-content" hidden><p class="doc-meta">MATERIAL NÃO CATALOGADO</p><div class="archive-copy">' + paragraphs(analysis) + '</div></div></article>' +
         '<section class="stage6-section"><h3>ANEXOS PRESERVADOS</h3><div class="attachments-list">' + annexMarkup + '</div></section>' +
-        '<article class="attachment-item"><button class="record-toggle" type="button" aria-expanded="false"><span>REGISTRO 03 — RECONSTRUÇÃO</span><span class="chev">＋</span></button><div class="record-content" hidden><div class="archive-copy">' + paragraphs(reconstruction) + '</div></div></article>' +
+        '<article class="attachment-item"><button class="record-toggle" type="button" aria-expanded="false"><span>REGISTRO 02 — RECONSTRUÇÃO</span><span class="chev">＋</span></button><div class="record-content" hidden><div class="archive-copy">' + paragraphs(reconstruction) + '</div></div></article>' +
         '<section class="correspondence-table"><h3>TÁBUA DE CORRESPONDÊNCIA</h3><p><strong>Insira a data reconstruída para consultar o sinal correspondente.</strong></p><form class="correspondence-form"><label>DIA<input name="day" type="number" inputmode="numeric" min="1" max="31" required></label><label>MÊS<input name="month" type="number" inputmode="numeric" min="1" max="12" required></label><button type="submit">CONSULTAR CORRESPONDÊNCIA</button></form><p class="correspondence-result" aria-live="polite"></p></section>' +
-        '<button class="archive-back" type="button">VOLTAR AO PROTOCOLO</button>' +
       '</section>';
 
     actions.querySelectorAll('.stage6-archive .record-toggle, .stage6-archive .attachment-toggle').forEach(button => button.addEventListener('click', () => {
@@ -235,7 +254,7 @@
       if (!valid) { result.textContent = 'DATA NÃO RECONHECIDA'; return; }
       result.textContent = glyph(zodiacFor(day, month));
     });
-    actions.querySelector('.archive-back').addEventListener('click', () => {
+    actions.querySelector('.stage6-top-back').addEventListener('click', () => {
       if (onDashboard) closeDashboardArchive();
       else openStage(stageIndex);
     });
