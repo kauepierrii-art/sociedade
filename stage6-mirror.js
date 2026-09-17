@@ -69,10 +69,6 @@
 
     actions.innerHTML =
       '<section class="mirror-v2' + (stabilized ? ' is-stabilized' : '') + '">' +
-        '<div class="mirror-v2-intro">' +
-          '<p>O espelho permanece sob observação.</p>' +
-          '<button class="mirror-archive-link" type="button">ACESSAR ARQUIVO DE INVESTIGAÇÃO</button>' +
-        '</div>' +
         '<div class="mirror-v2-field" aria-label="Espelho negro com doze sinais zodiacais">' +
           '<div class="mirror-v2-rim"></div>' +
           '<div class="mirror-v2-surface"><span>Nem todos os olhos veem o mesmo.</span></div>' +
@@ -83,12 +79,10 @@
         '</div>' +
         '<p class="mirror-v2-count">' + remaining.length + ' sinais visíveis</p>' +
         '<p class="mirror-v2-status" aria-live="polite"></p>' +
-        '<button class="mirror-stabilize" type="button"' + (remaining.length !== 5 || stabilized ? ' disabled' : '') + '>ESTABILIZAR SUPERFÍCIE</button>' +
       '</section>';
 
     const root = actions.querySelector('.mirror-v2');
     const status = root.querySelector('.mirror-v2-status');
-    const stabilize = root.querySelector('.mirror-stabilize');
     const count = root.querySelector('.mirror-v2-count');
 
     function draw(message) {
@@ -98,11 +92,9 @@
         button.classList.toggle('is-erased', !present);
       });
       count.textContent = remaining.length + ' sinais visíveis';
-      stabilize.disabled = remaining.length !== 5 || stabilized;
       if (message !== undefined) status.textContent = message;
     }
 
-    root.querySelector('.mirror-archive-link').addEventListener('click', renderInvestigationArchive);
     root.querySelectorAll('.zodiac-mark').forEach(button => button.addEventListener('click', () => {
       if (stabilized) return;
       const sign = button.dataset.sign;
@@ -113,21 +105,16 @@
       }
       remaining = present ? remaining.filter(item => item !== sign) : remaining.concat(sign);
       write('remaining', remaining);
-      draw('');
-    }));
-
-    stabilize.addEventListener('click', () => {
-      if (stabilized || remaining.length !== 5) return;
-      if (!isSolution(remaining)) {
-        draw('ESTABILIZAÇÃO NÃO OBTIDA');
+      if (remaining.length === 5 && isSolution(remaining)) {
+        stabilized = true;
+        write('stabilized', true);
+        window.onMirrorStabilized();
+        document.querySelector('#stageStatus').textContent = 'SUPERFÍCIE ESTABILIZADA';
+        draw('SUPERFÍCIE ESTABILIZADA');
         return;
       }
-      stabilized = true;
-      write('stabilized', true);
-      window.onMirrorStabilized();
-      draw('SUPERFÍCIE ESTABILIZADA');
-      document.querySelector('#stageStatus').textContent = 'SUPERFÍCIE ESTABILIZADA';
-    });
+      draw('');
+    }));
     draw(stabilized ? 'SUPERFÍCIE ESTABILIZADA' : '');
   }
 
