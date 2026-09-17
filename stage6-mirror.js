@@ -4,6 +4,7 @@
   const stageStep = stageIndex + 1;
   const zodiac = ['♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓'];
   const solution = ['♑','♈','♊','♒','♓'];
+  const MIRROR_VIDEO = 'assets/stage6/espelho-revelacao.mp4';
   const additionalNotes = [
     { at: 10 * 60 * 1000, text: 'Nenhum dos documentos parece suficiente quando analisado isoladamente. As correspondências mais consistentes surgem apenas quando localização, período, atividade e acontecimento são considerados em conjunto.' },
     { at: 15 * 60 * 1000, text: 'Algumas associações permanecem plausíveis em um único registro, mas deixam de corresponder quando confrontadas com os demais. As referências que persistem entre fontes distintas merecem maior atenção.' },
@@ -120,7 +121,7 @@
 
     let remaining = read('remaining', visibleDefault());
     if (!Array.isArray(remaining) || remaining.length < 5 || remaining.length > zodiac.length || !remaining.every(sign => zodiac.includes(sign))) remaining = visibleDefault();
-    const stabilized = read('stabilized', false) === true;
+    let stabilized = read('stabilized', false) === true;
 
     document.querySelector('#stageCode').textContent = 'ETAPA 06';
     document.querySelector('#stageName').textContent = 'DISCERNIMENTO';
@@ -131,15 +132,36 @@
         '<p class="mirror-question">O que, exatamente, o espelho mostra?</p>' +
         '<div class="mirror-v2-field" aria-label="Espelho negro com doze sinais zodiacais">' +
           '<div class="mirror-v2-rim"></div>' +
-          '<div class="mirror-v2-surface"><span class="mirror-whisper">Nem todos os olhos veem o mesmo</span></div>' +
+          '<div class="mirror-v2-surface"><span class="mirror-whisper">Nem todos os olhos veem o mesmo</span><video class="mirror-v2-video" controls playsinline preload="metadata" hidden><source src="' + MIRROR_VIDEO + '" type="video/mp4"></video></div>' +
           zodiac.map((sign, index) => {
             const present = remaining.includes(sign);
             return '<button class="zodiac-mark ' + (present ? 'is-present' : 'is-erased') + '" type="button" data-sign="' + sign + '" style="--mark:' + index + '" aria-label="Sinal zodiacal ' + (index + 1) + '">' + glyph(sign) + '</button>';
           }).join('') +
-        '</div>' +
+        '</div><button class="mirror-video-play" type="button" hidden>REPRODUZIR REGISTRO</button>' +
       '</section>';
 
     const root = actions.querySelector('.mirror-v2');
+    const video = root.querySelector('.mirror-v2-video');
+    const replay = root.querySelector('.mirror-video-play');
+    const surface = root.querySelector('.mirror-v2-surface');
+    function revealVideo(autoplay) {
+      surface.classList.add('is-revealing');
+      video.hidden = false;
+      root.querySelector('.mirror-whisper').hidden = true;
+      if (!autoplay) { replay.hidden = false; return; }
+      video.currentTime = 0;
+      video.play().catch(() => { replay.hidden = false; });
+    }
+    video.addEventListener('play', () => { replay.hidden = true; });
+    video.addEventListener('ended', () => { replay.hidden = false; });
+    video.addEventListener('error', () => {
+      surface.classList.remove('is-revealing');
+      video.hidden = true;
+      const whisper = root.querySelector('.mirror-whisper');
+      whisper.hidden = false;
+      whisper.textContent = 'Arquivo visual aguardando upload.';
+    });
+    replay.addEventListener('click', () => revealVideo(true));
     function draw() {
       root.querySelectorAll('.zodiac-mark').forEach(button => {
         const present = remaining.includes(button.dataset.sign);
@@ -163,11 +185,13 @@
         window.onMirrorStabilized();
         document.querySelector('#stageStatus').textContent = 'SUPERFÍCIE ESTABILIZADA';
         draw();
+        setTimeout(() => revealVideo(true), 700);
         return;
       }
       draw();
     }));
     draw();
+    if (stabilized) revealVideo(false);
   }
 
   window.onMirrorStabilized = window.onMirrorStabilized || function () {
@@ -380,4 +404,10 @@
     .stage6-additional-notes{margin:22px 0 0;border:1px solid #6d5630;border-radius:4px;background:rgba(83,60,24,.12);overflow:hidden}.stage6-additional-notes h3{margin:0;padding:11px 12px;border-bottom:1px solid rgba(109,86,48,.55);color:var(--amber,#d5a64a);font:700 10px "IBM Plex Mono",monospace;letter-spacing:.12em}.stage6-additional-notes article{padding:11px 12px 10px;border-bottom:1px solid rgba(109,86,48,.28)}.stage6-additional-notes article:last-child{border-bottom:0}.stage6-additional-notes span{display:block;margin-bottom:5px;color:var(--text-soft,#9aa9a3);font:700 8px "IBM Plex Mono",monospace;letter-spacing:.1em}.stage6-additional-notes article:last-child span{color:var(--amber,#d5a64a)}.stage6-additional-notes p{margin:0;color:var(--text,#d8e4df);font-size:12.5px;line-height:1.6}
   `;
   document.head.appendChild(additionalNotesStyle);
+
+  const mirrorVideoStyle = document.createElement('style');
+  mirrorVideoStyle.textContent = `
+    .mirror-v2-surface{overflow:hidden}.mirror-v2-video{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000;object-fit:cover}.mirror-v2-surface.is-revealing{background:#000}.mirror-v2-surface.is-revealing:after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 32px rgba(0,0,0,.72)}.mirror-v2-video[hidden]{display:none}.mirror-video-play{margin:9px auto 0;padding:9px 12px;border:1px solid #87662e;background:rgba(44,31,12,.3);color:#e5bd76;font:700 9px "IBM Plex Mono",monospace;letter-spacing:.12em;cursor:pointer}.mirror-video-play:hover,.mirror-video-play:focus-visible{border-color:#e5bd76;color:#f7d391;outline:0}
+  `;
+  document.head.appendChild(mirrorVideoStyle);
 })();
