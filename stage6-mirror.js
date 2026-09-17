@@ -4,6 +4,14 @@
   const stageStep = stageIndex + 1;
   const zodiac = ['♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓'];
   const solution = ['♑','♈','♊','♒','♓'];
+  const additionalNotes = [
+    { at: 10 * 60 * 1000, text: 'Nenhum dos documentos parece suficiente quando analisado isoladamente. As correspondências mais consistentes surgem apenas quando localização, período, atividade e acontecimento são considerados em conjunto.' },
+    { at: 15 * 60 * 1000, text: 'Algumas associações permanecem plausíveis em um único registro, mas deixam de corresponder quando confrontadas com os demais. As referências que persistem entre fontes distintas merecem maior atenção.' },
+    { at: 20 * 60 * 1000, text: 'O acontecimento associado a cada figura não segue uma única regra. Em alguns casos, trata-se de nascimento; em outros, morte, execução ou celebração. As datas parecem funcionar como intermediárias entre a figura e o sinal correspondente.' }
+  ];
+  let stage6TimerStartedAt = 0;
+  let stage6TimerHandle = 0;
+  let stage6TimingActive = false;
 
   function storageKey(name) {
     return currentRefKey ? 'stage6:v2:' + name + ':' + currentRefKey : null;
@@ -16,6 +24,53 @@
   function write(name, value) {
     if (storageKey(name)) localStorage.setItem(storageKey(name), JSON.stringify(value));
   }
+  function elapsedStage6Time() {
+    const saved = Number(read('additionalNotesElapsed', 0)) || 0;
+    return saved + (stage6TimerStartedAt ? Date.now() - stage6TimerStartedAt : 0);
+  }
+  function syncStage6Time() {
+    if (!stage6TimerStartedAt) return elapsedStage6Time();
+    const elapsed = elapsedStage6Time();
+    write('additionalNotesElapsed', elapsed);
+    stage6TimerStartedAt = Date.now();
+    return elapsed;
+  }
+  function updateAdditionalNotes() {
+    const elapsed = elapsedStage6Time();
+    const unlocked = additionalNotes.filter(note => elapsed >= note.at);
+    document.querySelectorAll('.stage6-additional-notes').forEach(panel => {
+      panel.hidden = unlocked.length === 0;
+      if (!unlocked.length) return;
+      panel.innerHTML = '<h3>APONTAMENTO ADICIONAL</h3>' + unlocked.map((note, index) => '<article><span>ANOTAÇÃO ' + String(index + 1).padStart(2, '0') + '</span><p>' + note.text + '</p></article>').join('');
+    });
+  }
+  function startStage6Timer() {
+    stage6TimingActive = true;
+    if (!stage6TimerStartedAt && !document.hidden) stage6TimerStartedAt = Date.now();
+    if (!stage6TimerHandle) {
+      stage6TimerHandle = setInterval(() => {
+        if (!document.hidden) syncStage6Time();
+        updateAdditionalNotes();
+      }, 1000);
+    }
+    updateAdditionalNotes();
+  }
+  function stopStage6Timer() {
+    if (stage6TimerStartedAt) syncStage6Time();
+    stage6TimerStartedAt = 0;
+    stage6TimingActive = false;
+    if (stage6TimerHandle) clearInterval(stage6TimerHandle);
+    stage6TimerHandle = 0;
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (!stage6TimingActive) return;
+    if (document.hidden) {
+      if (stage6TimerStartedAt) syncStage6Time();
+      stage6TimerStartedAt = 0;
+    } else {
+      stage6TimerStartedAt = Date.now();
+    }
+  });
   function hasVisited() {
     return Boolean(storageKey('visited') && localStorage.getItem(storageKey('visited')) === '1');
   }
@@ -45,6 +100,7 @@
 
   const previousDashboard = renderDashboard;
   renderDashboard = function () {
+    stopStage6Timer();
     previousDashboard();
     enableProtocolClue();
   };
@@ -57,6 +113,7 @@
     if (!actions || !currentRefKey) return;
 
     visit();
+    startStage6Timer();
     if (context) context.hidden = true;
     if (mission) mission.hidden = true;
     if (panelHead) panelHead.hidden = true;
@@ -140,6 +197,7 @@
     const stagesWrap = card && card.querySelector('.stages-wrap');
     const dashboardHead = card && card.querySelector('.dashboard-head');
     if (slot) slot.remove();
+    stopStage6Timer();
     if (card) card.classList.remove('is-stage6-archive');
     if (dashboardHead) dashboardHead.hidden = false;
     if (stagesWrap) stagesWrap.hidden = false;
@@ -149,6 +207,7 @@
   function renderInvestigationArchive(target) {
     if (!currentRefKey) return;
     visit();
+    startStage6Timer();
     const onDashboard = Boolean(target);
     const actions = target || document.querySelector('#stageActions');
     if (!onDashboard) {
@@ -246,8 +305,11 @@
         '<article class="attachment-item"><button class="record-toggle" type="button" aria-expanded="false"><span>REGISTRO 01 — MATERIAL EM ANÁLISE</span><span class="chev">＋</span></button><div class="record-content" hidden><p class="doc-meta">MATERIAL NÃO CATALOGADO</p><div class="archive-copy">' + paragraphs(analysis) + '</div></div></article>' +
         '<section class="stage6-section"><h3>ANEXOS PRESERVADOS</h3><div class="attachments-list">' + annexMarkup + '</div></section>' +
         '<article class="attachment-item"><button class="record-toggle" type="button" aria-expanded="false"><span>REGISTRO 02 — RECONSTRUÇÃO</span><span class="chev">＋</span></button><div class="record-content" hidden><div class="archive-copy">' + paragraphs(reconstruction) + '</div></div></article>' +
+        '<section class="stage6-additional-notes" hidden></section>' +
         '<section class="correspondence-table"><h3>TÁBUA DE CORRESPONDÊNCIA</h3><p><strong>Insira a data reconstruída para consultar o sinal correspondente.</strong></p><form class="correspondence-form"><label>DIA<input name="day" type="number" inputmode="numeric" min="1" max="31" required></label><label>MÊS<input name="month" type="number" inputmode="numeric" min="1" max="12" required></label><button type="submit">CONSULTAR CORRESPONDÊNCIA</button></form><p class="correspondence-result" aria-live="polite"></p></section>' +
       '</section>';
+
+    updateAdditionalNotes();
 
     actions.querySelectorAll('.stage6-archive .record-toggle, .stage6-archive .attachment-toggle').forEach(button => button.addEventListener('click', () => {
       const open = button.getAttribute('aria-expanded') === 'true';
@@ -290,6 +352,7 @@
 
   const previousOpenStage = openStage;
   openStage = function (index) {
+    if (index !== stageIndex) stopStage6Timer();
     previousOpenStage(index);
     if (index !== stageIndex) return;
     setTimeout(renderMirrorStage, 0);
@@ -311,4 +374,10 @@
     @media(max-width:520px){.zodiac-mark{transform:rotate(calc(var(--mark) * 30deg)) translateY(calc(-1 * min(43vw, 145px))) rotate(calc(var(--mark) * -30deg));font-size:24px}.mirror-v2-field{width:100%;max-width:340px}.stage6-archive{font-size:15px}.correspondence-form{gap:9px}.correspondence-form button{width:100%}}
   `;
   document.head.appendChild(style);
+
+  const additionalNotesStyle = document.createElement('style');
+  additionalNotesStyle.textContent = `
+    .stage6-additional-notes{margin:22px 0 0;border:1px solid #6d5630;border-radius:4px;background:rgba(83,60,24,.12);overflow:hidden}.stage6-additional-notes h3{margin:0;padding:11px 12px;border-bottom:1px solid rgba(109,86,48,.55);color:var(--amber,#d5a64a);font:700 10px "IBM Plex Mono",monospace;letter-spacing:.12em}.stage6-additional-notes article{padding:11px 12px 10px;border-bottom:1px solid rgba(109,86,48,.28)}.stage6-additional-notes article:last-child{border-bottom:0}.stage6-additional-notes span{display:block;margin-bottom:5px;color:var(--text-soft,#9aa9a3);font:700 8px "IBM Plex Mono",monospace;letter-spacing:.1em}.stage6-additional-notes article:last-child span{color:var(--amber,#d5a64a)}.stage6-additional-notes p{margin:0;color:var(--text,#d8e4df);font-size:12.5px;line-height:1.6}
+  `;
+  document.head.appendChild(additionalNotesStyle);
 })();
