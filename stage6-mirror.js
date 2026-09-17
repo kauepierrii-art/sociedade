@@ -123,6 +123,10 @@
     let remaining = read('remaining', visibleDefault());
     if (!Array.isArray(remaining) || remaining.length < 5 || remaining.length > zodiac.length || !remaining.every(sign => zodiac.includes(sign))) remaining = visibleDefault();
     let stabilized = read('stabilized', false) === true;
+    if (!stabilized && isSolution(remaining)) {
+      stabilized = true;
+      write('stabilized', true);
+    }
 
     document.querySelector('#stageCode').textContent = 'ETAPA 06';
     document.querySelector('#stageName').textContent = 'DISCERNIMENTO';
@@ -167,7 +171,15 @@
       videoControls.hidden = true;
     }
     video.addEventListener('play', () => { replay.hidden = true; });
-    video.addEventListener('ended', () => { replay.hidden = false; });
+    video.addEventListener('ended', () => {
+      replay.hidden = false;
+      write('videoWatched', true);
+      if (stageStep && currentRefKey) {
+        completedCount = Math.max(completedCount, stageStep);
+        saveProgress(currentRefKey, completedCount);
+      }
+      document.querySelector('#stageStatus').textContent = 'REGISTRO CONCLUÍDO — ETAPA 07 LIBERADA';
+    });
     video.addEventListener('error', () => {
       hideVideo();
       const whisper = root.querySelector('.mirror-whisper');
@@ -180,6 +192,7 @@
         const present = remaining.includes(button.dataset.sign);
         button.classList.toggle('is-present', present);
         button.classList.toggle('is-erased', !present);
+        button.disabled = stabilized;
       });
     }
 
@@ -204,6 +217,9 @@
       draw();
     }));
     draw();
+    if (read('videoWatched', false) === true) {
+      document.querySelector('#stageStatus').textContent = 'REGISTRO CONCLUÍDO — ETAPA 07 LIBERADA';
+    }
     if (stabilized) revealVideo(false);
   }
 
@@ -453,7 +469,7 @@
 
   const mirrorVideoStyle = document.createElement('style');
   mirrorVideoStyle.textContent = `
-    .mirror-v2-surface{overflow:hidden}.mirror-v2-video{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000;object-fit:cover}.mirror-v2-surface.is-revealing{background:#000}.mirror-v2-surface.is-revealing:after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 32px rgba(0,0,0,.72)}.mirror-v2-video[hidden]{display:none}.mirror-video-play{margin:9px auto 0;padding:9px 12px;border:1px solid #87662e;background:rgba(44,31,12,.3);color:#e5bd76;font:700 9px "IBM Plex Mono",monospace;letter-spacing:.12em;cursor:pointer}.mirror-video-play:hover,.mirror-video-play:focus-visible{border-color:#e5bd76;color:#f7d391;outline:0}
+    .mirror-v2-surface{overflow:hidden}.mirror-v2-video{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000;object-fit:cover}.mirror-v2-surface.is-revealing{background:#000}.mirror-v2-surface.is-revealing:after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 32px rgba(0,0,0,.72)}.mirror-v2-video[hidden],.mirror-video-controls[hidden]{display:none!important}.mirror-video-play{margin:9px auto 0;padding:9px 12px;border:1px solid #87662e;background:rgba(44,31,12,.3);color:#e5bd76;font:700 9px "IBM Plex Mono",monospace;letter-spacing:.12em;cursor:pointer}.mirror-video-play:hover,.mirror-video-play:focus-visible{border-color:#e5bd76;color:#f7d391;outline:0}
   `;
   document.head.appendChild(mirrorVideoStyle);
 
