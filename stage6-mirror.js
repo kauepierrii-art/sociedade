@@ -23,6 +23,7 @@
     if (storageKey('visited')) localStorage.setItem(storageKey('visited'), '1');
   }
   function visibleDefault() { return zodiac.slice(); }
+  function glyph(sign) { return sign + '\uFE0E'; }
   function isSolution(visible) {
     return visible.length === solution.length && solution.every(sign => visible.includes(sign));
   }
@@ -75,7 +76,7 @@
           '<div class="mirror-v2-surface"><span>Nem todos os olhos veem o mesmo.</span></div>' +
           zodiac.map((sign, index) => {
             const present = remaining.includes(sign);
-            return '<button class="zodiac-mark ' + (present ? 'is-present' : 'is-erased') + '" type="button" data-sign="' + sign + '" style="--mark:' + index + '" aria-label="Sinal zodiacal ' + (index + 1) + '">' + sign + '</button>';
+            return '<button class="zodiac-mark ' + (present ? 'is-present' : 'is-erased') + '" type="button" data-sign="' + sign + '" style="--mark:' + index + '" aria-label="Sinal zodiacal ' + (index + 1) + '">' + glyph(sign) + '</button>';
           }).join('') +
         '</div>' +
       '</section>';
@@ -208,7 +209,7 @@
       const month = Number(form.elements.month.value);
       const valid = Number.isInteger(day) && Number.isInteger(month) && new Date(2000, month - 1, day).getMonth() === month - 1;
       if (!valid) { result.textContent = 'DATA NÃO RECONHECIDA'; return; }
-      result.textContent = zodiacFor(day, month);
+      result.textContent = glyph(zodiacFor(day, month));
     });
     actions.querySelector('.archive-back').addEventListener('click', () => openStage(stageIndex));
   }
