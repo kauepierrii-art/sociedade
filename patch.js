@@ -64,6 +64,7 @@ renderDashboard = function() {
   // O botão inferior não navega entre etapas. Ele só é liberado após a Admissão.
   const admitted = completedCount >= stages.length;
   continueBtn.disabled = !admitted;
+  continueBtn.classList.toggle('is-admitted', admitted);
   continueBtn.innerHTML = admitted
     ? '<span aria-hidden="true">→</span> Continuar'
     : `${lockIcon()} <span>Continuar</span>`;

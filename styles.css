@@ -356,7 +356,19 @@ input::placeholder { color: #4d6e65; }
   color: #54746c;
 }
 .continue-btn:disabled { opacity: .55; cursor: not-allowed; }
-.continue-btn:not(:disabled) { color: var(--amber); border-color: #695219; }
+.continue-btn.is-admitted {
+  border: 1px solid #b48943;
+  background: linear-gradient(145deg, #553914, #211506);
+  color: #f0cf8c;
+  box-shadow: inset 0 0 0 1px rgba(255,220,147,.13), 0 0 14px rgba(166,112,32,.18);
+}
+.continue-btn.is-admitted:hover,
+.continue-btn.is-admitted:focus-visible {
+  border-color: #e1bd75;
+  background: linear-gradient(145deg, #714b18, #301c08);
+  color: #fff0c7;
+  outline: 0;
+}
 
 /* STAGE */
 .stage-card { padding: 22px 24px 28px; min-height: calc(100vh - 10px); }
