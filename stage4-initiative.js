@@ -252,7 +252,7 @@
   openStage = function (index) {
     originalOpenStageInitiative(index);
     const panelTitle = document.querySelector('.detail-panel .panel-head h2');
-    if (panelTitle) panelTitle.textContent = stages[index] && stages[index].name === 'Iniciativa' ? 'APARELHO INCOMUM' : 'INSTRUÇÃO';
+    if (panelTitle) panelTitle.textContent = PANEL_TITLES[index] || 'INSTRUÇÃO';
     if (stages[index] && stages[index].name === 'Iniciativa') renderInitiativeContent();
   };
 
