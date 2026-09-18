@@ -714,3 +714,17 @@ input::placeholder {
     height: 34px;
   }
 }
+
+/* OUTER FRAME REMOVAL — login + protocol dashboard */
+.login-card,
+.dashboard-card {
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.login-card::after,
+.dashboard-card::after {
+  display: none !important;
+}
