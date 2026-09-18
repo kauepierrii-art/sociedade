@@ -13,7 +13,7 @@ infoKey = function() {
   return `important-info-seen:v2:${currentRefKey}`;
 };
 
-window.PROTOCOL_CONTINUE_URL = window.PROTOCOL_CONTINUE_URL || '';
+window.PROTOCOL_CONTINUE_URL = 'https://kauepierrii-art.github.io/ordomognus/';
 
 function lockIcon() {
   return `
