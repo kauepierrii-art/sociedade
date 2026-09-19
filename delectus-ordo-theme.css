@@ -1505,3 +1505,175 @@ input::placeholder {
 .stage6-archive .correspondence-saved-item {
   border-top-color: rgba(153, 103, 58, .35) !important;
 }
+
+
+/* PAPEL DE ARQUIVO — LEITURA LONGA — 2026-09-19 */
+/* O jogo continua escuro. Apenas as áreas que apresentam material para
+   leitura ganham uma superfície de papel sem textura, borda bronze e prosa
+   escura. A pista do espelho, a animação, os botões e o material visual
+   permanecem no estilo anterior. */
+#stageView .context-copy:not(:empty),
+#stageView .mission-copy:not(:empty),
+#stageView .record-content,
+#stageView .attachment-content,
+#stageView .initiative-document-sheet,
+#stageView .stage5-opening-content,
+.stage5-completion-modal .stage5-opening-content,
+.stage6-archive .stage6-context-document,
+.stage6-archive .record-content,
+.stage6-archive .attachment-content,
+.stage6-archive .stage6-additional-notes article,
+.print-modal .print-copy {
+  background: #f3ebdd !important;
+  color: #342820 !important;
+  border: 1px solid #b89a77 !important;
+  border-radius: 3px;
+  box-shadow: none !important;
+  background-image: none !important;
+}
+/* A moldura escura do acordeão fica do lado de fora do documento claro.
+   Diminuir a densidade visual nos blocos abertos. */
+#stageView .context-copy:not(:empty),
+#stageView .mission-copy:not(:empty),
+#stageView .record-content,
+#stageView .attachment-content,
+#stageView .initiative-document-sheet,
+#stageView .stage5-opening-content,
+.stage5-completion-modal .stage5-opening-content,
+.stage6-archive .stage6-context-document,
+.stage6-archive .record-content,
+.stage6-archive .attachment-content,
+.stage6-archive .stage6-additional-notes article,
+.print-modal .print-copy {
+  padding: clamp(18px, 2.5vw, 30px) !important;
+}
+#stageView .context-copy[hidden],
+#stageView .mission-copy[hidden],
+#stageView .record-content[hidden],
+#stageView .attachment-content[hidden],
+.stage6-archive .record-content[hidden],
+.stage6-archive .attachment-content[hidden],
+#stageView .stage5-opening-content[hidden],
+.stage5-completion-modal .stage5-opening-content[hidden] {
+  display: none !important;
+}
+/* Texto corrido: mais escuro e maior; serifas só nos documentos, mantendo
+   cabeçalhos técnicos e informações de interface em suas fontes próprias. */
+#stageView .context-copy:not(:empty),
+#stageView .mission-copy:not(:empty),
+#stageView .record-content,
+#stageView .attachment-content,
+#stageView .initiative-document-sheet,
+#stageView .stage5-opening-content,
+.stage5-completion-modal .stage5-opening-content,
+.stage6-archive .stage6-context-document,
+.stage6-archive .record-content,
+.stage6-archive .attachment-content,
+.stage6-archive .stage6-additional-notes article,
+.print-modal .print-copy {
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 18px !important;
+  line-height: 1.65 !important;
+  letter-spacing: normal !important;
+}
+/* Prioridade ao contraste nos textos que recebiam cor clara com !important
+   nas regras antigas, inclusive no arquivo aberto sobre o painel. */
+#stageView .context-copy :is(p, li, blockquote, strong, em),
+#stageView .mission-copy :is(p, li, blockquote, strong, em),
+#stageView .record-content :is(p, li, blockquote, strong, em),
+#stageView .attachment-content :is(p, li, blockquote, strong, em),
+#stageView .initiative-document-sheet :is(p, li, blockquote, strong, em),
+#stageView .stage5-opening-content :is(p, li, blockquote, strong, em),
+.stage5-completion-modal .stage5-opening-content :is(p, li, blockquote, strong, em),
+.stage6-archive .stage6-context-document :is(p, li, blockquote, strong, em),
+.stage6-archive .record-content :is(p, li, blockquote, strong, em),
+.stage6-archive .attachment-content :is(p, li, blockquote, strong, em),
+.stage6-archive .stage6-additional-notes article :is(p, li, blockquote, strong, em),
+.print-modal .print-copy :is(p, li, blockquote, strong, em) {
+  color: #342820 !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  letter-spacing: normal !important;
+}
+#stageView .context-copy :is(p, li, blockquote),
+#stageView .mission-copy :is(p, li, blockquote),
+#stageView .record-content :is(p, li, blockquote),
+#stageView .attachment-content :is(p, li, blockquote),
+#stageView .initiative-document-sheet :is(p, li, blockquote),
+#stageView .stage5-opening-content :is(p, li, blockquote),
+.stage5-completion-modal .stage5-opening-content :is(p, li, blockquote),
+.stage6-archive .stage6-context-document :is(p, li, blockquote),
+.stage6-archive .record-content :is(p, li, blockquote),
+.stage6-archive .attachment-content :is(p, li, blockquote),
+.stage6-archive .stage6-additional-notes article :is(p, li, blockquote),
+.print-modal .print-copy :is(p, li, blockquote) {
+  max-width: 65ch;
+}
+/* Cabeçalhos, fontes e metadados DENTRO do papel devem virar marrom-bronze.
+   Os títulos dos acordeões e os botões fora do papel não são afetados. */
+#stageView .record-content :is(h3, h4, h5, .doc-section-title),
+#stageView .attachment-content :is(h3, h4, h5, .doc-section-title),
+#stageView .initiative-document-sheet :is(h3, h4, h5),
+#stageView .stage5-opening-content :is(h3, h4),
+.stage5-completion-modal .stage5-opening-content :is(h3, h4),
+.stage6-archive .stage6-context-document :is(h3, h4),
+.stage6-archive .record-content :is(h3, h4, h5, .doc-section-title),
+.stage6-archive .attachment-content :is(h3, h4, h5, .doc-section-title),
+.print-modal .print-copy :is(h3, h4) {
+  color: #62462f !important;
+}
+#stageView .record-content .doc-meta,
+#stageView .attachment-content .doc-meta,
+.stage6-archive .stage6-context-document .doc-meta,
+.stage6-archive .record-content .doc-meta,
+.stage6-archive .attachment-content .doc-meta,
+#stageView .stage5-opening-content .stage5-opening-label,
+.stage5-completion-modal .stage5-opening-content .stage5-opening-label {
+  color: #785333 !important;
+}
+#stageView .record-content a,
+#stageView .attachment-content a,
+#stageView .initiative-document-sheet a,
+.stage6-archive .stage6-context-document a,
+.stage6-archive .record-content a,
+.stage6-archive .attachment-content a {
+  color: #694322 !important;
+  text-decoration: underline;
+  text-underline-offset: .15em;
+}
+#stageView .record-content :is(blockquote, .doc-section-title),
+#stageView .attachment-content :is(blockquote, .doc-section-title),
+.stage6-archive .record-content blockquote,
+.stage6-archive .attachment-content blockquote {
+  border-left-color: #ad855a !important;
+}
+/* Fontes e metadados da investigação aparecem dentro da folha, não no tema
+   de interface escuro. A tábua interativa continua em vinho e bronze. */
+.stage6-archive .stage6-context-document .archive-sources {
+  color: #755638 !important;
+  border-top-color: #cbb69c !important;
+}
+.stage6-archive .stage6-context-document .archive-sources a {
+  color: #694322 !important;
+}
+.stage6-archive .stage6-additional-notes article span {
+  color: #755638 !important;
+}
+@media (max-width: 700px) {
+  #stageView .context-copy:not(:empty),
+  #stageView .mission-copy:not(:empty),
+  #stageView .record-content,
+  #stageView .attachment-content,
+  #stageView .initiative-document-sheet,
+  #stageView .stage5-opening-content,
+  .stage5-completion-modal .stage5-opening-content,
+  .stage6-archive .stage6-context-document,
+  .stage6-archive .record-content,
+  .stage6-archive .attachment-content,
+  .stage6-archive .stage6-additional-notes article,
+  .print-modal .print-copy {
+    font-size: 17px !important;
+    line-height: 1.6 !important;
+    padding: 18px 16px !important;
+  }
+}
