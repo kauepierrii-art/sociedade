@@ -2521,3 +2521,40 @@ input::placeholder {
     font-size: 14px !important;
   }
 }
+
+
+/* ETAPA 04 — SEIS REGISTROS NO PADRÃO DE CAIXAS DO PROTOCOLO — 2026-09-19 */
+/* Somente os seis registros de MATERIAL DISPONÍVEL: borda bronze contínua,
+   espaçamento entre caixas e mesmo formato dos registros das demais etapas.
+   Não altera o conteúdo, as galerias, os documentos internos nem o aparelho. */
+#stageView .initiative-materials .initiative-material-list {
+  border-top: 0 !important;
+}
+#stageView .initiative-materials .initiative-material-list > .initiative-material-item {
+  margin: 0 0 10px !important;
+  border: 1px solid #5b3f2b !important;
+  border-radius: 5px !important;
+  background: #0d0907 !important;
+  overflow: hidden;
+}
+#stageView .initiative-materials .initiative-material-list > .initiative-material-item > .initiative-material-toggle {
+  width: 100%;
+  min-height: 45px;
+  padding: 12px 14px !important;
+  align-items: center;
+  text-align: left;
+  background: transparent !important;
+  color: #e9ddcd !important;
+}
+#stageView .initiative-materials .initiative-material-list > .initiative-material-item > .initiative-material-toggle:hover,
+#stageView .initiative-materials .initiative-material-list > .initiative-material-item > .initiative-material-toggle:focus-visible {
+  background: rgba(143, 85, 42, .055) !important;
+}
+#stageView .initiative-materials .initiative-material-list > .initiative-material-item > .initiative-material-toggle .chev {
+  color: #c48749 !important;
+  flex: 0 0 auto;
+}
+/* Respiro do conteúdo aberto sem alterar o estilo dos materiais internos. */
+#stageView .initiative-materials .initiative-material-list > .initiative-material-item > .initiative-material-content {
+  padding: 8px 14px 16px !important;
+}
