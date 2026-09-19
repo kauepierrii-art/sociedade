@@ -1708,10 +1708,9 @@ input::placeholder {
 }
 
 
-/* TIPOGRAFIA DE LEITURA — CHIRP / INTER — 2026-09-19 */
-/* Chirp somente quando houver uma instalação/fonte devidamente autorizada.
-   Inter é a alternativa web carregada no index.html. Preservar textos técnicos,
-   cabeçalhos, botões, o espelho e a pista pulsante. */
+/* TIPOGRAFIA DE LEITURA — INTER MEDIUM — 2026-09-19 */
+/* Inter carregada pelo próprio site, mantendo intactos títulos técnicos,
+   botões, o espelho e a pista pulsante do rodapé. */
 #stageView .context-copy:not(:empty),
 #stageView .mission-copy:not(:empty),
 #stageView .record-content,
@@ -1728,7 +1727,7 @@ input::placeholder {
 .stage6-archive .attachment-content,
 .stage6-archive .stage6-additional-notes article p,
 .print-modal .print-copy {
-  font-family: "Chirp", "TwitterChirp", "Inter", "Helvetica Neue", Arial, sans-serif !important;
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif !important;
 }
 /* Alguns blocos trazem Georgia aplicada diretamente em parágrafos, listas,
    citações e ênfases. Sobrescrever apenas a prosa, sem mudar metadados. */
@@ -1748,6 +1747,28 @@ input::placeholder {
 .stage6-archive .attachment-content :is(p, li, blockquote, strong, em),
 .stage6-archive .stage6-additional-notes article :is(p, li, blockquote, strong, em),
 .print-modal .print-copy :is(p, li, blockquote, strong, em) {
-  font-family: "Chirp", "TwitterChirp", "Inter", "Helvetica Neue", Arial, sans-serif !important;
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif !important;
   letter-spacing: normal !important;
+}
+
+
+/* Inter Medium: mais corpo para a prosa, sem transformar em negrito os
+   parágrafos. Subtítulos, metadados, ênfases e controles preservam a hierarquia. */
+#stageView .context-copy,
+#stageView .mission-copy:not(.mission-copy--emphasis),
+#stageView .record-content :is(p, li, blockquote),
+#stageView .attachment-content :is(p, li, blockquote),
+#stageView .initiative-copy:not(.initiative-objective),
+#stageView .initiative-material-content > p,
+#stageView .initiative-document-sheet :is(p, li, blockquote),
+#stageView .stage5-part-copy :is(p, li, blockquote),
+#stageView .stage5-opening-content :is(p, li, blockquote),
+.stage5-completion-modal .stage5-opening-content :is(p, li, blockquote),
+.stage6-archive .stage6-context-document :is(p, li, blockquote),
+.stage6-archive .archive-copy :is(p, li, blockquote),
+.stage6-archive .record-content :is(p, li, blockquote),
+.stage6-archive .attachment-content :is(p, li, blockquote),
+.stage6-archive .stage6-additional-notes article p,
+.print-modal .print-copy p {
+  font-weight: 500 !important;
 }
