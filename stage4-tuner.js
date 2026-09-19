@@ -157,7 +157,14 @@
         video.addEventListener('play', () => { toggle.textContent = 'PAUSAR MENSAGEM'; });
         video.addEventListener('pause', () => { if (!video.ended) toggle.textContent = 'RETOMAR MENSAGEM'; });
         toggle.addEventListener('click', () => { if (video.paused) video.play(); else video.pause(); });
-        button.addEventListener('click', () => { video.pause(); overlay.hidden = true; renderDashboard(); show(dashboardView); });
+        button.addEventListener('click', () => {
+          video.pause();
+          overlay.hidden = true;
+          // A mensagem já foi disponibilizada: ir à Etapa 5 sem exigir o fim
+          // do vídeo. O Voltar do celular continuará levando ao protocolo.
+          if (initiativeStep && completedCount >= initiativeStep) openStage(initiativeStep);
+          else { renderDashboard(); show(dashboardView); }
+        });
       }
       const video = overlay.querySelector('video');
       const button = overlay.querySelector('.stage4-video-continue');
