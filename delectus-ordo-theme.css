@@ -2354,9 +2354,12 @@ input::placeholder {
 }
 /* Textos narrativos sobre fundo ESCURO: serifas institucionais, em vez da
    Inter de documento. São seletores específicos para não mudar o papel. */
-.stage6-archive > .stage6-context-document,
-.stage6-archive > .stage6-context-document .archive-copy,
-.stage6-archive > .stage6-context-document .archive-copy :is(p, li, strong, em),
+#stageView .stage6-archive > .stage6-context-document,
+#stageView .stage6-archive > .stage6-context-document .archive-copy,
+#stageView .stage6-archive > .stage6-context-document .archive-copy :is(p, li, strong, em),
+#dashboardView .stage6-archive > .stage6-context-document,
+#dashboardView .stage6-archive > .stage6-context-document .archive-copy,
+#dashboardView .stage6-archive > .stage6-context-document .archive-copy :is(p, li, strong, em),
 .stage5-completion-modal .stage5-opening > p:not(.stage5-opening-label),
 .stage5-completion-modal .stage5-opening > p:not(.stage5-opening-label) :is(strong, em),
 #stageView .stage5-timeline.is-review .stage5-opening-content > p:not(.stage5-opening-label),
