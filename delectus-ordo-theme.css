@@ -1098,26 +1098,32 @@ input::placeholder {
 }
 /* O link surge após visitar a etapa 6. Substituímos também o nome da
    animação antiga, para evitar que suas keyframes ciano voltem a atuar. */
+/* Pulsação mais luminosa, preservando o âmbar institucional.
+   Sem !important na cor-base: isso permite que a animação altere a cor. */
 #dashboardView .dashboard-footer .quote.mirror-protocol-link a {
-  color: #b9935d !important;
+  color: #b9935d;
   text-decoration: none;
-  animation: delectus-amber-clue 2.9s ease-in-out infinite !important;
+  animation: delectus-amber-clue 2.45s ease-in-out infinite !important;
 }
 #dashboardView .dashboard-footer .quote.mirror-protocol-link a:hover,
 #dashboardView .dashboard-footer .quote.mirror-protocol-link a:focus-visible {
-  color: #f0d8a8 !important;
-  text-shadow: 0 0 5px rgba(240,216,168,.32), 0 0 13px rgba(191,132,60,.16) !important;
+  color: #fff1d0 !important;
+  text-shadow: 0 0 3px rgba(255,246,223,.95), 0 0 12px rgba(255,220,141,.80), 0 0 26px rgba(217,143,49,.48) !important;
   outline-color: #d6b07a;
 }
 @keyframes delectus-amber-clue {
   0%, 100% {
     color: #b9935d;
     text-shadow: 0 0 0 rgba(240,216,168,0);
-    opacity: .80;
+    opacity: .78;
   }
-  48%, 60% {
-    color: #f0d8a8;
-    text-shadow: 0 0 5px rgba(240,216,168,.28), 0 0 11px rgba(191,132,60,.14);
+  42%, 58% {
+    color: #fff1d0;
+    text-shadow:
+      0 0 3px rgba(255,246,223,.95),
+      0 0 10px rgba(255,220,141,.86),
+      0 0 22px rgba(217,143,49,.58),
+      0 0 36px rgba(175,97,23,.34);
     opacity: 1;
   }
 }
