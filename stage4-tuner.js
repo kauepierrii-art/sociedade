@@ -7,6 +7,10 @@
     success: 'assets/stage4/tuner-success.MP3'
   };
   const SUPPORT_VIDEO = 'assets/stage4/mensagem-de-apoio.mp4';
+  let activeTunerCleanup = null;
+  window.addEventListener('delectus:leaving-stage', () => {
+    if (activeTunerCleanup) activeTunerCleanup();
+  });
 
   // Static hosting cannot keep a client-side secret. This verifies a derived
   // digest instead of publishing the four digits as readable source text.
@@ -38,6 +42,7 @@
     const list = document.querySelector('.initiative-material-list');
     if (!list || document.getElementById('stage4Tuner')) return;
 
+    if (activeTunerCleanup) activeTunerCleanup();
     const panel = document.createElement('section');
     panel.id = 'stage4Tuner';
     panel.className = 'stage4-tuner';
@@ -74,12 +79,35 @@
     const status = panel.querySelector('.stage4-tuner-status');
     const initiativeStep = stages.findIndex(stage => stage && stage.name === 'Iniciativa') + 1;
     const reviewMode = Boolean(initiativeStep && completedCount >= initiativeStep);
+    const solvedKey = currentRefKey ? 'stage4:tuner-solved:' + currentRefKey : null;
+    let tuningLocked = reviewMode || Boolean(solvedKey && localStorage.getItem(solvedKey) === '1');
     const mainAudio = audio(AUDIO.success);
     let values = [1, 1, 1, 1];
     let rotations = [-160, -160, -160, -160];
     let on = false;
     let returnTimer;
     let supportTimers = [];
+    activeTunerCleanup = () => {
+      clearTimeout(returnTimer);
+      supportTimers.forEach(clearTimeout);
+      supportTimers = [];
+      mainAudio.pause();
+      const videoPopup = document.getElementById('stage4SupportVideo');
+      if (videoPopup) {
+        const playingVideo = videoPopup.querySelector('video');
+        if (playingVideo) playingVideo.pause();
+        videoPopup.hidden = true;
+      }
+      const recoveryPopup = document.getElementById('stage4RecoverySequence');
+      if (recoveryPopup) recoveryPopup.hidden = true;
+    };
+
+    function lockTuning() {
+      tuningLocked = true;
+      if (solvedKey) localStorage.setItem(solvedKey, '1');
+      panel.classList.add('is-stabilized');
+      Array.from(knobs.children).forEach(knob => { knob.disabled = true; });
+    }
 
     function completeCurrentStage() {
       if (!initiativeStep || !currentRefKey) return;
@@ -176,7 +204,7 @@
         mainAudio.currentTime = 0;
         led.className = 'stage4-led';
         led.setAttribute('aria-label', 'Indicador desligado');
-        status.textContent = 'SISTEMA EM ESPERA';
+        status.textContent = tuningLocked ? 'FREQUÊNCIA CONFIRMADA — AJUSTE PRESERVADO.' : 'SISTEMA EM ESPERA';
       }
     }
 
@@ -191,7 +219,7 @@
     }
 
     function adjust(index, direction) {
-      if (on) return;
+      if (on || tuningLocked) return;
       values[index] = ((values[index] - 1 + direction + 9) % 9) + 1;
       rotations[index] += direction * 40;
       updateKnob(index);
@@ -200,7 +228,7 @@
     }
 
     function selectValue(index, value) {
-      if (on || values[index] === value) return;
+      if (on || tuningLocked || values[index] === value) return;
       let steps = value - values[index];
       if (steps > 4) steps -= 9;
       if (steps < -4) steps += 9;
@@ -231,7 +259,7 @@
         return Math.atan2(event.clientY - (bounds.top + bounds.height / 2), event.clientX - (bounds.left + bounds.width / 2)) * 180 / Math.PI;
       };
       knob.addEventListener('pointerdown', event => {
-        if (on) return;
+        if (on || tuningLocked) return;
         activePointer = event.pointerId;
         lastAngle = pointerAngle(event);
         accumulated = 0;
@@ -287,7 +315,7 @@
       if (on) return setPower(false, true);
       setPower(true, true);
       status.textContent = 'VERIFICANDO FREQUÊNCIA…';
-      const valid = await digest(values.join('')) === expected;
+      const valid = tuningLocked || await digest(values.join('')) === expected;
       if (!on) return;
       if (!valid) {
         window.dispatchEvent(new Event('stage4-hint-error'));
@@ -301,6 +329,7 @@
         }, 800);
         return;
       }
+      if (!tuningLocked) lockTuning();
       panel.classList.add('is-playing');
       led.setAttribute('aria-label', 'Sinal estabilizado');
       status.textContent = 'SINAL ESTABILIZADO — REPRODUZINDO FITA';
@@ -315,10 +344,14 @@
       panel.classList.remove('is-playing');
       setPower(false, true);
       status.textContent = 'RECUPERAÇÃO CONCLUÍDA — COMUNICAÇÃO RECEBIDA.';
-      showRecoverySequence();
+      if (completedCount >= initiativeStep) {
+        replayButton.hidden = false;
+      } else {
+        showRecoverySequence();
+      }
     });
 
-    if (reviewMode) {
+    if (tuningLocked) {
       values = [6, 4, 7, 3];
       rotations = values.map(value => (value - 1) * 40 - 160);
       values.forEach((_, index) => {
@@ -331,9 +364,10 @@
       lever.setAttribute('aria-label', 'Alavanca desligada — sintonia preservada');
       led.setAttribute('aria-label', 'Sinal estabilizado');
       status.textContent = 'FREQUÊNCIA CONFIRMADA — AJUSTE PRESERVADO.';
-      replayButton.hidden = false;
+      replayButton.hidden = !reviewMode;
     } else {
       randomValues().then(initial => {
+        if (tuningLocked) return;
         values = initial;
         rotations = initial.map(value => (value - 1) * 40 - 160);
         values.forEach((_, index) => updateKnob(index));
