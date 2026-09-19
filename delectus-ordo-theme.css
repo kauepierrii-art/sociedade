@@ -1899,3 +1899,158 @@ input::placeholder {
 .print-modal .print-copy :is(p, li, blockquote, strong, em) {
   color: #e5d8c6 !important;
 }
+
+
+/* ETAPA 05 — DUAS PARTES, LIMPAR BARALHO E AVISO DE APONTAMENTO — 2026-09-19 */
+/* Manter a hierarquia da investigação: a segunda parte é uma nova tarefa,
+   não uma continuação da instrução de montar a linha do tempo. */
+#stageView .stage5-timeline.is-part-two > .stage5-part-one-actions,
+#stageView .stage5-timeline.is-part-two > .stage5-hint-notice,
+#stageView .stage5-timeline.is-review > .stage5-part-one-actions,
+#stageView .stage5-timeline.is-review > .stage5-hint-notice,
+#stageView .stage5-hint-notice[hidden] {
+  display: none !important;
+}
+#stageView .stage5-part-one-actions {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+#stageView .stage5-part-one-actions > .stage5-confirm {
+  flex: 1 1 240px;
+  margin: 0 !important;
+}
+#stageView .stage5-clear {
+  flex: 0 1 180px;
+  min-height: 45px;
+  padding: 11px 16px;
+  border: 1px solid #8b663f;
+  border-radius: 4px;
+  background: #19110d;
+  color: #e2b77a;
+  font: 700 11px/1.4 "IBM Plex Mono", monospace;
+  letter-spacing: .06em;
+  cursor: pointer;
+}
+#stageView .stage5-clear:hover:not(:disabled),
+#stageView .stage5-clear:focus-visible {
+  border-color: #d1a16b;
+  color: #f4d4a3;
+}
+#stageView .stage5-clear:disabled {
+  opacity: .46;
+  cursor: default;
+}
+#stageView .stage5-part-two {
+  margin: 24px 0 0;
+  padding: clamp(22px, 3vw, 36px) !important;
+  border: 1px solid #765436;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #231711 0%, #160f0c 50%, #110c09 100%);
+}
+#stageView .stage5-part-heading {
+  margin: 0 0 22px;
+  padding: 0 0 18px;
+  border-bottom: 1px solid rgba(175, 121, 67, .48);
+  text-align: left;
+}
+#stageView .stage5-part-heading .stage5-part-label {
+  margin: 0 0 10px;
+  color: #d6a16d !important;
+  font: 700 12px/1.5 "IBM Plex Mono", monospace !important;
+  letter-spacing: .12em;
+  text-align: left !important;
+}
+#stageView .stage5-part-heading h3 {
+  margin: 0 0 10px;
+  color: #f0e3d1;
+  font: 600 clamp(29px, 3vw, 40px)/1.08 "Cormorant Garamond", Georgia, serif;
+  letter-spacing: normal;
+}
+#stageView .stage5-part-heading .stage5-part-status {
+  margin: 0;
+  color: #c9a77c;
+  font: 700 11px/1.6 "IBM Plex Mono", monospace;
+  letter-spacing: .045em;
+}
+#stageView .stage5-part-two .stage5-part-copy {
+  max-width: 70ch;
+  margin: 0 0 24px;
+  padding: 0 0 0 17px;
+  border-left: 2px solid #b7844c;
+  color: #eee1d1 !important;
+  font: 500 18px/1.65 "Inter", Arial, sans-serif !important;
+  letter-spacing: normal !important;
+  text-align: left !important;
+}
+#stageView .stage5-part-two .stage5-part-copy p,
+#stageView .stage5-part-two .stage5-part-copy p :is(strong, em) {
+  max-width: 67ch;
+  margin: 0 0 12px;
+  color: #eee1d1 !important;
+  font-family: "Inter", Arial, sans-serif !important;
+  font-size: 18px !important;
+  line-height: 1.65 !important;
+  letter-spacing: normal !important;
+  text-align: left !important;
+}
+#stageView .stage5-part-two .stage5-part-copy p:last-child {
+  margin-bottom: 0;
+}
+#stageView .stage5-part-two .stage5-part-instruction {
+  font-weight: 600 !important;
+}
+/* O aviso fica junto ao botão que o jogador acabou de usar, sem exigir
+   procurar um painel de ajuda no rodapé da etapa. */
+#stageView .stage5-hint-notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 12px 0 4px;
+  padding: 12px 14px;
+  border: 1px solid #b98a50;
+  border-radius: 4px;
+  background: #342113;
+  color: #f0d6a9;
+  font: 700 11px/1.45 "IBM Plex Mono", monospace;
+  letter-spacing: .04em;
+}
+#stageView .stage5-hint-open {
+  min-height: 36px;
+  padding: 8px 12px;
+  border: 1px solid #d0a165;
+  border-radius: 3px;
+  background: #4a2d17;
+  color: #fff1d9;
+  font: 700 11px/1.35 "IBM Plex Mono", monospace;
+  cursor: pointer;
+}
+#stageView .stage5-hint-open:hover,
+#stageView .stage5-hint-open:focus-visible {
+  background: #5c371b;
+  outline: 2px solid rgba(218, 165, 95, .45);
+  outline-offset: 2px;
+}
+@media (max-width: 700px) {
+  #stageView .stage5-part-one-actions > .stage5-clear {
+    flex: 1 1 140px;
+  }
+  #stageView .stage5-part-two {
+    margin-top: 16px;
+    padding: 20px 14px !important;
+  }
+  #stageView .stage5-part-two .stage5-part-copy {
+    padding-left: 13px;
+    font-size: 17px !important;
+    line-height: 1.6 !important;
+  }
+  #stageView .stage5-part-two .stage5-part-copy p,
+  #stageView .stage5-part-two .stage5-part-copy p :is(strong, em) {
+    font-size: 17px !important;
+    line-height: 1.6 !important;
+  }
+}
