@@ -51,7 +51,7 @@ renderDashboard = function() {
     btn.innerHTML = `
       <span class="stage-icon" aria-hidden="true">${stage.icon}</span>
       <span class="stage-main">
-        <span class="stage-title">${String(step).padStart(2, '0')} — ${stage.name}</span>
+        <span class="stage-title">${['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'][index]} — ${stage.name}</span>
         <span class="stage-subtitle">${subtitle}</span>
       </span>
       ${badge}
