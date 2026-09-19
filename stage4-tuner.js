@@ -464,4 +464,85 @@
     .stage4-recovery-popup[hidden]{display:none}.stage4-recovery-popup{position:fixed;z-index:5100;inset:0}.stage4-recovery-backdrop{display:grid;min-height:100%;place-items:center;padding:18px;background:rgba(0,0,0,.94)}.stage4-recovery-sequence{display:grid;width:min(100%,500px);min-height:190px;align-content:center;gap:12px;padding:18px;border:1px solid rgba(166,119,56,.45);background:radial-gradient(circle at 50% 42%,rgba(104,70,28,.2),transparent 48%),#080806;box-shadow:0 18px 60px #000;text-align:center}.stage4-recovery-sequence p{margin:0;color:#e0b66f;font:700 14px/1.35 Georgia,serif;letter-spacing:.14em}.stage4-recovery-sequence small{min-height:0;margin:0;color:#b89561;font:9px/1.6 "IBM Plex Mono",monospace;letter-spacing:.13em}.stage4-support-frame .stage4-video-heading{margin:0 0 10px}.stage4-video-close{float:right;margin-top:0!important;padding:5px 8px!important;border-color:#596b64!important;background:transparent!important;color:#bcd6ce!important;font-size:8px!important}.stage4-video-toggle{display:block;width:100%;margin-top:9px!important}.stage4-video-note{padding:0 6px}@media(max-width:520px){.stage4-recovery-sequence{min-height:160px}.stage4-recovery-sequence p{font-size:12px}}
   `;
   document.head.appendChild(videoTransitionStyle);
+
+  const ordoStage4Palette = document.createElement('style');
+  ordoStage4Palette.textContent = \`
+    /* ETAPA 04 — ACABAMENTO ORDO MOGNUS, SEM VERDE LEGADO — 2026-09-19 */
+    /* Aparelho com frequência confirmada: brilho bronze em vez de verde. */
+    .stage4-tuner.is-stabilized {
+      box-shadow: inset 0 0 0 2px #160f0b,
+        inset 0 0 24px rgba(178, 113, 57, .19),
+        0 8px 18px rgba(0, 0, 0, .27) !important;
+      border-color: #725038 !important;
+    }
+    .stage4-tuner.is-stabilized .stage4-led {
+      background: radial-gradient(circle at 35% 30%, #f2ca80, #97602d 55%, #231109) !important;
+      box-shadow: inset 0 0 4px #3c1e0c, 0 0 9px rgba(198, 135, 63, .65) !important;
+    }
+    .stage4-tuner.is-playing .stage4-led {
+      background: radial-gradient(circle at 35% 30%, #ffe0a1, #bf8135 54%, #29150a) !important;
+      box-shadow: inset 0 0 4px #48250e, 0 0 10px rgba(218, 151, 62, .6) !important;
+    }
+    .stage4-replay-video {
+      border: 1px solid #946940 !important;
+      border-radius: 3px;
+      background: rgba(53, 30, 18, .58) !important;
+      color: #e5c18c !important;
+      box-shadow: none !important;
+    }
+    .stage4-replay-video:hover,
+    .stage4-replay-video:focus-visible {
+      border-color: #c69b62 !important;
+      background: rgba(77, 42, 24, .68) !important;
+      color: #f6ddb0 !important;
+      outline: 1px solid rgba(198, 155, 98, .42);
+      outline-offset: 2px;
+    }
+    /* Janela de mensagem: fundo vinho-preto e acabamentos bronze/âmbar. */
+    .stage4-support-backdrop {
+      background: rgba(8, 4, 5, .94) !important;
+    }
+    .stage4-support-frame {
+      border: 1px solid #815735 !important;
+      background: linear-gradient(160deg, #1c1010, #0d0808 65%, #160c0b) !important;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .64) !important;
+      color: #efe0ca !important;
+    }
+    .stage4-support-frame .stage4-video-heading {
+      color: #dfb77e !important;
+    }
+    .stage4-support-frame .stage4-video-close {
+      border: 1px solid #8e653d !important;
+      background: #1b1110 !important;
+      color: #e5c79a !important;
+    }
+    .stage4-support-frame .stage4-video-toggle {
+      border: 1px solid #986f43 !important;
+      background: rgba(64, 37, 23, .48) !important;
+      color: #e9c992 !important;
+      box-shadow: none !important;
+    }
+    .stage4-support-frame .stage4-video-continue {
+      border: 1px solid #b68a53 !important;
+      background: #321d17 !important;
+      color: #f3d6a4 !important;
+      box-shadow: none !important;
+    }
+    .stage4-support-frame .stage4-video-close:hover,
+    .stage4-support-frame .stage4-video-close:focus-visible,
+    .stage4-support-frame .stage4-video-toggle:hover,
+    .stage4-support-frame .stage4-video-toggle:focus-visible,
+    .stage4-support-frame .stage4-video-continue:hover,
+    .stage4-support-frame .stage4-video-continue:focus-visible {
+      border-color: #e1b77d !important;
+      color: #ffe5b7 !important;
+      background: #482b1e !important;
+      outline: 1px solid rgba(210, 157, 95, .44);
+      outline-offset: 2px;
+    }
+    .stage4-support-frame .stage4-video-note {
+      color: #bda184 !important;
+    }
+  \`;
+  document.head.appendChild(ordoStage4Palette);
 })();
