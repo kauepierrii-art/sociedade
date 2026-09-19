@@ -2389,3 +2389,21 @@ input::placeholder {
     line-height: 1.78 !important;
   }
 }
+
+
+/* PROTOCOLO — HALO SUAVE APENAS NAS BOLINHAS PREENCHIDAS — 2026-09-19 */
+/* O marcador concluído conserva o preenchimento e a borda atuais.
+   Um halo quente aparece apenas em torno da bolinha preenchida. */
+#dashboardView .stage-row.done .stage-icon {
+  box-shadow:
+    0 0 0 1px rgba(201, 155, 96, .11),
+    0 0 9px rgba(200, 145, 79, .20),
+    0 0 19px rgba(200, 145, 79, .085) !important;
+}
+/* Marcadores sem preenchimento (disponível, aguardando informações e
+   bloqueado) permanecem sem iluminação, inclusive no hover. */
+#dashboardView .stage-row.available .stage-icon,
+#dashboardView .stage-row.info-required .stage-icon,
+#dashboardView .stage-row.locked .stage-icon {
+  box-shadow: none !important;
+}
