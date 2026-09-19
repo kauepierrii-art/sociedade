@@ -282,6 +282,12 @@
     const stagesWrap = card && card.querySelector('.stages-wrap');
     const dashboardHead = card && card.querySelector('.dashboard-head');
     if (!card) return null;
+    // O arquivo aparece dentro do painel. Criar uma única entrada de navegação
+    // para que o Voltar físico do celular retorne à lista de etapas.
+    if (!card.classList.contains('is-stage6-archive') && currentRefKey &&
+        (!history.state || history.state.delectusScreen !== 'archive')) {
+      history.pushState({ delectusScreen: 'archive', ref: currentRefKey }, '', location.href);
+    }
     let slot = card.querySelector('.dashboard-archive-slot');
     if (!slot) {
       slot = document.createElement('section');
@@ -480,8 +486,13 @@
       openStage(stageIndex + 1);
     });
     actions.querySelector('.stage6-top-back').addEventListener('click', () => {
-      if (onDashboard) closeDashboardArchive();
-      else openStage(stageIndex);
+      if (onDashboard && history.state && history.state.delectusScreen === 'archive') {
+        history.back();
+      } else if (onDashboard) {
+        closeDashboardArchive();
+      } else {
+        openStage(stageIndex);
+      }
     });
   }
 
