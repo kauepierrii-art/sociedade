@@ -1416,3 +1416,92 @@ input::placeholder {
 .stage5-completion-modal .stage5-opening-content blockquote {
   color: #f0e9df !important;
 }
+
+
+/* TÁBUA DE CORRESPONDÊNCIA — PALETA E LEGIBILIDADE — 2026-09-19 */
+/* O arquivo de investigação pode aparecer dentro do painel (#dashboardView)
+   ou da etapa (#stageView). O CSS dinâmico original ainda traz tons verdes:
+   aqui as regras são específicas para a tábua, sem alterar a lógica do jogo. */
+.stage6-archive .correspondence-table {
+  border: 1px solid rgba(151, 101, 59, .70) !important;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #19110d 0%, #110c0a 100%) !important;
+  color: #f0e9df !important;
+  box-shadow: none !important;
+}
+.stage6-archive .correspondence-table > h3 {
+  margin: 0 0 12px !important;
+  color: #f0e4d3 !important;
+  font-family: "IBM Plex Mono", monospace !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+  letter-spacing: .07em !important;
+}
+.stage6-archive .correspondence-table > p:not(.correspondence-result) {
+  max-width: 65ch;
+  margin: 0 0 18px !important;
+  color: #eee5d8 !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  line-height: 1.6 !important;
+  letter-spacing: normal !important;
+}
+.stage6-archive .correspondence-form label {
+  color: #c5aa89 !important;
+  font-family: "IBM Plex Mono", monospace !important;
+  font-size: 11px !important;
+  line-height: 1.45 !important;
+}
+.stage6-archive .correspondence-form input {
+  border: 1px solid #8e653e !important;
+  border-radius: 4px;
+  background: #0c0908 !important;
+  color: #f4e9d9 !important;
+  font-family: "IBM Plex Mono", monospace !important;
+  font-size: 16px !important;
+  box-shadow: none !important;
+}
+.stage6-archive .correspondence-form input:focus-visible {
+  border-color: #d5a46b !important;
+  outline: 2px solid rgba(213, 164, 107, .42);
+  outline-offset: 2px;
+}
+.stage6-archive .correspondence-form button,
+.stage6-archive .correspondence-save {
+  border: 1px solid #9a6d40 !important;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #342214, #24180f) !important;
+  color: #f0d6b0 !important;
+  font-family: "IBM Plex Mono", monospace !important;
+  font-size: 11px !important;
+  line-height: 1.4 !important;
+  box-shadow: none !important;
+}
+.stage6-archive .correspondence-form button:hover,
+.stage6-archive .correspondence-form button:focus-visible,
+.stage6-archive .correspondence-save:hover,
+.stage6-archive .correspondence-save:focus-visible {
+  border-color: #d0a06a !important;
+  background: linear-gradient(180deg, #4b301b, #322013) !important;
+  color: #fff0da !important;
+}
+.stage6-archive .correspondence-form button:focus-visible,
+.stage6-archive .correspondence-save:focus-visible {
+  outline: 2px solid #d6ad78;
+  outline-offset: 2px;
+}
+.stage6-archive .correspondence-result {
+  color: #ddba82 !important;
+}
+.stage6-archive .correspondence-saved {
+  border-top-color: rgba(153, 103, 58, .45) !important;
+}
+.stage6-archive .correspondence-empty,
+.stage6-archive .correspondence-saved-title,
+.stage6-archive .correspondence-saved-item small {
+  color: #c4af96 !important;
+}
+.stage6-archive .correspondence-saved-item {
+  border-top-color: rgba(153, 103, 58, .35) !important;
+}
