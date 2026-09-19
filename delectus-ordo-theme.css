@@ -1706,3 +1706,48 @@ input::placeholder {
   font-size: 12px !important;
   letter-spacing: .06em !important;
 }
+
+
+/* TIPOGRAFIA DE LEITURA — CHIRP / INTER — 2026-09-19 */
+/* Chirp somente quando houver uma instalação/fonte devidamente autorizada.
+   Inter é a alternativa web carregada no index.html. Preservar textos técnicos,
+   cabeçalhos, botões, o espelho e a pista pulsante. */
+#stageView .context-copy:not(:empty),
+#stageView .mission-copy:not(:empty),
+#stageView .record-content,
+#stageView .attachment-content,
+#stageView .initiative-copy,
+#stageView .initiative-material-content > p,
+#stageView .initiative-document-sheet,
+#stageView .stage5-part-copy,
+#stageView .stage5-opening-content,
+.stage5-completion-modal .stage5-opening-content,
+.stage6-archive .stage6-context-document,
+.stage6-archive .archive-copy,
+.stage6-archive .record-content,
+.stage6-archive .attachment-content,
+.stage6-archive .stage6-additional-notes article p,
+.print-modal .print-copy {
+  font-family: "Chirp", "TwitterChirp", "Inter", "Helvetica Neue", Arial, sans-serif !important;
+}
+/* Alguns blocos trazem Georgia aplicada diretamente em parágrafos, listas,
+   citações e ênfases. Sobrescrever apenas a prosa, sem mudar metadados. */
+#stageView .context-copy :is(p, li, blockquote, strong, em),
+#stageView .mission-copy :is(p, li, blockquote, strong, em),
+#stageView .record-content :is(p, li, blockquote, strong, em),
+#stageView .attachment-content :is(p, li, blockquote, strong, em),
+#stageView .initiative-copy,
+#stageView .initiative-material-content > p,
+#stageView .initiative-document-sheet :is(p, li, blockquote, strong, em),
+#stageView .stage5-part-copy :is(p, li, blockquote, strong, em),
+#stageView .stage5-opening-content :is(p, li, blockquote, strong, em),
+.stage5-completion-modal .stage5-opening-content :is(p, li, blockquote, strong, em),
+.stage6-archive .stage6-context-document :is(p, li, blockquote, strong, em),
+.stage6-archive .archive-copy :is(p, li, blockquote, strong, em),
+.stage6-archive .record-content :is(p, li, blockquote, strong, em),
+.stage6-archive .attachment-content :is(p, li, blockquote, strong, em),
+.stage6-archive .stage6-additional-notes article :is(p, li, blockquote, strong, em),
+.print-modal .print-copy :is(p, li, blockquote, strong, em) {
+  font-family: "Chirp", "TwitterChirp", "Inter", "Helvetica Neue", Arial, sans-serif !important;
+  letter-spacing: normal !important;
+}
