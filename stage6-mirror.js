@@ -26,7 +26,8 @@
   function write(name, value) {
     if (storageKey(name)) localStorage.setItem(storageKey(name), JSON.stringify(value));
   }
-  // A admissão só pode ser aberta depois do registro visual ser concluído.
+  // A admissão fica disponível assim que o vídeo começa a reproduzir;
+  // manter a chave legada para preservar os progressos já salvos.
   function canContinueToAdmission() {
     return Boolean(currentRefKey && stageStep > 0 &&
       read('videoWatched', false) === true && completedCount >= stageStep);
@@ -196,7 +197,9 @@
     const root = actions.querySelector('.mirror-v2');
     const continueButton = root.querySelector('.mirror-stage-continue');
     continueButton.addEventListener('click', () => {
-      if (canContinueToAdmission()) openStage(stageIndex + 1);
+      if (!canContinueToAdmission()) return;
+      video.pause();
+      openStage(stageIndex + 1);
     });
     const video = root.querySelector('.mirror-v2-video');
     const videoControls = root.querySelector('.mirror-video-controls');
@@ -221,14 +224,23 @@
       whisper.hidden = false;
       whisper.textContent = 'Superfície estabilizada.';
     }
-    video.addEventListener('ended', () => {
+    function releaseAdmission() {
+      if (!currentRefKey || !stageStep) return;
       write('videoWatched', true);
-      if (stageStep && currentRefKey) {
-        completedCount = Math.max(completedCount, stageStep);
-        saveProgress(currentRefKey, completedCount);
-      }
+      completedCount = Math.max(completedCount, stageStep);
+      saveProgress(currentRefKey, completedCount);
+      continueButton.hidden = false;
+    }
+    // O vídeo pode continuar tocando enquanto o botão já fica disponível.
+    // Se o jogador interromper a reprodução depois de iniciada, o acesso
+    // permanece liberado nas próximas visitas à etapa e ao arquivo.
+    video.addEventListener('playing', () => {
+      releaseAdmission();
+      document.querySelector('#stageStatus').textContent = 'REGISTRO EM REPRODUÇÃO — ETAPA 07 LIBERADA';
+    });
+    video.addEventListener('ended', () => {
+      releaseAdmission();
       document.querySelector('#stageStatus').textContent = 'REGISTRO CONCLUÍDO — ETAPA 07 LIBERADA';
-      continueButton.hidden = !canContinueToAdmission();
     });
     video.addEventListener('error', () => {
       hideVideo();
