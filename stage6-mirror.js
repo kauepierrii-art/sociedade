@@ -438,7 +438,14 @@
     if (index !== stageIndex) stopStage6Timer();
     previousOpenStage(index);
     if (index !== stageIndex) return;
-    setTimeout(renderMirrorStage, 0);
+    // Uma mudança rápida de etapa pode ocorrer antes deste callback.
+    // Não ocultar o conteúdo da nova tela com um render antigo.
+    setTimeout(() => {
+      const stageCode = document.querySelector('#stageCode');
+      if (!stageView.classList.contains('active') || !stageCode ||
+          stageCode.textContent.trim() !== 'ETAPA 06') return;
+      renderMirrorStage();
+    }, 0);
   };
 
   if (location.hash === '#arquivo-etapa-06') {
