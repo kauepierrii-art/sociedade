@@ -213,6 +213,13 @@ openStage = function(index) {
   if (state === 'locked' || state === 'info-required') return;
   if (cooldownTimer) { clearInterval(cooldownTimer); cooldownTimer = null; }
 
+  // Esta etapa tem um renderizador próprio e não passa por app.js/openStage.
+  // Restaurar os elementos ocultados ao entrar nas etapas 06 ou 07.
+  const panelHead = document.querySelector('#stageView .detail-panel .panel-head');
+  const context = document.querySelector('#stageContext');
+  if (panelHead) panelHead.hidden = false;
+  if (context) context.hidden = false;
+
   document.querySelector('#stageCode').textContent = 'ETAPA 03';
   document.querySelector('#stageName').textContent = stage.name;
   document.querySelector('#stageContext').textContent = stage.context;
