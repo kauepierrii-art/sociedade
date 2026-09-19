@@ -454,6 +454,13 @@ function openStage(index) {
   if (state === 'locked' || state === 'info-required') return;
   if (cooldownTimer) { clearInterval(cooldownTimer); cooldownTimer = null; }
 
+  // Etapas especiais (06/07) ocultam estes elementos. Restaurar sua
+  // visibilidade ao abrir outra etapa, antes de preencher o conteúdo.
+  const panelHead = document.querySelector('#stageView .detail-panel .panel-head');
+  const stageContext = document.querySelector('#stageContext');
+  if (panelHead) panelHead.hidden = false;
+  if (stageContext) stageContext.hidden = false;
+
   document.querySelector('#stageCode').textContent = `ETAPA ${String(step).padStart(2, '0')}`;
   document.querySelector('#stageName').textContent = stage.name;
   const panelTitle = document.querySelector('.detail-panel .panel-head h2');
