@@ -98,6 +98,9 @@ function show(view) {
     }
     const recovery = document.querySelector('#stage4RecoverySequence');
     if (recovery) recovery.hidden = true;
+    const cardViewer = document.querySelector('#stage5CardViewer');
+    if (cardViewer) cardViewer.hidden = true;
+    document.querySelectorAll('.stage5-completion-modal').forEach(popup => popup.remove());
   }
   [loginView, dashboardView, stageView].forEach(v => v.classList.remove('active'));
   view.classList.add('active');
