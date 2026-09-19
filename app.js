@@ -141,7 +141,7 @@ function resetActivities() {
   localStorage.removeItem(`stage5:complete:${currentRefKey}`);
   localStorage.removeItem(`stage4:tuner-solved:${currentRefKey}`);
   ['visited', 'document', 'remaining', 'annotations', 'research', 'activated'].forEach(name => localStorage.removeItem(`stage6:${name}:${currentRefKey}`));
-  ['visited', 'remaining', 'stabilized', 'videoWatched', 'savedCorrespondences', 'additionalNotesElapsed', 'additionalNotesRequested'].forEach(name => localStorage.removeItem(`stage6:v2:${name}:${currentRefKey}`));
+  ['visited', 'remaining', 'stabilized', 'videoWatched', 'savedCorrespondences', 'additionalNotesElapsed', 'additionalNotesRequested', 'additionalNotesNextAt'].forEach(name => localStorage.removeItem(`stage6:v2:${name}:${currentRefKey}`));
   localStorage.removeItem(`stage7:admission:${currentRefKey}`);
   ['stage4', 'stage5'].forEach(name => ['unlocked', 'nextAt'].forEach(part => localStorage.removeItem(`stage45-hints:${name}:${part}:${currentRefKey}`)));
   completedCount = 0;
