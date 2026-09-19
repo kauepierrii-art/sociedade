@@ -1145,3 +1145,197 @@ input::placeholder {
 #stageView .stage4-recovered-audio .stage4-audio-note {
   color: #bca68e !important;
 }
+
+
+/* CONFORTO DE LEITURA — TIPOGRAFIA RESPONSIVA — 2026-09-19 */
+/* Escopo restrito aos textos informativos: a frase/link oculto do rodapé,
+   sua animação e os controles do espelho não são alterados. Títulos, datas,
+   códigos e botões mantêm a linguagem técnica original. */
+
+/* Leitura extensa: fonte editorial, caracteres sem espaçamento artificial,
+   16px+ com entrelinha estável e largura adequada no computador. */
+#stageView .context-copy,
+#stageView .mission-copy,
+#stageView .record-content,
+#stageView .attachment-content,
+#stageView .initiative-copy,
+#stageView .initiative-material-content,
+#stageView .initiative-document-sheet,
+#stageView .stage6-context-document,
+#stageView .stage6-archive .archive-copy,
+#stageView .stage6-annex-content,
+#stageView .stage5-part-copy,
+#stageView .stage5-opening-content,
+.stage5-completion-modal .stage5-opening-content,
+.stage6-archive .archive-copy,
+.stage6-archive .stage6-context-document,
+.stage6-archive .stage6-annex-content,
+.print-modal .print-copy {
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 16px !important;
+  line-height: 1.65 !important;
+  letter-spacing: normal !important;
+  font-weight: 400;
+}
+
+/* Alguns scripts atribuem tamanho próprio aos parágrafos e listas: igualar
+   os trechos de leitura sem mexer em rótulos e mensagens de sistema. */
+#stageView .context-copy p,
+#stageView .mission-copy p,
+#stageView .record-content p,
+#stageView .record-content li,
+#stageView .record-content blockquote,
+#stageView .attachment-content p,
+#stageView .attachment-content li,
+#stageView .attachment-content blockquote,
+#stageView .initiative-copy,
+#stageView .initiative-material-content > p,
+#stageView .initiative-document-sheet p,
+#stageView .initiative-document-sheet li,
+#stageView .stage6-annex-content p,
+#stageView .stage6-annex-content li,
+#stageView .stage6-archive .archive-copy p,
+#stageView .stage5-part-copy p,
+#stageView .stage5-opening-content p,
+#stageView .stage5-opening-content li,
+.stage5-completion-modal .stage5-opening-content p,
+.stage6-archive .archive-copy p,
+.stage6-archive .stage6-annex-content p,
+.stage6-archive .stage6-annex-content li,
+.print-modal .print-copy p {
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 16px !important;
+  line-height: 1.65 !important;
+  letter-spacing: normal !important;
+  color: #dfd0bd !important;
+}
+
+/* Quebra de linha confortável: só prosa, não tabelas, cartas nem controles. */
+#stageView .context-copy,
+#stageView .mission-copy,
+#stageView .record-content p,
+#stageView .record-content blockquote,
+#stageView .attachment-content p,
+#stageView .attachment-content blockquote,
+#stageView .initiative-copy,
+#stageView .initiative-material-content > p,
+#stageView .initiative-document-sheet p,
+#stageView .stage6-archive .archive-copy p,
+#stageView .stage6-annex-content p,
+#stageView .stage5-part-copy p,
+#stageView .stage5-opening-content p,
+.stage5-completion-modal .stage5-opening-content p,
+.stage6-archive .archive-copy p,
+.stage6-archive .stage6-annex-content p,
+.print-modal .print-copy p {
+  max-width: 68ch;
+}
+
+/* Distância entre blocos: pausas naturais, sem grandes vazios. */
+#stageView .record-content p,
+#stageView .attachment-content p,
+#stageView .initiative-document-sheet p,
+#stageView .stage6-archive .archive-copy p,
+#stageView .stage6-annex-content p,
+#stageView .stage5-part-copy p,
+.stage6-archive .archive-copy p,
+.stage6-archive .stage6-annex-content p,
+.print-modal .print-copy p {
+  margin-bottom: .9em;
+}
+
+/* Cabeçalhos de documentos, códigos e orientações curtas continuam com
+   aparência de arquivo, mas já não ficam microscópicos. */
+#stageView .record-toggle,
+#stageView .attachment-toggle,
+#stageView .initiative-material-toggle,
+#stageView .initiative-document-toggle {
+  font-size: 13px !important;
+  line-height: 1.45 !important;
+}
+#stageView .doc-meta,
+#stageView .doc-section-title,
+#stageView .initiative-materials-head,
+#stageView .stage5-timeline-intro,
+.stage6-archive .doc-meta,
+.stage6-archive .archive-sources {
+  font-size: 12px !important;
+  line-height: 1.55 !important;
+  letter-spacing: .025em !important;
+}
+#stageView .stage4-recovered-audio .stage4-audio-note,
+.print-modal .print-file-placeholder small {
+  font-size: 12px !important;
+  line-height: 1.55 !important;
+  letter-spacing: normal !important;
+}
+#stageView .answer-panel p,
+#stageView .identification-hint p,
+#stageView .initiative-note,
+#stageView .stage5-opening-content blockquote,
+.stage5-completion-modal .stage5-opening-content blockquote {
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 16px !important;
+  line-height: 1.65 !important;
+  letter-spacing: normal !important;
+}
+
+/* Informações resumidas do painel e do formulário também precisam ser
+   legíveis, sem tocar no bloco .quote (a pista do espelho). */
+#dashboardView .stage-subtitle {
+  font-size: 12.5px !important;
+  line-height: 1.45 !important;
+  letter-spacing: normal !important;
+}
+#dashboardView .stage-badge {
+  font-size: 10.5px !important;
+  line-height: 1.4 !important;
+}
+#loginView .field-help {
+  font-size: 12px !important;
+  line-height: 1.5 !important;
+  letter-spacing: .03em !important;
+}
+
+/* Telas pequenas: manter a prosa em 16px, limitar a largura naturalmente
+   e reduzir o espaçamento que fatigava a leitura em monoespaçado. */
+@media (max-width: 700px) {
+  #stageView .context-copy,
+  #stageView .mission-copy,
+  #stageView .record-content,
+  #stageView .attachment-content,
+  #stageView .initiative-copy,
+  #stageView .initiative-material-content,
+  #stageView .initiative-document-sheet,
+  #stageView .stage6-context-document,
+  #stageView .stage6-annex-content,
+  #stageView .stage5-part-copy,
+  #stageView .stage5-opening-content,
+  .stage6-archive .archive-copy,
+  .stage6-archive .stage6-context-document,
+  .stage6-archive .stage6-annex-content,
+  .print-modal .print-copy {
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+  }
+  #dashboardView .stage-subtitle {
+    font-size: 12px !important;
+    line-height: 1.45 !important;
+  }
+  #stageView .record-toggle,
+  #stageView .attachment-toggle {
+    font-size: 14px !important;
+  }
+  #stageView .context-copy,
+  #stageView .mission-copy,
+  #stageView .record-content p,
+  #stageView .attachment-content p,
+  #stageView .initiative-copy,
+  #stageView .initiative-document-sheet p,
+  #stageView .stage6-archive .archive-copy p,
+  #stageView .stage6-annex-content p,
+  .stage6-archive .archive-copy p,
+  .print-modal .print-copy p {
+    max-width: 100%;
+  }
+}
