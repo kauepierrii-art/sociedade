@@ -2077,3 +2077,48 @@ input::placeholder {
 .stage6-archive > .stage6-archive-continue {
   margin-top: 30px;
 }
+
+
+/* ETAPA 06 — CONTINUAR DISCRETO COMO OS CONTROLES DO ESPELHO — 2026-09-19 */
+/* Mesmo acabamento de ATIVAR / DESATIVAR, com contorno bronze ligeiramente
+   mais presente. Apenas os dois botões de navegação da Etapa 06. */
+#stageView .mirror-v2 > .mirror-stage-continue,
+.stage6-archive > .stage6-archive-continue {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 36px;
+  margin: 20px auto 8px;
+  padding: 9px 13px;
+  border: 1px solid #a37b45 !important;
+  border-radius: 3px;
+  background: rgba(44, 31, 12, .3) !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  color: #e5bd76 !important;
+  font: 700 9px/1.55 "IBM Plex Mono", monospace !important;
+  letter-spacing: .09em;
+  text-align: center;
+  text-transform: uppercase;
+  filter: none !important;
+  transform: none !important;
+}
+#stageView .mirror-v2 > .mirror-stage-continue:hover,
+#stageView .mirror-v2 > .mirror-stage-continue:focus-visible,
+.stage6-archive > .stage6-archive-continue:hover,
+.stage6-archive > .stage6-archive-continue:focus-visible {
+  border-color: #e5bd76 !important;
+  background: rgba(55, 38, 18, .46) !important;
+  color: #f7d391 !important;
+  box-shadow: none !important;
+  filter: none !important;
+  outline: 1px solid rgba(229, 189, 118, .45);
+  outline-offset: 2px;
+}
+#stageView .mirror-v2 > .mirror-stage-continue[hidden],
+.stage6-archive > .stage6-archive-continue[hidden] {
+  display: none !important;
+}
+.stage6-archive > .stage6-archive-continue {
+  margin-top: 25px;
+}
