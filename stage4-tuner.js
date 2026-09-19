@@ -116,13 +116,25 @@
     }
 
     function showSupportVideo() {
+      // A combinação e a fita já foram recuperadas: exibir a mensagem libera
+      // o avanço, mesmo que o jogador feche o vídeo antes de chegar ao fim.
+      completeCurrentStage();
+      replayButton.hidden = false;
+      status.textContent = 'MENSAGEM DISPONÍVEL — PRÓXIMA ETAPA LIBERADA.';
       let overlay = document.getElementById('stage4SupportVideo');
+      // Reconstruir os controles para não reutilizar callbacks de outra visita.
+      if (overlay) {
+        const oldVideo = overlay.querySelector('video');
+        if (oldVideo) oldVideo.pause();
+        overlay.remove();
+        overlay = null;
+      }
       if (!overlay) {
         overlay = document.createElement('section');
         overlay.id = 'stage4SupportVideo';
         overlay.className = 'stage4-support-video';
         overlay.hidden = true;
-        overlay.innerHTML = `<div class="stage4-support-backdrop"><div class="stage4-support-frame"><button class="stage4-video-close" type="button" aria-label="Fechar vídeo">FECHAR</button><p class="stage4-video-heading">MENSAGEM RECEBIDA</p><video controls playsinline preload="metadata"><source src="${SUPPORT_VIDEO}" type="video/mp4"></video><button class="stage4-video-toggle" type="button">PAUSAR MENSAGEM</button><button class="stage4-video-continue" type="button" hidden>CONTINUAR</button><small class="stage4-video-note"></small></div></div>`;
+        overlay.innerHTML = `<div class="stage4-support-backdrop"><div class="stage4-support-frame"><button class="stage4-video-close" type="button" aria-label="Fechar vídeo">FECHAR</button><p class="stage4-video-heading">MENSAGEM RECEBIDA</p><video controls playsinline preload="metadata"><source src="${SUPPORT_VIDEO}" type="video/mp4"></video><button class="stage4-video-toggle" type="button">PAUSAR MENSAGEM</button><button class="stage4-video-continue" type="button">CONTINUAR PARA A ETAPA 5</button><small class="stage4-video-note"></small></div></div>`;
         document.body.appendChild(overlay);
         const video = overlay.querySelector('video');
         const button = overlay.querySelector('.stage4-video-continue');
@@ -145,16 +157,16 @@
         video.addEventListener('play', () => { toggle.textContent = 'PAUSAR MENSAGEM'; });
         video.addEventListener('pause', () => { if (!video.ended) toggle.textContent = 'RETOMAR MENSAGEM'; });
         toggle.addEventListener('click', () => { if (video.paused) video.play(); else video.pause(); });
-        button.addEventListener('click', () => { overlay.hidden = true; renderDashboard(); show(dashboardView); });
+        button.addEventListener('click', () => { video.pause(); overlay.hidden = true; renderDashboard(); show(dashboardView); });
       }
       const video = overlay.querySelector('video');
       const button = overlay.querySelector('.stage4-video-continue');
       const toggle = overlay.querySelector('.stage4-video-toggle');
       const note = overlay.querySelector('.stage4-video-note');
       overlay.hidden = false;
-      button.hidden = true;
+      button.hidden = false;
       toggle.hidden = false;
-      note.textContent = '';
+      note.textContent = 'ETAPA 4 CONCLUÍDA. A MENSAGEM PODE SER REABERTA A QUALQUER MOMENTO.';
       video.pause();
       video.currentTime = 0;
       video.play().catch(() => { note.textContent = 'TOQUE NO VÍDEO OU EM “RETOMAR MENSAGEM” PARA INICIAR.'; });
@@ -181,7 +193,13 @@
       setSequence('REPRODUÇÃO CONCLUÍDA', 'CONTEÚDO RECUPERADO INTEGRALMENTE.');
       supportTimers.push(setTimeout(() => setSequence('ANALISANDO CONTEÚDO...', 'VERIFICANDO INTEGRIDADE DO REGISTRO.'), 2600));
       supportTimers.push(setTimeout(() => setSequence('MENSAGEM LOCALIZADA', 'PREPARANDO REPRODUÇÃO.'), 4700));
-      supportTimers.push(setTimeout(() => { popup.hidden = true; showSupportVideo(); }, 5900));
+      supportTimers.push(setTimeout(() => {
+        popup.hidden = true;
+        if (stageView.classList.contains('active') &&
+            document.getElementById('stageName')?.textContent.trim() === 'Iniciativa') {
+          showSupportVideo();
+        }
+      }, 5900));
     }
 
     function playEffect(path) {
