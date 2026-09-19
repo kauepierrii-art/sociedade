@@ -64,6 +64,10 @@
       </div>
       <div class="stage4-knobs" aria-label="Controles de sintonia"></div>
       <p class="stage4-tuner-status" role="status">SISTEMA EM ESPERA</p>`;
+    const prompt = document.createElement('p');
+    prompt.className = 'initiative-tuner-prompt';
+    prompt.textContent = 'Determine os quatro valores e configure o aparelho.';
+    list.appendChild(prompt);
     list.appendChild(panel);
     const replayButton = document.createElement('button');
     replayButton.className = 'stage4-replay-video';
