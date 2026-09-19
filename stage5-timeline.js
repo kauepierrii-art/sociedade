@@ -202,7 +202,7 @@
     function openCompletionPopup() {
       const popup = document.createElement('section');
       popup.className = 'stage5-completion-modal';
-      popup.innerHTML = `<div class="stage5-completion-dialog" role="dialog" aria-modal="true" aria-label="Registro de abertura — correlação confirmada"><div class="stage5-opening">${completionTextMarkup()}</div><button class="primary-btn stage5-completion-continue" type="button">CONTINUAR PARA A ETAPA 6</button></div>`;
+      popup.innerHTML = `<div class="stage5-completion-dialog" role="dialog" aria-modal="true" aria-label="Registro de abertura — correlação confirmada"><div class="stage5-opening">${completionTextMarkup()}</div><button class="primary-btn stage5-completion-continue" type="button">CONTINUAR PARA O PROTOCOLO</button></div>`;
       document.body.appendChild(popup);
       popup.querySelector('.stage5-completion-continue').addEventListener('click', () => {
         popup.remove();
