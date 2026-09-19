@@ -728,3 +728,185 @@ input::placeholder {
 .dashboard-card::after {
   display: none !important;
 }
+
+
+/* REFINO DE LEITURA — 2026-09-19
+   Somente interface das etapas; mantém intactos login, painel, material
+   fotográfico e representação do aparelho. As regras específicas e !important
+   prevalecem sobre estilos criados dinamicamente pelos scripts das etapas. */
+#stageView .stage-card {
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+#stageView .stage-card::after { display: none !important; }
+
+/* Hierarquia: título marfim, leitura bege-claro, metadados bronze. */
+#stageView .stage-hero h1,
+#stageView .panel-head h2,
+#stageView .record-content h3,
+#stageView .record-content h4,
+#stageView .attachment-content h3,
+#stageView .stage5-opening h3,
+#stageView .stage6-archive h1 {
+  color: #f2e6d7 !important;
+}
+#stageView .context-copy,
+#stageView .mission-copy,
+#stageView .record-content,
+#stageView .attachment-content,
+#stageView .initiative-material-content,
+#stageView .initiative-document-sheet,
+#stageView .stage6-context-document,
+#stageView .stage6-archive .archive-copy,
+#stageView .stage6-annex-content {
+  color: #e0d0be !important;
+}
+#stageView .context-copy p,
+#stageView .mission-copy p,
+#stageView .record-content p,
+#stageView .record-content li,
+#stageView .attachment-content p,
+#stageView .attachment-content li,
+#stageView .initiative-document-sheet p,
+#stageView .stage6-archive .archive-copy p,
+#stageView .stage6-annex-content p,
+#stageView .stage6-annex-content li,
+#stageView .stage5-opening-content p,
+#stageView .stage5-opening-content li {
+  color: #e0d0be !important;
+}
+#stageView .validation-quote,
+#stageView .record-content blockquote,
+#stageView .attachment-content blockquote,
+#stageView .stage6-annex-content blockquote,
+#stageView .stage5-opening-content blockquote {
+  color: #d4bfa9 !important;
+}
+#stageView .panel-head span,
+#stageView .validation-label,
+#stageView .observation-label,
+#stageView .stage5-opening-label,
+#stageView .stage5-part-label,
+#stageView .stage6-archive .archive-label,
+#stageView .stage6-archive .archive-header p,
+#stageView .stage6-archive .archive-header small {
+  color: #c9a780 !important;
+}
+#stageView .doc-meta,
+#stageView .field-help,
+#stageView .initiative-materials-head,
+#stageView .stage5-timeline-intro,
+#stageView .stage6-archive .archive-sources {
+  color: #bca68e !important;
+}
+#stageView .answer-panel p { color: #e0d0be !important; }
+#stageView .answer-panel strong { color: #f2e6d7 !important; }
+
+/* Remover os painéis verde/ciano introduzidos pelas etapas 3, 4, 5 e 6. */
+#stageView .observation-material,
+#stageView .initiative-document-sheet,
+#stageView .stage4-recovered-audio,
+#stageView .stage5-opening,
+.stage5-completion-modal .stage5-opening,
+#stageView .stage6-archive .correspondence-table {
+  border: 1px solid rgba(142, 93, 53, .65) !important;
+  border-radius: 4px;
+  background:
+    linear-gradient(180deg, rgba(27, 15, 12, .94), rgba(13, 9, 7, .97)) !important;
+  color: #e0d0be !important;
+  box-shadow: none !important;
+}
+#stageView .observation-video-link,
+#stageView .initiative-document-toggle .chev,
+#stageView .initiative-material-toggle .chev,
+#stageView .initiative-thumb-foot em,
+#stageView .stage4-device-foot em,
+#stageView .stage5-opening-toggle,
+#stageView .stage5-opening-content .stage5-opening-label,
+#stageView .stage6-archive .archive-sources a,
+#stageView .record-content a,
+#stageView .stage6-archive .correspondence-form label {
+  color: #d4a56d !important;
+}
+#stageView .observation-video-link:hover,
+#stageView .observation-video-link:focus-visible {
+  color: #f0d6ac !important;
+}
+#stageView .stage5-opening-toggle {
+  background: transparent !important;
+}
+#stageView .stage5-opening-toggle:hover,
+#stageView .stage5-opening-toggle:focus-visible {
+  background: rgba(123, 72, 38, .12) !important;
+}
+#stageView .stage5-opening-content {
+  border-top: 1px solid rgba(142, 93, 53, .45) !important;
+  color: #e0d0be !important;
+}
+#stageView .stage5-opening-content h3,
+.stage5-completion-modal .stage5-opening h3 {
+  color: #f2e6d7 !important;
+}
+#stageView .stage5-opening-content blockquote {
+  border-color: rgba(173, 119, 65, .65) !important;
+}
+
+/* Manter a confirmação visual, mas substituir verde por âmbar suave. */
+#stageView .stage5-timeline.is-correct .stage5-timeline-message {
+  color: #dfb67b !important;
+}
+#stageView .stage5-timeline.is-correct .stage5-slot .stage5-card {
+  border-color: #b88748 !important;
+  box-shadow: 0 0 7px rgba(184, 128, 68, .26) !important;
+}
+
+/* Reassistir ao vídeo: estilo de ação secundária, não botão verde. */
+#stageView .stage4-replay-video,
+#stageView .stage6-archive .correspondence-form button {
+  border: 1px solid rgba(157, 103, 55, .72) !important;
+  background: rgba(20, 12, 9, .92) !important;
+  color: #dfb982 !important;
+  box-shadow: none !important;
+}
+#stageView .stage4-replay-video:hover,
+#stageView .stage4-replay-video:focus-visible,
+#stageView .stage6-archive .correspondence-form button:hover,
+#stageView .stage6-archive .correspondence-form button:focus-visible {
+  border-color: #cb9558 !important;
+  color: #f3dfc0 !important;
+}
+#stageView .stage6-archive .correspondence-form input {
+  border-color: rgba(157, 103, 55, .65) !important;
+  background: #100b09 !important;
+  color: #f2e6d7 !important;
+}
+#stageView .stage6-archive .archive-header,
+#stageView .stage6-archive .archive-annex,
+#stageView .stage6-archive .archive-divider {
+  border-color: rgba(142, 93, 53, .45) !important;
+}
+#stageView .stage6-archive .archive-divider {
+  background: rgba(142, 93, 53, .45) !important;
+}
+#stageView .stage6-archive .correspondence-saved-item {
+  border-top-color: rgba(142, 93, 53, .45) !important;
+}
+#stageView .stage6-archive .correspondence-empty,
+#stageView .stage6-archive .correspondence-saved-item small {
+  color: #bba48a !important;
+}
+#stageView .mirror-v2-count { color: #c9ad89 !important; }
+
+/* Bordas verdes de anexos em celular: herdam o bronze do tema. */
+@media (max-width: 700px) {
+  #stageView .detail-panel,
+  #stageView .attachment-item {
+    border-left-color: rgba(142, 93, 53, .65) !important;
+    border-right-color: rgba(142, 93, 53, .65) !important;
+  }
+  #stageView .attachment-content {
+    background: #120c09 !important;
+  }
+}
