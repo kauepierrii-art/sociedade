@@ -75,7 +75,15 @@
   const previousOpenStage = openStage;
   openStage = function (index) {
     previousOpenStage(index);
-    if (index === stageIndex) setTimeout(renderAdmission, 0);
+    if (index === stageIndex) {
+      // Evitar que a renderização atrasada esconda o conteúdo de outra etapa.
+      setTimeout(() => {
+        const stageCode = document.querySelector('#stageCode');
+        if (!stageView.classList.contains('active') || !stageCode ||
+            !stageCode.textContent.trim().startsWith('ETAPA 07')) return;
+        renderAdmission();
+      }, 0);
+    }
   };
 
   const style = document.createElement('style');
