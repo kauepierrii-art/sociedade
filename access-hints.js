@@ -33,7 +33,7 @@
     wrapper.hidden = true;
     wrapper.innerHTML = `
       <button type="button" class="hints-archive-toggle" aria-expanded="false">
-        <span>DICAS DESBLOQUEADAS (<span class="hints-count">0</span>)</span>
+        <span>APONTAMENTO ADICIONAL (<span class="hints-count">0</span>)</span>
         <span class="hints-chevron" aria-hidden="true">＋</span>
       </button>
       <div class="hints-archive-content" hidden></div>`;
@@ -71,7 +71,7 @@
     const content = wrapper.querySelector('.hints-archive-content');
     content.innerHTML = hints.slice(0, errors).map((hint, index) => {
       const roman = ['I', 'II'][index];
-      return `<div class="hints-archive-item"><span class="hint-label">DICA ${roman}</span><p>${hint}</p></div>`;
+      return `<div class="hints-archive-item"><span class="hint-label">ANOTAÇÃO ${roman}</span><p>${hint}</p></div>`;
     }).join('');
   }
 
