@@ -94,12 +94,12 @@ accessForm.addEventListener('submit', function(event) {
     if (referenceAttemptErrors === 1) {
       loginMessage.innerHTML = `
         REFERÊNCIA NÃO LOCALIZADA.<br><br>
-        <strong>DICA I</strong><br>
+        <strong>ANOTAÇÃO I</strong><br>
         A referência não está escrita de forma direta na correspondência. Considere a indicação ao final da carta.`;
     } else {
       loginMessage.innerHTML = `
         REFERÊNCIA NÃO LOCALIZADA.<br><br>
-        <strong>DICA II</strong><br>
+        <strong>ANOTAÇÃO II</strong><br>
         A palavra associada à sua referência deve ser convertida para o idioma indicado no final da correspondência.`;
     }
     return;
