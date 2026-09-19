@@ -37,14 +37,56 @@
     stage6TimerStartedAt = Date.now();
     return elapsed;
   }
-  function updateAdditionalNotes() {
+  // Os prazos são cumulativos (10, 15 e 20 minutos de uso da etapa).
+  // O tempo libera o botão, nunca revela uma anotação automaticamente.
+  function requestedAdditionalNotes() {
+    const value = Number(read('additionalNotesRequested', 0));
+    return Number.isInteger(value) ? Math.max(0, Math.min(additionalNotes.length, value)) : 0;
+  }
+  function formatAdditionalWait(milliseconds) {
+    const seconds = Math.max(0, Math.ceil(milliseconds / 1000));
+    return String(Math.floor(seconds / 60)).padStart(2, '0') + ':' + String(seconds % 60).padStart(2, '0');
+  }
+  function updateAdditionalNotes(forceOpen = false) {
     const elapsed = elapsedStage6Time();
-    const unlocked = additionalNotes.filter(note => elapsed >= note.at);
+    const requested = requestedAdditionalNotes();
     document.querySelectorAll('.stage6-additional-notes').forEach(panel => {
-      panel.hidden = unlocked.length === 0;
-      if (!unlocked.length) return;
-      panel.innerHTML = '<h3>APONTAMENTO ADICIONAL</h3>' + unlocked.map((note, index) => '<article><span>ANOTAÇÃO ' + String(index + 1).padStart(2, '0') + '</span><p>' + note.text + '</p></article>').join('');
+      panel.hidden = false;
+      const count = panel.querySelector('.stage6-notes-count');
+      const toggle = panel.querySelector('.stage6-notes-toggle');
+      const history = panel.querySelector('.stage6-notes-history');
+      const chevron = panel.querySelector('.stage6-notes-chevron');
+      const request = panel.querySelector('.stage6-notes-request');
+      if (!count || !toggle || !history || !chevron || !request) return;
+      count.textContent = '(' + requested + ')';
+      toggle.disabled = requested === 0;
+      if (history.dataset.renderedCount !== String(requested)) {
+        history.innerHTML = additionalNotes.slice(0, requested).map((note, index) =>
+          '<article><span>ANOTAÇÃO ' + ['I', 'II', 'III'][index] + '</span><p>' + note.text + '</p></article>'
+        ).join('');
+        history.dataset.renderedCount = String(requested);
+      }
+      if (forceOpen && requested > 0) toggle.setAttribute('aria-expanded', 'true');
+      const expanded = requested > 0 && toggle.getAttribute('aria-expanded') === 'true';
+      history.hidden = !expanded;
+      chevron.textContent = expanded ? '−' : '＋';
+      request.hidden = requested >= additionalNotes.length;
+      if (!request.hidden) {
+        const wait = additionalNotes[requested].at - elapsed;
+        request.disabled = wait > 0;
+        request.textContent = wait > 0
+          ? 'SOLICITAR NOVO APONTAMENTO · ' + formatAdditionalWait(wait)
+          : 'SOLICITAR NOVO APONTAMENTO';
+      }
     });
+  }
+  function requestAdditionalNote() {
+    const requested = requestedAdditionalNotes();
+    if (requested >= additionalNotes.length ||
+        elapsedStage6Time() < additionalNotes[requested].at) return;
+    syncStage6Time();
+    write('additionalNotesRequested', requested + 1);
+    updateAdditionalNotes(true);
   }
   function startStage6Timer() {
     stage6TimingActive = true;
@@ -355,10 +397,19 @@
         '<article class="attachment-item"><button class="record-toggle" type="button" aria-expanded="false"><span>REGISTRO 01 — MATERIAL EM ANÁLISE</span><span class="chev">＋</span></button><div class="record-content" hidden><p class="doc-meta">MATERIAL NÃO CATALOGADO</p><div class="archive-copy">' + paragraphs(analysis) + '</div></div></article>' +
         '<section class="stage6-section"><h3>ANEXOS PRESERVADOS</h3><div class="attachments-list">' + annexMarkup + '</div></section>' +
         '<article class="attachment-item"><button class="record-toggle" type="button" aria-expanded="false"><span>REGISTRO 02 — RECONSTRUÇÃO</span><span class="chev">＋</span></button><div class="record-content" hidden><div class="archive-copy">' + paragraphs(reconstruction) + '</div></div></article>' +
-        '<section class="stage6-additional-notes" hidden></section>' +
+        '<section class="stage6-additional-notes"><button class="stage6-notes-toggle" type="button" aria-expanded="false" disabled><span>APONTAMENTO ADICIONAL <span class="stage6-notes-count">(0)</span></span><span class="stage6-notes-chevron" aria-hidden="true">＋</span></button><div class="stage6-notes-history" hidden></div><button class="stage6-notes-request" type="button" disabled>SOLICITAR NOVO APONTAMENTO</button></section>' +
         '<section class="correspondence-table"><h3>TÁBUA DE CORRESPONDÊNCIA</h3><p><strong>Insira a data reconstruída para consultar o sinal correspondente.</strong></p><form class="correspondence-form"><label>DIA<input name="day" type="number" inputmode="numeric" min="1" max="31" required></label><label>MÊS<input name="month" type="number" inputmode="numeric" min="1" max="12" required></label><button type="submit">CONSULTAR CORRESPONDÊNCIA</button></form><p class="correspondence-result" aria-live="polite"></p><button class="correspondence-save" type="button" hidden>GRAVAR SÍMBOLO</button><div class="correspondence-saved" aria-live="polite"></div></section>' +
       '</section>';
 
+    const notesPanel = actions.querySelector('.stage6-additional-notes');
+    if (notesPanel) {
+      notesPanel.querySelector('.stage6-notes-toggle').addEventListener('click', () => {
+        const toggle = notesPanel.querySelector('.stage6-notes-toggle');
+        toggle.setAttribute('aria-expanded', String(toggle.getAttribute('aria-expanded') !== 'true'));
+        updateAdditionalNotes();
+      });
+      notesPanel.querySelector('.stage6-notes-request').addEventListener('click', requestAdditionalNote);
+    }
     updateAdditionalNotes();
 
     actions.querySelectorAll('.stage6-archive .record-toggle, .stage6-archive .attachment-toggle').forEach(button => button.addEventListener('click', () => {
@@ -468,6 +519,18 @@
   const additionalNotesStyle = document.createElement('style');
   additionalNotesStyle.textContent = `
     .stage6-additional-notes{margin:22px 0 0;border:1px solid #6d5630;border-radius:4px;background:rgba(83,60,24,.12);overflow:hidden}.stage6-additional-notes h3{margin:0;padding:11px 12px;border-bottom:1px solid rgba(109,86,48,.55);color:var(--amber,#d5a64a);font:700 10px "IBM Plex Mono",monospace;letter-spacing:.12em}.stage6-additional-notes article{padding:11px 12px 10px;border-bottom:1px solid rgba(109,86,48,.28)}.stage6-additional-notes article:last-child{border-bottom:0}.stage6-additional-notes span{display:block;margin-bottom:5px;color:var(--text-soft,#9aa9a3);font:700 8px "IBM Plex Mono",monospace;letter-spacing:.1em}.stage6-additional-notes article:last-child span{color:var(--amber,#d5a64a)}.stage6-additional-notes p{margin:0;color:var(--text,#d8e4df);font-size:12.5px;line-height:1.6}
+  `;
+  additionalNotesStyle.textContent += `
+    .stage6-additional-notes .stage6-notes-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px;border:0;border-bottom:1px solid rgba(109,86,48,.55);background:transparent;color:#d3a268;font:700 11px "IBM Plex Mono",monospace;letter-spacing:.06em;text-align:left;cursor:pointer}
+    .stage6-additional-notes .stage6-notes-toggle:disabled{cursor:default}
+    .stage6-notes-chevron{font-size:15px}
+    .stage6-notes-history[hidden]{display:none!important}
+    .stage6-notes-history article{border-bottom:1px solid rgba(109,86,48,.3)}
+    .stage6-notes-history article:last-child{border-bottom:0}
+    .stage6-additional-notes .stage6-notes-request{display:block;width:calc(100% - 24px);margin:10px 12px 12px;padding:11px 12px;border:1px solid #805f37;border-radius:4px;background:#18110d;color:#e6b778;font:700 11px "IBM Plex Mono",monospace;letter-spacing:.045em;cursor:pointer}
+    .stage6-additional-notes .stage6-notes-request:disabled{opacity:.62;cursor:default}
+    .stage6-additional-notes .stage6-notes-request[hidden]{display:none!important}
+    .stage6-additional-notes .stage6-notes-toggle:focus-visible,.stage6-additional-notes .stage6-notes-request:focus-visible{outline:2px solid #d5a46b;outline-offset:2px}
   `;
   document.head.appendChild(additionalNotesStyle);
 
