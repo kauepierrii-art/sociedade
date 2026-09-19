@@ -2122,3 +2122,167 @@ input::placeholder {
 .stage6-archive > .stage6-archive-continue {
   margin-top: 25px;
 }
+
+
+/* ETAPA 05 — REGISTRO FINAL LEGÍVEL E NAVEGAÇÃO DISCRETA — 2026-09-19 */
+/* Ajuste exclusivo da confirmação da Correlação e da releitura da Etapa 05.
+   A documentação e os demais modais do protocolo permanecem inalterados. */
+.stage5-completion-modal {
+  display: flex !important;
+  align-items: flex-start;
+  justify-content: center;
+  overflow-x: hidden;
+  overflow-y: auto !important;
+  padding: 18px clamp(12px, 3vw, 28px) !important;
+  box-sizing: border-box;
+}
+.stage5-completion-modal .stage5-completion-dialog {
+  width: min(680px, 100%) !important;
+  margin: auto 0;
+  padding: 8px 0 !important;
+  box-sizing: border-box;
+}
+.stage5-completion-modal .stage5-opening,
+#stageView .stage5-timeline.is-review > .stage5-opening {
+  box-sizing: border-box;
+  background: linear-gradient(155deg, #221610, #160e0c 70%) !important;
+  border: 1px solid #775336 !important;
+  border-radius: 5px !important;
+  color: #eee2d1 !important;
+  box-shadow: none !important;
+}
+.stage5-completion-modal .stage5-opening {
+  margin: 0 !important;
+  padding: clamp(22px, 4vw, 34px) !important;
+}
+.stage5-completion-modal .stage5-opening > .stage5-opening-label,
+#stageView .stage5-timeline.is-review .stage5-opening-content > .stage5-opening-label {
+  display: block;
+  margin: 0 0 12px !important;
+  padding: 0 !important;
+  color: #d4a66d !important;
+  font: 700 10px/1.5 "IBM Plex Mono", monospace !important;
+  letter-spacing: .12em !important;
+}
+.stage5-completion-modal .stage5-opening > h3,
+#stageView .stage5-timeline.is-review .stage5-opening-content > h3 {
+  margin: 0 0 23px !important;
+  color: #f0e3d1 !important;
+  font: 600 clamp(25px, 4vw, 32px)/1.25 Georgia, "Times New Roman", serif !important;
+  letter-spacing: normal !important;
+}
+.stage5-completion-modal .stage5-opening > p:not(.stage5-opening-label),
+#stageView .stage5-timeline.is-review .stage5-opening-content > p:not(.stage5-opening-label) {
+  max-width: 65ch;
+  margin: 0 0 14px !important;
+  color: #eee0cd !important;
+  font: 500 17px/1.65 "Inter", "Helvetica Neue", Arial, sans-serif !important;
+  letter-spacing: normal !important;
+}
+.stage5-completion-modal .stage5-opening > p strong,
+#stageView .stage5-timeline.is-review .stage5-opening-content > p strong {
+  color: #f5e6d1 !important;
+  font: inherit !important;
+  font-weight: 700 !important;
+}
+.stage5-completion-modal .stage5-opening > .stage5-conclusion-question,
+#stageView .stage5-timeline.is-review .stage5-opening-content > .stage5-conclusion-question {
+  display: block;
+  max-width: none !important;
+  margin: 25px 0 0 !important;
+  padding: 16px 18px !important;
+  border: 0 !important;
+  border-left: 3px solid #b1844c !important;
+  border-top: 1px solid rgba(177, 132, 76, .37) !important;
+  border-radius: 0 3px 3px 0;
+  background: rgba(97, 57, 30, .16) !important;
+  color: #f3d6a3 !important;
+  font: italic 500 18px/1.6 Georgia, "Times New Roman", serif !important;
+}
+.stage5-completion-modal .stage5-completion-continue {
+  display: block;
+  width: fit-content !important;
+  max-width: 100%;
+  min-height: 37px;
+  margin: 17px auto 0 !important;
+  padding: 9px 14px !important;
+  border: 1px solid #a37b45 !important;
+  border-radius: 3px !important;
+  background: rgba(44, 31, 12, .55) !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  color: #e5bd76 !important;
+  font: 700 10px/1.5 "IBM Plex Mono", monospace !important;
+  letter-spacing: .075em !important;
+  text-align: center;
+  filter: none !important;
+  transform: none !important;
+}
+.stage5-completion-modal .stage5-completion-continue:hover,
+.stage5-completion-modal .stage5-completion-continue:focus-visible {
+  border-color: #e5bd76 !important;
+  background: rgba(70, 43, 22, .75) !important;
+  color: #f7d391 !important;
+  box-shadow: none !important;
+  filter: none !important;
+  outline: 1px solid rgba(229, 189, 118, .45);
+  outline-offset: 2px;
+}
+/* Releitura disponível no início da Etapa 05 quando ela já foi concluída. */
+#stageView .stage5-timeline.is-review > .stage5-opening {
+  margin: 0 0 20px !important;
+  padding: 0 !important;
+}
+#stageView .stage5-timeline.is-review > .stage5-opening .stage5-opening-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 49px;
+  padding: 13px 18px !important;
+  border: 0;
+  background: transparent !important;
+  color: #e3b77d !important;
+  font: 700 11px/1.5 "IBM Plex Mono", monospace !important;
+  letter-spacing: .055em !important;
+  text-align: left;
+  cursor: pointer;
+}
+#stageView .stage5-timeline.is-review > .stage5-opening .stage5-opening-toggle:hover,
+#stageView .stage5-timeline.is-review > .stage5-opening .stage5-opening-toggle:focus-visible {
+  background: rgba(117, 75, 42, .2) !important;
+  color: #f6d8a4 !important;
+  outline: 1px solid rgba(229, 189, 118, .45);
+  outline-offset: -3px;
+}
+#stageView .stage5-timeline.is-review .stage5-opening-content {
+  margin: 0;
+  padding: clamp(21px, 4vw, 32px) !important;
+  border: 0 !important;
+  border-top: 1px solid rgba(154, 106, 61, .52) !important;
+  border-radius: 0 !important;
+  background: #1b120f !important;
+  color: #eee2d1 !important;
+  box-shadow: none !important;
+}
+#stageView .stage5-timeline.is-review .stage5-opening-content[hidden] {
+  display: none !important;
+}
+@media (max-width: 600px) {
+  .stage5-completion-modal {
+    padding: 10px 12px !important;
+  }
+  .stage5-completion-modal .stage5-opening {
+    padding: 22px 19px !important;
+  }
+  .stage5-completion-modal .stage5-opening > p:not(.stage5-opening-label),
+  #stageView .stage5-timeline.is-review .stage5-opening-content > p:not(.stage5-opening-label) {
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+  }
+  .stage5-completion-modal .stage5-opening > .stage5-conclusion-question,
+  #stageView .stage5-timeline.is-review .stage5-opening-content > .stage5-conclusion-question {
+    padding: 14px 13px !important;
+    font-size: 17px !important;
+  }
+}
