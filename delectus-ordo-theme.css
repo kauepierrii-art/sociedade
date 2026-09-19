@@ -1677,3 +1677,32 @@ input::placeholder {
     padding: 18px 16px !important;
   }
 }
+
+
+/* PAPEL DE ARQUIVO — AJUSTE DE METADADOS E CONTEXTO */
+/* Preservar a hierarquia técnica e corrigir a cor herdada de trechos do
+   arquivo exibido dentro da Etapa 06. */
+#stageView .stage6-annex-content,
+#stageView .stage6-context-document,
+#stageView .stage6-archive .archive-copy,
+.stage6-archive .archive-copy {
+  color: #342820 !important;
+}
+#stageView .record-content .doc-meta,
+#stageView .attachment-content .doc-meta,
+.stage6-archive .stage6-context-document .doc-meta,
+.stage6-archive .record-content .doc-meta,
+.stage6-archive .attachment-content .doc-meta {
+  color: #785333 !important;
+  font-family: "IBM Plex Mono", monospace !important;
+  font-size: 12px !important;
+  line-height: 1.55 !important;
+  letter-spacing: .015em !important;
+}
+#stageView .stage5-opening-content .stage5-opening-label,
+.stage5-completion-modal .stage5-opening-content .stage5-opening-label {
+  color: #785333 !important;
+  font-family: "IBM Plex Mono", monospace !important;
+  font-size: 12px !important;
+  letter-spacing: .06em !important;
+}
