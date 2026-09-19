@@ -246,14 +246,12 @@
       <section class="record-item initiative-inventory-item" aria-label="Registro documental">
         <button class="record-toggle initiative-inventory-toggle" type="button"
           aria-expanded="false" aria-controls="initiativeInventoryContent">
-          <span class="initiative-inventory-heading">
-            <span class="initiative-inventory-label">REGISTRO DOCUMENTAL</span>
-            <span class="initiative-inventory-title">INVENTÁRIO DE ESPÓLIO — 1987</span>
-            <span class="initiative-inventory-description">Descrição dos materiais recuperados e das condições de análise.</span>
-          </span>
+          <span>REGISTRO DOCUMENTAL</span>
           <span class="chev" aria-hidden="true">＋</span>
         </button>
         <div id="initiativeInventoryContent" class="record-content initiative-inventory-content" hidden>
+          <h3 class="initiative-inventory-document-title">INVENTÁRIO DE ESPÓLIO — 1987</h3>
+          <p class="initiative-inventory-document-description">Descrição dos materiais recuperados e das condições de análise.</p>
           ${inventoryMarkup}
         </div>
       </section>
