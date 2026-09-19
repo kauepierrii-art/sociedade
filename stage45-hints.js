@@ -43,7 +43,7 @@
     box.id = 'stage45Hints-' + id;
     box.className = 'stage45-hints';
     box.hidden = true;
-    box.innerHTML = '<div class="stage45-hints-box"><button class="stage45-hints-toggle" type="button" aria-expanded="false"><span>DICAS DESBLOQUEADAS <span class="stage45-hints-count"></span></span><span class="stage45-hints-chev">＋</span></button><div class="stage45-hints-history" hidden></div></div><button class="stage45-hints-request" type="button" disabled></button>';
+    box.innerHTML = '<div class="stage45-hints-box"><button class="stage45-hints-toggle" type="button" aria-expanded="false"><span>APONTAMENTO ADICIONAL <span class="stage45-hints-count"></span></span><span class="stage45-hints-chev">＋</span></button><div class="stage45-hints-history" hidden></div></div><button class="stage45-hints-request" type="button" disabled></button>';
     if (configs[id].placement === 'before') {
       root.insertAdjacentElement('beforebegin', box);
     } else {
@@ -69,7 +69,7 @@
     box.hidden = false;
     box.querySelector('.stage45-hints-count').textContent = '(' + count + ')';
     const history = box.querySelector('.stage45-hints-history');
-    history.innerHTML = configs[id].hints.slice(0, count).map((hint, index) => '<div class="stage45-hints-item"><span>DICA ' + ['I','II','III','IV','V'][index] + '</span><p>' + hint + '</p></div>').join('');
+    history.innerHTML = configs[id].hints.slice(0, count).map((hint, index) => '<div class="stage45-hints-item"><span>ANOTAÇÃO ' + ['I','II','III','IV','V'][index] + '</span><p>' + hint + '</p></div>').join('');
     const toggle = box.querySelector('.stage45-hints-toggle');
     if (openLatest) {
       toggle.setAttribute('aria-expanded', 'true');
@@ -81,7 +81,7 @@
     request.hidden = false;
     const remaining = nextAt(id) - Date.now();
     request.disabled = remaining > 0;
-    request.textContent = remaining > 0 ? 'SOLICITAR NOVA DICA · ' + format(remaining) : 'SOLICITAR NOVA DICA';
+    request.textContent = remaining > 0 ? 'SOLICITAR NOVO APONTAMENTO · ' + format(remaining) : 'SOLICITAR NOVO APONTAMENTO';
     clearTimeout(box._hintTimer);
     if (remaining > 0) box._hintTimer = setTimeout(() => render(id, false), Math.min(1000, remaining + 50));
   }
