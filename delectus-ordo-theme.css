@@ -1772,3 +1772,92 @@ input::placeholder {
 .print-modal .print-copy p {
   font-weight: 500 !important;
 }
+
+
+/* REVERTER PAPEL CLARO SOMENTE NAS CAIXAS INDICADAS — 2026-09-19 */
+/* Etapas 01–05: introduções e instruções voltam a se integrar ao painel
+   escuro. Os documentos abertos nos acordeões continuam em papel claro.
+   Conservar Inter Medium e os tamanhos de leitura. */
+#stageView .detail-panel > .context-copy:not(:empty),
+#stageView .detail-panel > .mission-copy:not(:empty) {
+  background: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: #f0e9df !important;
+  padding: 16px 18px 0 !important;
+  max-width: none !important;
+}
+#stageView .detail-panel > .context-copy :is(p, li, blockquote, strong, em),
+#stageView .detail-panel > .mission-copy :is(p, li, blockquote, strong, em) {
+  color: #f0e9df !important;
+}
+#stageView .detail-panel > .context-copy .initiative-note {
+  border-left-color: #c58a4e !important;
+  background: rgba(135, 91, 50, .16) !important;
+  color: #eadbc7 !important;
+}
+#stageView .detail-panel > .context-copy .initiative-note strong {
+  color: #eadbc7 !important;
+}
+
+/* Etapa 06: material histórico do arquivo volta ao fundo escuro original.
+   Os registros e anexos recolhíveis não herdam este ajuste. */
+.stage6-archive > .stage6-context-document {
+  background: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  border-bottom: 1px solid #493426 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: #f0e9df !important;
+  padding: 2px 0 16px !important;
+}
+.stage6-archive > .stage6-context-document .archive-copy,
+.stage6-archive > .stage6-context-document .archive-copy :is(p, li, strong, em, blockquote) {
+  color: #f0e9df !important;
+}
+.stage6-archive > .stage6-context-document .doc-meta,
+.stage6-archive > .stage6-context-document .archive-sources {
+  color: #bca68e !important;
+}
+.stage6-archive > .stage6-context-document .archive-sources {
+  border-top-color: #493426 !important;
+}
+.stage6-archive > .stage6-context-document .archive-sources a {
+  color: #d4a66d !important;
+}
+
+/* Etapa 06: as três anotações do APONTAMENTO ADICIONAL também voltam ao
+   fundo escuro, preservando a divisão bronze e a fonte Inter Medium. */
+.stage6-archive .stage6-additional-notes article {
+  background: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(109, 86, 48, .35) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: #f0e9df !important;
+  padding: 16px 18px !important;
+}
+.stage6-archive .stage6-additional-notes article:last-child {
+  border-bottom: 0 !important;
+}
+.stage6-archive .stage6-additional-notes article p,
+.stage6-archive .stage6-additional-notes article p :is(strong, em) {
+  color: #f0e9df !important;
+}
+.stage6-archive .stage6-additional-notes article span,
+.stage6-archive .stage6-additional-notes article:last-child span {
+  color: #c8a57c !important;
+}
+@media (max-width: 700px) {
+  #stageView .detail-panel > .context-copy:not(:empty),
+  #stageView .detail-panel > .mission-copy:not(:empty) {
+    padding: 16px 13px 0 !important;
+  }
+  .stage6-archive .stage6-additional-notes article {
+    padding: 16px 14px !important;
+  }
+}
