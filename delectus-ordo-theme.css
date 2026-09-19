@@ -2054,3 +2054,26 @@ input::placeholder {
     line-height: 1.6 !important;
   }
 }
+
+
+/* ETAPA 06 — CONTINUAR PARA A ADMISSÃO — 2026-09-19 */
+/* A navegação é oferecida somente após o registro visual ser concluído.
+   Manter o botão legível sem alterar o espelho nem a pista pulsante. */
+#stageView .mirror-v2 > .mirror-stage-continue,
+.stage6-archive > .stage6-archive-continue {
+  display: block;
+  width: min(100%, 480px);
+  margin: 28px auto 8px;
+  padding: 15px 18px;
+  font: 700 12px/1.45 "IBM Plex Mono", monospace;
+  letter-spacing: .055em;
+  text-align: center;
+  cursor: pointer;
+}
+#stageView .mirror-v2 > .mirror-stage-continue[hidden],
+.stage6-archive > .stage6-archive-continue[hidden] {
+  display: none !important;
+}
+.stage6-archive > .stage6-archive-continue {
+  margin-top: 30px;
+}
