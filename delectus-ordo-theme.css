@@ -1362,3 +1362,57 @@ input::placeholder {
     max-width: 100%;
   }
 }
+
+
+/* CONTRASTE DA LEITURA LONGA — 2026-09-19 */
+/* Somente prosa dos documentos e caixas: marfim ligeiramente mais neutro.
+   Não altera metadados, títulos, símbolos, botões, nem a frase/link pulsante. */
+#stageView .context-copy,
+#stageView .mission-copy,
+#stageView .record-content,
+#stageView .attachment-content,
+#stageView .initiative-copy,
+#stageView .initiative-material-content,
+#stageView .initiative-document-sheet,
+#stageView .stage6-context-document,
+#stageView .stage6-archive .archive-copy,
+#stageView .stage6-annex-content,
+#stageView .stage5-part-copy,
+#stageView .stage5-opening-content,
+.stage5-completion-modal .stage5-opening-content,
+.stage6-archive .archive-copy,
+.stage6-archive .stage6-context-document,
+.stage6-archive .stage6-annex-content,
+.print-modal .print-copy {
+  color: #f0e9df !important;
+}
+#stageView .context-copy p,
+#stageView .mission-copy p,
+#stageView .record-content p,
+#stageView .record-content li,
+#stageView .record-content blockquote,
+#stageView .attachment-content p,
+#stageView .attachment-content li,
+#stageView .attachment-content blockquote,
+#stageView .initiative-copy,
+#stageView .initiative-material-content > p,
+#stageView .initiative-document-sheet p,
+#stageView .initiative-document-sheet li,
+#stageView .stage6-annex-content p,
+#stageView .stage6-annex-content li,
+#stageView .stage6-archive .archive-copy p,
+#stageView .stage5-part-copy p,
+#stageView .stage5-opening-content p,
+#stageView .stage5-opening-content li,
+.stage5-completion-modal .stage5-opening-content p,
+.stage6-archive .archive-copy p,
+.stage6-archive .stage6-annex-content p,
+.stage6-archive .stage6-annex-content li,
+.print-modal .print-copy p,
+#stageView .answer-panel p,
+#stageView .identification-hint p,
+#stageView .initiative-note,
+#stageView .stage5-opening-content blockquote,
+.stage5-completion-modal .stage5-opening-content blockquote {
+  color: #f0e9df !important;
+}
