@@ -73,11 +73,52 @@ let currentRefLabel = null;
 let completedCount = 0;
 let cooldownTimer = null;
 
+// Cada etapa usa uma única entrada de histórico. O botão Voltar do celular
+// retorna ao painel do protocolo, sem percorrer as etapas visitadas.
 function show(view) {
+  const leavingStage = stageView.classList.contains('active') && view !== stageView;
+  const enteringStage = view === stageView && !stageView.classList.contains('active');
+  if (enteringStage && currentRefKey) {
+    // Manter a URL original e o link oculto inalterados.
+    if (!history.state || history.state.delectusScreen !== 'stage') {
+      history.pushState({ delectusScreen: 'stage', ref: currentRefKey }, '', location.href);
+    }
+  } else if (leavingStage && history.state && history.state.delectusScreen === 'stage') {
+    // Ao voltar pelo botão interno ou após concluir uma etapa, descartar a
+    // entrada temporária para não exigir dois toques no Voltar do navegador.
+    history.back();
+  }
+  if (leavingStage) {
+    const supportVideo = document.querySelector('#stage4SupportVideo');
+    if (supportVideo) {
+      const video = supportVideo.querySelector('video');
+      if (video) video.pause();
+      supportVideo.hidden = true;
+    }
+    const recovery = document.querySelector('#stage4RecoverySequence');
+    if (recovery) recovery.hidden = true;
+  }
   [loginView, dashboardView, stageView].forEach(v => v.classList.remove('active'));
   view.classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
+// Voltar físico/gesto de navegação: sair de qualquer etapa diretamente para
+// a lista do protocolo. Quando já estiver no painel, o navegador age normalmente.
+window.addEventListener('popstate', () => {
+  if (!currentRefKey) return;
+  if (stageView.classList.contains('active')) {
+    if (cooldownTimer) { clearInterval(cooldownTimer); cooldownTimer = null; }
+    renderDashboard();
+    show(dashboardView);
+    return;
+  }
+  // O arquivo especial pode estar aberto dentro do próprio painel.
+  if (dashboardView.classList.contains('active')) {
+    const archiveBack = document.querySelector('#dashboardView .dashboard-card.is-stage6-archive .stage6-top-back');
+    if (archiveBack) archiveBack.click();
+  }
+});
 
 function normalizeRef(value) { return value.trim().toUpperCase().replace(/\s+/g, ''); }
 function normalizeAnswer(value) { return value.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
