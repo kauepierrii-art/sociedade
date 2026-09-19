@@ -26,6 +26,11 @@
   function write(name, value) {
     if (storageKey(name)) localStorage.setItem(storageKey(name), JSON.stringify(value));
   }
+  // A admissão só pode ser aberta depois do registro visual ser concluído.
+  function canContinueToAdmission() {
+    return Boolean(currentRefKey && stageStep > 0 &&
+      read('videoWatched', false) === true && completedCount >= stageStep);
+  }
   function elapsedStage6Time() {
     const saved = Number(read('additionalNotesElapsed', 0)) || 0;
     return saved + (stage6TimerStartedAt ? Date.now() - stage6TimerStartedAt : 0);
@@ -185,9 +190,14 @@
             return '<button class="zodiac-mark ' + (present ? 'is-present' : 'is-erased') + '" type="button" data-sign="' + sign + '" style="--mark:' + index + '" aria-label="Sinal zodiacal ' + (index + 1) + '">' + glyph(sign) + '</button>';
           }).join('') +
         '</div><div class="mirror-video-controls"' + (stabilized ? '' : ' hidden') + '><button class="mirror-activate" type="button">ATIVAR ESPELHO</button><button class="mirror-deactivate" type="button">DESATIVAR ESPELHO</button></div>' +
+        '<button class="primary-btn mirror-stage-continue" type="button"' + (canContinueToAdmission() ? '' : ' hidden') + '>CONTINUAR PARA A ETAPA 7</button>' +
       '</section>';
 
     const root = actions.querySelector('.mirror-v2');
+    const continueButton = root.querySelector('.mirror-stage-continue');
+    continueButton.addEventListener('click', () => {
+      if (canContinueToAdmission()) openStage(stageIndex + 1);
+    });
     const video = root.querySelector('.mirror-v2-video');
     const videoControls = root.querySelector('.mirror-video-controls');
     const activateMirror = root.querySelector('.mirror-activate');
@@ -218,6 +228,7 @@
         saveProgress(currentRefKey, completedCount);
       }
       document.querySelector('#stageStatus').textContent = 'REGISTRO CONCLUÍDO — ETAPA 07 LIBERADA';
+      continueButton.hidden = !canContinueToAdmission();
     });
     video.addEventListener('error', () => {
       hideVideo();
@@ -399,6 +410,7 @@
         '<article class="attachment-item"><button class="record-toggle" type="button" aria-expanded="false"><span>REGISTRO 02 — RECONSTRUÇÃO</span><span class="chev">＋</span></button><div class="record-content" hidden><div class="archive-copy">' + paragraphs(reconstruction) + '</div></div></article>' +
         '<section class="stage6-additional-notes"><button class="stage6-notes-toggle" type="button" aria-expanded="false" disabled><span>APONTAMENTO ADICIONAL <span class="stage6-notes-count">(0)</span></span><span class="stage6-notes-chevron" aria-hidden="true">＋</span></button><div class="stage6-notes-history" hidden></div><button class="stage6-notes-request" type="button" disabled>SOLICITAR NOVO APONTAMENTO</button></section>' +
         '<section class="correspondence-table"><h3>TÁBUA DE CORRESPONDÊNCIA</h3><p><strong>Insira a data reconstruída para consultar o sinal correspondente.</strong></p><form class="correspondence-form"><label>DIA<input name="day" type="number" inputmode="numeric" min="1" max="31" required></label><label>MÊS<input name="month" type="number" inputmode="numeric" min="1" max="12" required></label><button type="submit">CONSULTAR CORRESPONDÊNCIA</button></form><p class="correspondence-result" aria-live="polite"></p><button class="correspondence-save" type="button" hidden>GRAVAR SÍMBOLO</button><div class="correspondence-saved" aria-live="polite"></div></section>' +
+        '<button class="primary-btn stage6-archive-continue" type="button"' + (canContinueToAdmission() ? '' : ' hidden') + '>CONTINUAR PARA A ETAPA 7</button>' +
       '</section>';
 
     const notesPanel = actions.querySelector('.stage6-additional-notes');
@@ -462,6 +474,11 @@
       renderSavedSymbols();
     });
     renderSavedSymbols();
+    actions.querySelector('.stage6-archive-continue').addEventListener('click', () => {
+      if (!canContinueToAdmission()) return;
+      if (onDashboard) closeDashboardArchive();
+      openStage(stageIndex + 1);
+    });
     actions.querySelector('.stage6-top-back').addEventListener('click', () => {
       if (onDashboard) closeDashboardArchive();
       else openStage(stageIndex);
