@@ -466,7 +466,7 @@
   document.head.appendChild(videoTransitionStyle);
 
   const ordoStage4Palette = document.createElement('style');
-  ordoStage4Palette.textContent = \`
+  ordoStage4Palette.textContent = `
     /* ETAPA 04 — ACABAMENTO ORDO MOGNUS, SEM VERDE LEGADO — 2026-09-19 */
     /* Aparelho com frequência confirmada: brilho bronze em vez de verde. */
     .stage4-tuner.is-stabilized {
@@ -543,6 +543,6 @@
     .stage4-support-frame .stage4-video-note {
       color: #bda184 !important;
     }
-  \`;
+  `;
   document.head.appendChild(ordoStage4Palette);
 })();
