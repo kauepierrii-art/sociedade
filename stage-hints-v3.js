@@ -15,11 +15,11 @@
       stageKey: 'identification',
       intervals: [60, 120, 240, 480],
       hints: [
-        'Examine também os elementos que parecem apenas decorativos. Em alguns casos, pode ser necessário aplicar calor.',
+        'Examine também os elementos que parecem apenas decorativos.',
         'Há três elementos que pertencem ao mesmo conjunto.',
         'Nem todos os detalhes desses elementos têm função apenas visual.',
         'A ordem em que aparecem também faz parte da resposta.',
-        'Observe os três dados. Se eles estiverem em branco, talvez seja necessário usar calor intenso ou fogo, com cuidado, para revelar os valores.'
+        'Observe os três dados.'
       ]
     },
     aptitude: {
