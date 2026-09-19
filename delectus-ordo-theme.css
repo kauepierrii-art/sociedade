@@ -922,12 +922,14 @@ input::placeholder {
 #dashboardView .stage-row {
   --marker-column: 46px;
   --marker-line-x: 22.5px;
+  --marker-size: 38px;
+  --marker-line-gap: 24px;
   position: relative;
   grid-template-columns: var(--marker-column) minmax(0, 1fr) auto;
   padding-left: 0 !important;
   box-shadow: none;
 }
-/* Segmentos separados: deixam 5px de respiro a cada lado da bolinha de 14px. */
+/* Linha interrompida: 5px de respiro antes e depois de cada marcador. */
 #dashboardView .stage-row::before,
 #dashboardView .stage-row::after {
   content: "" !important;
@@ -936,7 +938,7 @@ input::placeholder {
   z-index: 0;
   left: var(--marker-line-x);
   width: 1px;
-  height: calc(50% - 12px);
+  height: calc(50% - var(--marker-line-gap));
   border: 0;
   background: linear-gradient(180deg, rgba(160, 108, 63, .55), rgba(110, 73, 48, .43)) !important;
   box-shadow: none;
@@ -965,9 +967,10 @@ input::placeholder {
   justify-self: center;
   align-self: center;
   display: block;
-  width: 14px;
-  height: 14px;
-  min-width: 14px;
+  box-sizing: border-box;
+  width: var(--marker-size);
+  height: var(--marker-size);
+  min-width: var(--marker-size);
   padding: 0;
   border: 1.5px solid #685440;
   border-radius: 50%;
@@ -991,7 +994,7 @@ input::placeholder {
 #dashboardView .stage-row.done .stage-icon::after {
   content: "";
   position: absolute;
-  inset: 2px;
+  inset: 4px;
   border-radius: 50%;
   background: #d6ab6c;
 }
@@ -1017,11 +1020,15 @@ input::placeholder {
   #dashboardView .stage-row {
     --marker-column: 36px;
     --marker-line-x: 17.5px;
+    --marker-size: 32px;
+    --marker-line-gap: 21px;
   }
 }
 @media (max-width: 430px) {
   #dashboardView .stage-row {
     --marker-column: 34px;
     --marker-line-x: 16.5px;
+    --marker-size: 30px;
+    --marker-line-gap: 20px;
   }
 }
