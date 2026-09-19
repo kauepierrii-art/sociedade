@@ -63,7 +63,7 @@
       <p>Alguns dos elementos descritos sequer pertenciam àquele período.</p><p>Ainda assim, foram observados.</p>
       <p>Décadas antes de qualquer registro visual conhecido.</p>
       <p><strong>A cronologia está correta.</strong></p><p><strong>A observação é que não deveria ser possível.</strong></p>
-      <blockquote>O que, exatamente, o espelho mostra?</blockquote>`;
+      <blockquote class="stage5-conclusion-question">O que, exatamente, o espelho mostra?</blockquote>`;
   }
 
   function renderTimeline() {
@@ -185,7 +185,9 @@
     function showReview() {
       timeline.classList.remove('is-part-two');
       timeline.classList.add('is-correct', 'is-review');
-      opening.innerHTML = '<button type="button" class="stage5-opening-toggle" aria-expanded="false"><span>REGISTRO DE ABERTURA</span><span class="chev">＋</span></button><div class="stage5-opening-content" hidden>' + completionTextMarkup() + '</div>';
+      opening.innerHTML = '<button type="button" class="stage5-opening-toggle" aria-expanded="false"><span>RELER REGISTRO DE ABERTURA</span><span class="chev">＋</span></button><div class="stage5-opening-content" hidden>' + completionTextMarkup() + '</div>';
+      // Na revisão, a consulta fica imediatamente visível, antes do baralho.
+      timeline.prepend(opening);
       opening.querySelector('.stage5-opening-toggle').addEventListener('click', () => {
         const toggle = opening.querySelector('.stage5-opening-toggle');
         const body = opening.querySelector('.stage5-opening-content');
@@ -200,7 +202,7 @@
     function openCompletionPopup() {
       const popup = document.createElement('section');
       popup.className = 'stage5-completion-modal';
-      popup.innerHTML = `<div class="stage5-completion-dialog" role="dialog" aria-modal="true"><div class="stage5-opening">${completionTextMarkup()}</div><button class="primary-btn stage5-completion-continue" type="button">CONTINUAR PARA A ETAPA 6</button></div>`;
+      popup.innerHTML = `<div class="stage5-completion-dialog" role="dialog" aria-modal="true" aria-label="Registro de abertura — correlação confirmada"><div class="stage5-opening">${completionTextMarkup()}</div><button class="primary-btn stage5-completion-continue" type="button">CONTINUAR PARA A ETAPA 6</button></div>`;
       document.body.appendChild(popup);
       popup.querySelector('.stage5-completion-continue').addEventListener('click', () => {
         popup.remove();
