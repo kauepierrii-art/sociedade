@@ -10,7 +10,7 @@ const stages = [
     name: 'Origem',
     subtitle: 'Registro histórico',
     icon: '⌘',
-    context: 'Nem toda divergência é relevante.\n\nAlgumas, no entanto, justificam uma segunda análise.\n\nOs documentos disponibilizados pertencem ao mesmo conjunto e foram preservados por razões que serão esclarecidas posteriormente.\n\nAnalise o material e identifique a inconsistência.',
+    context: 'Nem toda divergência é relevante.\n\nAlgumas, no entanto, justificam uma segunda análise.\n\nOs documentos disponibilizados pertencem ao mesmo conjunto e foram preservados por razões que serão esclarecidas posteriormente.',
     mission: ''
   },
   { name: 'Observação', subtitle: 'Material não catalogado', icon: '◉', context: 'Nem toda informação relevante é apresentada de forma explícita. Esta etapa avaliará atenção, padrão e detalhe.', mission: 'Conteúdo em desenvolvimento.' },
@@ -465,7 +465,7 @@ function renderStageTwo(actions) {
       <p>Os registros apresentados não foram reunidos para contar uma história completa. Eles foram preservados porque, em algum momento, alguém considerou que certas diferenças mereciam uma segunda análise.</p>
       <p>Seu objetivo não é provar uma teoria, nem confirmar a autenticidade de qualquer objeto.</p>
       <p>É mais simples que isso.</p>
-      <p><strong>Leia, compare e identifique qual elemento apresenta uma inconsistência entre os registros.</strong></p>
+      <p><strong>Examine os registros e considere as informações apresentadas em cada um deles.</strong></p>
       <form id="aptitudeForm" autocomplete="off">
         <label for="aptitudeAnswer" class="validation-label">QUAL ELEMENTO APRESENTA INCONSISTÊNCIA ENTRE OS REGISTROS?</label>
         <input id="aptitudeAnswer" class="answer-input" type="text" required />
