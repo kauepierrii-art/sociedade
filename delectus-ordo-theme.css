@@ -1861,3 +1861,24 @@ input::placeholder {
     padding: 16px 14px !important;
   }
 }
+
+
+/* INTER NAS INSTRUÇÕES E RESPOSTAS DAS ETAPAS 02–03 — 2026-09-19 */
+/* Os parágrafos de orientação após os registros e a pergunta/retorno da
+   Observação permaneciam em Georgia. Ajustar só tipografia, sem tocar na
+   paleta, nas áreas de papel ou nos botões e campos do desafio. */
+#stageView .stage-actions .answer-panel > p,
+#stageView .stage-actions .answer-panel > p :is(strong, em),
+#stageView .stage-actions .answer-panel .answer-message {
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif !important;
+  letter-spacing: normal !important;
+}
+#stageView .stage-actions .answer-panel > p {
+  font-weight: 500 !important;
+}
+#stageView .stage-actions .answer-panel > p strong {
+  font-weight: 700 !important;
+}
+#stageView .stage-actions .answer-panel .answer-message {
+  font-weight: 500 !important;
+}
