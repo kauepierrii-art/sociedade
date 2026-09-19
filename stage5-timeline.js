@@ -89,7 +89,8 @@
       </div>
       <div class="stage5-timeline-line" aria-label="Linha do tempo com sete posições"></div>
       <p class="stage5-timeline-message" role="status">AGUARDANDO ORGANIZAÇÃO DOS REGISTROS.</p>
-      <button class="primary-btn stage5-confirm" type="button" disabled>CONFIRMAR SEQUÊNCIA</button>
+      <div class="stage5-part-one-actions"><button class="primary-btn stage5-confirm" type="button" disabled>CONFIRMAR SEQUÊNCIA</button><button class="stage5-clear" type="button" disabled>LIMPAR BARALHO</button></div>
+      <div class="stage5-hint-notice" role="status" hidden><span>APONTAMENTO DISPONÍVEL</span><button type="button" class="stage5-hint-open">VER ANOTAÇÃO</button></div>
       <section class="stage5-opening" hidden></section><section class="stage5-part-two" hidden></section>`;
     actions.appendChild(timeline);
     preloadCardImages();
@@ -109,6 +110,8 @@
     const line = timeline.querySelector('.stage5-timeline-line');
     const message = timeline.querySelector('.stage5-timeline-message');
     const confirm = timeline.querySelector('.stage5-confirm');
+    const clearButton = timeline.querySelector('.stage5-clear');
+    const partOneNotice = timeline.querySelector('.stage5-hint-notice');
     const opening = timeline.querySelector('.stage5-opening');
     const partTwo = timeline.querySelector('.stage5-part-two');
 
@@ -156,6 +159,7 @@
         placeOrAdjust(slotIndex);
       }));
       confirm.disabled = placed.some(card => !card);
+      clearButton.disabled = !placed.some(Boolean) || partOneComplete || stageComplete;
     }
 
     function placeOrAdjust(target) {
@@ -210,23 +214,33 @@
       let selected = [];
       let lastSelectedId = null;
       partTwo.hidden = false;
+      // A introdução da Parte 1 deixa de competir com a nova tarefa.
+      const context = document.getElementById('stageContext');
+      const mission = document.getElementById('stageMission');
+      if (context) context.hidden = true;
+      if (mission) mission.hidden = true;
       partTwo.innerHTML = `
-        <p class="stage5-part-label">PARTE 2 — CORRELAÇÃO</p>
+        <header class="stage5-part-heading">
+          <p class="stage5-part-label">ETAPA 05 · PARTE 2 DE 2</p>
+          <h3>Correlação documental</h3>
+          <p class="stage5-part-status">LINHA DO TEMPO CONCLUÍDA — NOVA INVESTIGAÇÃO</p>
+        </header>
         <div class="stage5-part-copy">
-          <p>Todos os registros pertencem à mesma investigação.</p>
-          <p>Entre eles, dois parecem registrar <strong>a mesma cena</strong>.</p>
+          <p>Todos os registros pertencem à mesma investigação. Entre eles, dois parecem registrar <strong>a mesma cena</strong>.</p>
           <p>Pela cronologia estabelecida, isso não deveria ser possível.</p>
-          <p><strong>Identifique-os e conecte-os.</strong></p>
+          <p class="stage5-part-instruction"><strong>Identifique os dois registros e conecte-os selecionando suas cartas abaixo.</strong></p>
         </div>
         <div class="stage5-pair-grid">${placed.map((card, index) => `<button type="button" class="stage5-pair-card" data-card="${card.id}"><span class="stage5-pair-order">${String(index + 1).padStart(2, '0')}</span>${cardMarkup(card, index)}</button>`).join('')}</div>
         <p class="stage5-pair-message" role="status">SELECIONE DOIS REGISTROS.</p>
         <button class="stage5-pair-zoom" type="button" disabled>AMPLIAR ÚLTIMO REGISTRO SELECIONADO</button>
         <button class="primary-btn stage5-pair-confirm" type="button" disabled>CONFIRMAR CONEXÃO</button>
+        <div class="stage5-hint-notice" role="status" hidden><span>APONTAMENTO DISPONÍVEL</span><button type="button" class="stage5-hint-open">VER ANOTAÇÃO</button></div>
         <div class="stage5-reward" hidden></div>`;
       const pairMessage = partTwo.querySelector('.stage5-pair-message');
       const pairZoom = partTwo.querySelector('.stage5-pair-zoom');
       const pairConfirm = partTwo.querySelector('.stage5-pair-confirm');
       const pairCards = partTwo.querySelectorAll('.stage5-pair-card');
+      connectHintNotice(partTwo.querySelector('.stage5-hint-notice'));
       pairCards.forEach(button => button.addEventListener('click', () => {
         const id = button.dataset.card;
         if (selected.includes(id)) {
@@ -252,6 +266,7 @@
         if (!correct) {
           pairMessage.textContent = 'A RELAÇÃO SELECIONADA NÃO EXPLICA A INCONSISTÊNCIA.';
           window.dispatchEvent(new Event('stage5-hint-error'));
+          revealHintNotice(partTwo.querySelector('.stage5-hint-notice'));
           partTwo.classList.add('is-error');
           setTimeout(() => partTwo.classList.remove('is-error'), 500);
           return;
@@ -268,6 +283,40 @@
         openCompletionPopup();
       });
     }
+
+    function connectHintNotice(notice) {
+      if (!notice) return;
+      notice.querySelector('.stage5-hint-open').addEventListener('click', () => {
+        const panel = document.getElementById('stage45Hints-stage5');
+        if (!panel || panel.hidden) return;
+        const toggle = panel.querySelector('.stage45-hints-toggle');
+        const history = panel.querySelector('.stage45-hints-history');
+        const chevron = panel.querySelector('.stage45-hints-chev');
+        if (toggle) toggle.setAttribute('aria-expanded', 'true');
+        if (history) history.hidden = false;
+        if (chevron) chevron.textContent = '−';
+        panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+    }
+
+    function revealHintNotice(notice) {
+      const panel = document.getElementById('stage45Hints-stage5');
+      if (!notice || !panel || panel.hidden) return;
+      notice.hidden = false;
+      notice.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    connectHintNotice(partOneNotice);
+
+    clearButton.addEventListener('click', () => {
+      if (partOneComplete || stageComplete || !placed.some(Boolean)) return;
+      if (!window.confirm('Limpar a linha do tempo e devolver todas as cartas ao baralho?')) return;
+      deck = shuffled(cards);
+      placed = Array(7).fill(null);
+      selectedDeck = false;
+      selectedSlot = null;
+      message.textContent = 'LINHA DO TEMPO LIMPA. TODAS AS CARTAS VOLTARAM AO BARALHO.';
+      draw();
+    });
 
     deckButton.addEventListener('click', () => {
       if (!deck.length) return;
@@ -295,6 +344,7 @@
       if (!correct) {
         message.textContent = 'A SEQUÊNCIA AINDA APRESENTA INCOMPATIBILIDADES.';
         window.dispatchEvent(new Event('stage5-hint-error'));
+        revealHintNotice(partOneNotice);
         timeline.classList.remove('is-correct');
         timeline.classList.add('is-error');
         setTimeout(() => timeline.classList.remove('is-error'), 500);
@@ -302,10 +352,11 @@
       }
       saveStage5PartOneComplete();
       timeline.classList.add('is-correct');
-      message.textContent = 'SEQUÊNCIA CONFIRMADA — INCONSISTÊNCIA IDENTIFICADA.';
+      message.textContent = 'SEQUÊNCIA CONFIRMADA — PARTE 2 LIBERADA.';
       confirm.disabled = true;
       timeline.classList.add('is-part-two');
       showPartTwo();
+      partTwo.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
     window.dispatchEvent(new CustomEvent('stage45-hints-mount', { detail: 'stage5' }));
     if (stageComplete) {
