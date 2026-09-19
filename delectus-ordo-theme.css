@@ -910,3 +910,118 @@ input::placeholder {
     background: #120c09 !important;
   }
 }
+
+
+/* TIMELINE DISCRETA — MARCADORES DE PROGRESSO — 2026-09-19 */
+/* Os números continuam nos títulos (01–07); apenas o marcador visual
+   vira uma bolinha que se preenche após concluir a atividade.
+   A linha é desenhada em dois segmentos POR ETAPA, sem tocar no círculo. */
+#dashboardView .stage-list::before {
+  display: none !important;
+}
+#dashboardView .stage-row {
+  --marker-column: 46px;
+  --marker-line-x: 22.5px;
+  position: relative;
+  grid-template-columns: var(--marker-column) minmax(0, 1fr) auto;
+  padding-left: 0 !important;
+  box-shadow: none;
+}
+/* Segmentos separados: deixam 5px de respiro a cada lado da bolinha de 14px. */
+#dashboardView .stage-row::before,
+#dashboardView .stage-row::after {
+  content: "" !important;
+  display: block;
+  position: absolute;
+  z-index: 0;
+  left: var(--marker-line-x);
+  width: 1px;
+  height: calc(50% - 12px);
+  border: 0;
+  background: linear-gradient(180deg, rgba(160, 108, 63, .55), rgba(110, 73, 48, .43)) !important;
+  box-shadow: none;
+  pointer-events: none;
+}
+#dashboardView .stage-row::before {
+  top: 0;
+  bottom: auto;
+}
+#dashboardView .stage-row::after {
+  top: auto;
+  bottom: 0;
+}
+#dashboardView .stage-row:first-child::before,
+#dashboardView .stage-row:last-child::after {
+  display: none !important;
+}
+/* O destaque da etapa ativa fica no marcador, sem tarja vertical sobreposta. */
+#dashboardView .stage-row.available,
+#dashboardView .stage-row.info-required {
+  background: linear-gradient(90deg, rgba(123, 69, 19, .045), transparent 27%);
+}
+#dashboardView .stage-icon {
+  position: relative;
+  z-index: 2;
+  justify-self: center;
+  align-self: center;
+  display: block;
+  width: 14px;
+  height: 14px;
+  min-width: 14px;
+  padding: 0;
+  border: 1.5px solid #685440;
+  border-radius: 50%;
+  background: #0d0907;
+  color: transparent !important;
+  font-size: 0 !important;
+  line-height: 0;
+  box-shadow: none;
+}
+/* Oculta o contador sobre o marcador, sem mexer nos textos das etapas. */
+#dashboardView .stage-icon::before {
+  content: none !important;
+  display: none !important;
+}
+/* Concluída: aro bronze claro e preenchimento sólido com pequeno respiro. */
+#dashboardView .stage-row.done .stage-icon {
+  border-color: #c99b60;
+  background: #0d0907;
+  box-shadow: 0 0 0 1px rgba(201, 155, 96, .08);
+}
+#dashboardView .stage-row.done .stage-icon::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: 50%;
+  background: #d6ab6c;
+}
+/* Disponível: aro âmbar mais nítido; interior ainda vazio. */
+#dashboardView .stage-row.available .stage-icon,
+#dashboardView .stage-row.info-required .stage-icon {
+  border-color: #dfab62;
+  background: #0d0907;
+  box-shadow: 0 0 0 3px rgba(190, 125, 46, .075), 0 0 11px rgba(191, 122, 36, .18);
+}
+#dashboardView .stage-row.available .stage-icon::after,
+#dashboardView .stage-row.info-required .stage-icon::after,
+#dashboardView .stage-row.locked .stage-icon::after {
+  content: none;
+}
+/* Bloqueada: apenas contorno bronze acinzentado, sem brilho. */
+#dashboardView .stage-row.locked .stage-icon {
+  border-color: #665343;
+  background: #0d0907;
+  box-shadow: none;
+}
+@media (max-width: 700px) {
+  #dashboardView .stage-row {
+    --marker-column: 36px;
+    --marker-line-x: 17.5px;
+  }
+}
+@media (max-width: 430px) {
+  #dashboardView .stage-row {
+    --marker-column: 34px;
+    --marker-line-x: 16.5px;
+  }
+}
