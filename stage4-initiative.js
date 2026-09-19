@@ -7,7 +7,7 @@
 
   const initiativeStage = stages[initiativeIndex];
   initiativeStage.subtitle = 'análise de material incompleto';
-  initiativeStage.context = [
+  const inventoryText = [
     'Em 1987, durante o inventário de um espólio particular, foi localizado um conjunto de materiais sem qualquer registro de procedência.',
     'Entre os itens estavam mapas, fotografias, documentos, uma fita magnética convencional e um aparelho de função desconhecida.',
     'O aparelho apresentava construção incomum, com estrutura metálica blindada e sem acesso aparente aos seus componentes internos.',
@@ -22,8 +22,12 @@
     'O aparelho possui <strong>quatro canais independentes de ajuste</strong>.',
     'Nenhum dos materiais fornece, isoladamente, a configuração necessária para operá-los.',
     'Os registros sugerem, entretanto, que a combinação correta pode ser reconstruída a partir dos elementos preservados no conjunto.',
-    '<strong>Determine os quatro valores e configure o aparelho.</strong>',
     '<strong>Até o momento, o conteúdo da fita encontrada no interior do aparelho jamais foi recuperado.</strong>'
+  ].join('\n\n');
+  initiativeStage.context = [
+    'Em 1987, um inventário particular revelou um aparelho de função desconhecida, acompanhado de documentos, fotografias e duas fitas magnéticas.',
+    'Uma das gravações pôde ser parcialmente recuperada. A outra permanece inacessível.',
+    'Os materiais preservados podem conter a configuração necessária para operar o aparelho.'
   ].join('\n\n');
   initiativeStage.mission = '';
 
@@ -226,16 +230,39 @@
     const actions = document.getElementById('stageActions');
     if (!context || !mission || !actions) return;
 
-    context.innerHTML = initiativeStage.context.split('\n\n').map((paragraph, index, paragraphs) => {
-      if (paragraph === 'SONOTÉCNICA BRASILEIRA LTDA.') return `<blockquote class="initiative-note"><strong>${paragraph}</strong></blockquote>`;
-      return `<p class="initiative-copy${index === paragraphs.length - 1 ? ' initiative-objective' : ''}">${paragraph}</p>`;
+    context.innerHTML = initiativeStage.context.split('\n\n').map(paragraph =>
+      `<p class="initiative-copy">${paragraph}</p>`
+    ).join('');
+
+    const inventoryMarkup = inventoryText.split('\n\n').map(paragraph => {
+      if (paragraph === 'SONOTÉCNICA BRASILEIRA LTDA.') {
+        return `<blockquote class="initiative-inventory-maker"><strong>${paragraph}</strong></blockquote>`;
+      }
+      return `<p class="initiative-inventory-paragraph">${paragraph}</p>`;
     }).join('');
 
     mission.innerHTML = '';
-    actions.innerHTML = `<section class="initiative-materials" aria-labelledby="initiativeMaterialsTitle">
+    actions.innerHTML = `
+      <section class="record-item initiative-inventory-item" aria-label="Registro documental">
+        <button class="record-toggle initiative-inventory-toggle" type="button"
+          aria-expanded="false" aria-controls="initiativeInventoryContent">
+          <span class="initiative-inventory-heading">
+            <span class="initiative-inventory-label">REGISTRO DOCUMENTAL</span>
+            <span class="initiative-inventory-title">INVENTÁRIO DE ESPÓLIO — 1987</span>
+            <span class="initiative-inventory-description">Descrição dos materiais recuperados e das condições de análise.</span>
+          </span>
+          <span class="chev" aria-hidden="true">＋</span>
+        </button>
+        <div id="initiativeInventoryContent" class="record-content initiative-inventory-content" hidden>
+          ${inventoryMarkup}
+        </div>
+      </section>
+      <section class="initiative-materials" aria-labelledby="initiativeMaterialsTitle">
       <div class="initiative-materials-head"><h3 id="initiativeMaterialsTitle">MATERIAL DISPONÍVEL</h3><span>06 REGISTROS</span></div>
       <div class="initiative-material-list">${materials.map(materialMarkup).join('')}</div>
     </section>`;
+
+    registerAccordions(actions);
 
     actions.querySelectorAll('.initiative-material-toggle, .initiative-document-toggle').forEach(button => button.addEventListener('click', () => {
       const content = button.nextElementSibling;
