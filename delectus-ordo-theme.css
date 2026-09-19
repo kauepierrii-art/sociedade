@@ -2413,3 +2413,113 @@ input::placeholder {
 #dashboardView .stage-row.locked .stage-icon {
   box-shadow: none !important;
 }
+
+
+/* ETAPA 04 — INTRODUÇÃO BREVE, INVENTÁRIO EXPANSÍVEL E ORIENTAÇÃO DO APARELHO — 2026-09-19 */
+/* A introdução mantém o painel escuro; somente o registro aberto adota
+   o mesmo papel bege e a fonte Inter dos outros documentos do protocolo. */
+#stageView .initiative-inventory-item {
+  margin: 4px 0 22px;
+  overflow: hidden;
+  border: 1px solid #5b3f2b !important;
+  border-radius: 4px;
+  background: #0d0907 !important;
+}
+#stageView .initiative-inventory-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px 18px !important;
+  text-align: left;
+  color: #efe3d2 !important;
+  background: transparent !important;
+}
+#stageView .initiative-inventory-toggle:hover,
+#stageView .initiative-inventory-toggle:focus-visible {
+  background: rgba(143, 85, 42, .075) !important;
+}
+#stageView .initiative-inventory-heading {
+  display: grid;
+  min-width: 0;
+  gap: 6px;
+}
+#stageView .initiative-inventory-label {
+  color: #c79c6a;
+  font: 600 11px/1.45 "IBM Plex Mono", monospace;
+  letter-spacing: .09em;
+}
+#stageView .initiative-inventory-title {
+  color: #efe3d2;
+  font: 600 clamp(19px, 2.5vw, 23px)/1.25 "Cormorant Garamond", Georgia, serif;
+  letter-spacing: .015em;
+}
+#stageView .initiative-inventory-description {
+  color: #bba995;
+  font: 400 12px/1.6 "IBM Plex Mono", monospace;
+  letter-spacing: normal;
+}
+#stageView .initiative-inventory-toggle .chev {
+  flex: 0 0 auto;
+  color: #c79c6a !important;
+  font-size: 19px;
+}
+/* O conteúdo usa as regras de .record-content existentes: papel bege,
+   texto escuro, Inter e ocultação ao fechar, sem estilizar os anexos. */
+#stageView .initiative-inventory-content {
+  margin: 0 12px 12px;
+  background: #f3ebdd !important;
+  color: #342820 !important;
+  border: 1px solid #b89a77 !important;
+}
+#stageView .initiative-inventory-content[hidden] {
+  display: none !important;
+}
+#stageView .initiative-inventory-content .initiative-inventory-paragraph,
+#stageView .initiative-inventory-content .initiative-inventory-paragraph :is(strong, em),
+#stageView .initiative-inventory-content .initiative-inventory-maker,
+#stageView .initiative-inventory-content .initiative-inventory-maker strong {
+  color: #342820 !important;
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 18px !important;
+  line-height: 1.65 !important;
+  letter-spacing: normal !important;
+}
+#stageView .initiative-inventory-content .initiative-inventory-maker {
+  margin: 14px 0 18px;
+  padding: 4px 0 4px 14px;
+  border-left: 2px solid #b7844c !important;
+}
+#stageView .initiative-inventory-content .initiative-inventory-maker strong,
+#stageView .initiative-inventory-content .initiative-inventory-paragraph strong {
+  font-weight: 700 !important;
+}
+/* Orientação de jogo fora do inventário e imediatamente antes do aparelho. */
+#stageView .initiative-tuner-prompt {
+  margin: 24px 0 12px !important;
+  padding: 8px 0 8px 14px;
+  border-left: 2px solid #b7844c;
+  color: #eee1d1 !important;
+  font: 600 15px/1.7 "IBM Plex Mono", "Courier New", monospace !important;
+  letter-spacing: .005em !important;
+  text-align: left;
+}
+@media (max-width: 700px) {
+  #stageView .initiative-inventory-toggle {
+    padding: 14px 13px !important;
+  }
+  #stageView .initiative-inventory-content {
+    margin: 0 8px 8px;
+  }
+  #stageView .initiative-inventory-content .initiative-inventory-paragraph,
+  #stageView .initiative-inventory-content .initiative-inventory-paragraph :is(strong, em),
+  #stageView .initiative-inventory-content .initiative-inventory-maker,
+  #stageView .initiative-inventory-content .initiative-inventory-maker strong {
+    font-size: 17px !important;
+    line-height: 1.6 !important;
+  }
+  #stageView .initiative-tuner-prompt {
+    font-size: 14px !important;
+  }
+}
