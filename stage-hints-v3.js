@@ -4,7 +4,7 @@
 // - O contador nunca bloqueia novas tentativas de resposta.
 // - Histórico de dicas permanece consultável por referência.
 (function () {
-  const roman = ['I', 'II', 'III', 'IV'];
+  const roman = ['I', 'II', 'III', 'IV', 'V'];
   const timerHandles = new Map();
 
   const configs = {
@@ -104,7 +104,7 @@
   }
 
   function hintLabel(index, total) {
-    return index === total - 1 ? 'ÚLTIMA DICA' : `DICA ${roman[index]}`;
+    return `ANOTAÇÃO ${roman[index]}`;
   }
 
   function formatTime(ms) {
@@ -128,7 +128,7 @@
     panel.innerHTML = `
       <div class="stage-hints-box">
         <button type="button" class="stage-hints-toggle" aria-expanded="false">
-          <span>DICAS DESBLOQUEADAS <span class="stage-hints-count"></span></span>
+          <span>APONTAMENTO ADICIONAL <span class="stage-hints-count"></span></span>
           <span class="stage-hints-chevron" aria-hidden="true">＋</span>
         </button>
         <div class="stage-hints-history" hidden></div>
@@ -203,10 +203,10 @@
     const remaining = getNextAt(config) - Date.now();
     if (remaining <= 0) {
       button.disabled = false;
-      button.textContent = 'SOLICITAR NOVA DICA';
+      button.textContent = 'SOLICITAR NOVO APONTAMENTO';
     } else {
       button.disabled = true;
-      button.textContent = `SOLICITAR NOVA DICA · ${formatTime(remaining)}`;
+      button.textContent = `SOLICITAR NOVO APONTAMENTO · ${formatTime(remaining)}`;
     }
   }
 
