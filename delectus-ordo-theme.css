@@ -626,6 +626,11 @@ input::placeholder {
   color: #aa927d;
 }
 
+/* Texto auxiliar da ficha de impressão: substituir o verde legado por bege quente. */
+.print-file-placeholder small {
+  color: #b9a38d;
+}
+
 .file-mark {
   border-color: #765236;
   color: var(--amber);
