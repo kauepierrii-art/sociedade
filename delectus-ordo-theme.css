@@ -1139,3 +1139,9 @@ input::placeholder {
     opacity: 1;
   }
 }
+
+
+/* Nota da gravação recuperada: retirar o verde legado da Etapa 04. */
+#stageView .stage4-recovered-audio .stage4-audio-note {
+  color: #bca68e !important;
+}
