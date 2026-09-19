@@ -89,6 +89,7 @@ function show(view) {
     history.back();
   }
   if (leavingStage) {
+    window.dispatchEvent(new Event('delectus:leaving-stage'));
     const supportVideo = document.querySelector('#stage4SupportVideo');
     if (supportVideo) {
       const video = supportVideo.querySelector('video');
@@ -494,6 +495,9 @@ function openStage(index) {
   const state = stageVisualState(step);
   if (state === 'locked' || state === 'info-required') return;
   if (cooldownTimer) { clearInterval(cooldownTimer); cooldownTimer = null; }
+  if (stageView.classList.contains('active')) {
+    window.dispatchEvent(new Event('delectus:leaving-stage'));
+  }
 
   // Etapas especiais (06/07) ocultam estes elementos. Restaurar sua
   // visibilidade ao abrir outra etapa, antes de preencher o conteúdo.
