@@ -390,7 +390,7 @@ function renderStageTwo(actions) {
     <p>Não presuma que o elemento mais importante seja o próprio espelho.</p>
     <p>Estou enviando as cópias que considero mais úteis.</p><p>— M.</p>
     <div class="attachments-list">
-      ${toggleMarkup('ANEXO A — Ordem de serviço e conservação / 1897', annexA, 'attachment')}
+      ${toggleMarkup('ANEXO A — ORDEM DE SERVIÇO E CONSERVAÇÃO / 1897', annexA, 'attachment')}
       ${toggleMarkup('ANEXO B — RELATÓRIO DE INSPEÇÃO / 1911', annexB, 'attachment')}
       ${toggleMarkup('ANEXO C — MEMORANDO DE OBSERVAÇÃO / 1923', annexC, 'attachment')}
     </div>`;
