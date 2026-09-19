@@ -2391,17 +2391,23 @@ input::placeholder {
 }
 
 
-/* PROTOCOLO — HALO SUAVE APENAS NAS BOLINHAS PREENCHIDAS — 2026-09-19 */
-/* O marcador concluído conserva o preenchimento e a borda atuais.
-   Um halo quente aparece apenas em torno da bolinha preenchida. */
+/* PROTOCOLO — HALO INTERNO APENAS ATRÁS DO MIOLO PREENCHIDO — 2026-09-19 */
+/* O círculo externo preserva a borda bronze e o fundo escuro, sem luz
+   fora dele. O recorte limita o brilho à área preta entre o miolo e o aro. */
 #dashboardView .stage-row.done .stage-icon {
-  box-shadow:
-    0 0 0 1px rgba(201, 155, 96, .11),
-    0 0 9px rgba(200, 145, 79, .20),
-    0 0 19px rgba(200, 145, 79, .085) !important;
+  overflow: hidden;
+  box-shadow: none !important;
 }
-/* Marcadores sem preenchimento (disponível, aguardando informações e
-   bloqueado) permanecem sem iluminação, inclusive no hover. */
+/* O miolo é o pseudo-elemento original (::after): iluminar somente ao
+   redor dele, sem alterar seu tamanho, a textura ou a linha da timeline. */
+#dashboardView .stage-row.done .stage-icon::after {
+  box-shadow:
+    inset 0 1px 1px rgba(242, 212, 166, .12),
+    inset 0 -3px 7px rgba(17, 8, 5, .50),
+    0 0 5px 2px rgba(202, 146, 78, .26),
+    0 0 10px 3px rgba(202, 146, 78, .14) !important;
+}
+/* Disponível, aguardando informações e bloqueada: vazias, sem luz. */
 #dashboardView .stage-row.available .stage-icon,
 #dashboardView .stage-row.info-required .stage-icon,
 #dashboardView .stage-row.locked .stage-icon {
