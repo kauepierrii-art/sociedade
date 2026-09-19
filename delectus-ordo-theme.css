@@ -1322,6 +1322,29 @@ input::placeholder {
     font-size: 12px !important;
     line-height: 1.45 !important;
   }
+  #stageView .context-copy p,
+  #stageView .mission-copy p,
+  #stageView .record-content p,
+  #stageView .record-content li,
+  #stageView .record-content blockquote,
+  #stageView .attachment-content p,
+  #stageView .attachment-content li,
+  #stageView .attachment-content blockquote,
+  #stageView .initiative-copy,
+  #stageView .initiative-material-content > p,
+  #stageView .initiative-document-sheet p,
+  #stageView .initiative-document-sheet li,
+  #stageView .stage6-annex-content p,
+  #stageView .stage6-annex-content li,
+  #stageView .stage6-archive .archive-copy p,
+  #stageView .stage5-part-copy p,
+  #stageView .stage5-opening-content p,
+  .stage6-archive .archive-copy p,
+  .stage6-archive .stage6-annex-content p,
+  .stage6-archive .stage6-annex-content li,
+  .print-modal .print-copy p {
+    line-height: 1.6 !important;
+  }
   #stageView .record-toggle,
   #stageView .attachment-toggle {
     font-size: 14px !important;
