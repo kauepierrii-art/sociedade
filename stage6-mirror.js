@@ -7,10 +7,16 @@
   const solution = ['♑','♈','♊','♒','♓'];
   const MIRROR_VIDEO = 'assets/stage6/espelho-revelacao.mp4';
   const additionalNotes = [
-    { at: 10 * 60 * 1000, text: 'Nenhum dos documentos parece suficiente quando analisado isoladamente. As correspondências mais consistentes surgem apenas quando localização, período, atividade e acontecimento são considerados em conjunto.' },
-    { at: 15 * 60 * 1000, text: 'Algumas associações permanecem plausíveis em um único registro, mas deixam de corresponder quando confrontadas com os demais. As referências que persistem entre fontes distintas merecem maior atenção.' },
-    { at: 20 * 60 * 1000, text: 'O acontecimento associado a cada figura não segue uma única regra. Em alguns casos, trata-se de nascimento; em outros, morte, execução ou celebração. As datas parecem funcionar como intermediárias entre a figura e o sinal correspondente.' }
+    'Nenhum dos documentos parece suficiente isoladamente. As correspondências mais consistentes surgem apenas quando localização, período e natureza da referência são considerados em conjunto.',
+    'Algumas associações permanecem plausíveis em um único registro, mas desaparecem quando confrontadas com os demais.',
+    'As figuras corretas parecem manter coerência entre geografia, período histórico, atividade e acontecimento associado.',
+    'O acontecimento ligado a cada figura não segue uma única regra. Em alguns casos, trata-se de nascimento; em outros, morte, execução ou celebração.',
+    'As datas permitem situar o acontecimento historicamente; entretanto, é a combinação entre o dia e o mês que estabelece a correspondência com um dos doze sinais.'
   ];
+  // Após cada solicitação, aguardar 10, 10, 10 e 20 minutos,
+  // como nas demais etapas. A primeira anotação pode ser solicitada
+  // assim que o jogador acessa o arquivo; não depende de erro.
+  const additionalNoteIntervals = [600, 600, 600, 1200];
   let stage6TimerStartedAt = 0;
   let stage6TimerHandle = 0;
   let stage6TimingActive = false;
@@ -43,19 +49,28 @@
     stage6TimerStartedAt = Date.now();
     return elapsed;
   }
-  // Os prazos são cumulativos (10, 15 e 20 minutos de uso da etapa).
-  // O tempo libera o botão, nunca revela uma anotação automaticamente.
+  // O tempo do próximo apontamento começa ao solicitar o anterior.
+  // Preservar as solicitações anteriores quando o visitante já tinha
+  // anotação desbloqueada antes desta atualização.
   function requestedAdditionalNotes() {
     const value = Number(read('additionalNotesRequested', 0));
     return Number.isInteger(value) ? Math.max(0, Math.min(additionalNotes.length, value)) : 0;
+  }
+  function nextAdditionalNoteAt(requested) {
+    if (requested === 0 || requested >= additionalNotes.length) return 0;
+    const saved = Number(read('additionalNotesNextAt', 0));
+    if (Number.isFinite(saved) && saved > 0) return saved;
+    const next = Date.now() + additionalNoteIntervals[requested - 1] * 1000;
+    write('additionalNotesNextAt', next);
+    return next;
   }
   function formatAdditionalWait(milliseconds) {
     const seconds = Math.max(0, Math.ceil(milliseconds / 1000));
     return String(Math.floor(seconds / 60)).padStart(2, '0') + ':' + String(seconds % 60).padStart(2, '0');
   }
   function updateAdditionalNotes(forceOpen = false) {
-    const elapsed = elapsedStage6Time();
     const requested = requestedAdditionalNotes();
+    const nextAt = nextAdditionalNoteAt(requested);
     document.querySelectorAll('.stage6-additional-notes').forEach(panel => {
       panel.hidden = false;
       const count = panel.querySelector('.stage6-notes-count');
@@ -68,7 +83,7 @@
       toggle.disabled = requested === 0;
       if (history.dataset.renderedCount !== String(requested)) {
         history.innerHTML = additionalNotes.slice(0, requested).map((note, index) =>
-          '<article><span>ANOTAÇÃO ' + ['I', 'II', 'III'][index] + '</span><p>' + note.text + '</p></article>'
+          '<article><span>ANOTAÇÃO ' + ['I', 'II', 'III', 'IV', 'V'][index] + '</span><p>' + note + '</p></article>'
         ).join('');
         history.dataset.renderedCount = String(requested);
       }
@@ -78,7 +93,7 @@
       chevron.textContent = expanded ? '−' : '＋';
       request.hidden = requested >= additionalNotes.length;
       if (!request.hidden) {
-        const wait = additionalNotes[requested].at - elapsed;
+        const wait = Math.max(0, nextAt - Date.now());
         request.disabled = wait > 0;
         request.textContent = wait > 0
           ? 'SOLICITAR NOVO APONTAMENTO · ' + formatAdditionalWait(wait)
@@ -89,9 +104,12 @@
   function requestAdditionalNote() {
     const requested = requestedAdditionalNotes();
     if (requested >= additionalNotes.length ||
-        elapsedStage6Time() < additionalNotes[requested].at) return;
-    syncStage6Time();
+        Date.now() < nextAdditionalNoteAt(requested)) return;
     write('additionalNotesRequested', requested + 1);
+    const next = requested + 1;
+    write('additionalNotesNextAt', next < additionalNotes.length
+      ? Date.now() + additionalNoteIntervals[next - 1] * 1000
+      : 0);
     updateAdditionalNotes(true);
   }
   function startStage6Timer() {
