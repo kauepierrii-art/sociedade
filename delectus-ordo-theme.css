@@ -2286,3 +2286,19 @@ input::placeholder {
     font-size: 17px !important;
   }
 }
+
+
+/* ETAPA 06 — DESTAQUES LEGÍVEIS NOS REGISTROS EM PAPEL — 2026-09-19 */
+/* Os três trechos de ênfase (.stage6-attention) aparecem dentro dos
+   registros abertos em papel claro. O CSS original usa texto marfim,
+   que perde contraste nesse fundo. Usar bronze escuro, sem alterar
+   destaques sobre fundo escuro, a pista do espelho ou os demais documentos. */
+.stage6-archive .record-content .archive-copy .stage6-attention,
+.stage6-archive .attachment-content .archive-copy .stage6-attention {
+  color: #764525 !important;
+  background: rgba(172, 110, 53, .085) !important;
+  border-left: 2px solid #b57e42 !important;
+  border-radius: 0 2px 2px 0;
+  padding: 3px 8px 3px 11px !important;
+  font-weight: 700 !important;
+}
