@@ -138,7 +138,7 @@
         overlay.id = 'stage4SupportVideo';
         overlay.className = 'stage4-support-video';
         overlay.hidden = true;
-        overlay.innerHTML = `<div class="stage4-support-backdrop"><div class="stage4-support-frame"><button class="stage4-video-close" type="button" aria-label="Fechar vídeo">FECHAR</button><p class="stage4-video-heading">MENSAGEM RECEBIDA</p><video controls playsinline preload="metadata"><source src="${SUPPORT_VIDEO}" type="video/mp4"></video><button class="stage4-video-toggle" type="button">PAUSAR MENSAGEM</button><button class="stage4-video-continue" type="button">CONTINUAR PARA A ETAPA 5</button><small class="stage4-video-note"></small></div></div>`;
+        overlay.innerHTML = `<div class="stage4-support-backdrop"><div class="stage4-support-frame"><button class="stage4-video-close" type="button" aria-label="Fechar vídeo">FECHAR</button><p class="stage4-video-heading">MENSAGEM RECEBIDA</p><video controls playsinline preload="metadata"><source src="${SUPPORT_VIDEO}" type="video/mp4"></video><button class="stage4-video-toggle" type="button">PAUSAR MENSAGEM</button><button class="stage4-video-continue" type="button">CONTINUAR PARA O PROTOCOLO</button><small class="stage4-video-note"></small></div></div>`;
         document.body.appendChild(overlay);
         const video = overlay.querySelector('video');
         const button = overlay.querySelector('.stage4-video-continue');
@@ -164,10 +164,10 @@
         button.addEventListener('click', () => {
           video.pause();
           overlay.hidden = true;
-          // A mensagem já foi disponibilizada: ir à Etapa 5 sem exigir o fim
-          // do vídeo. O Voltar do celular continuará levando ao protocolo.
-          if (initiativeStep && completedCount >= initiativeStep) openStage(initiativeStep);
-          else { renderDashboard(); show(dashboardView); }
+          // A mensagem já foi disponibilizada: retornar à tela inicial do
+          // protocolo sem exigir o fim do vídeo.
+          renderDashboard();
+          show(dashboardView);
         });
       }
       const video = overlay.querySelector('video');
