@@ -1882,3 +1882,20 @@ input::placeholder {
 #stageView .stage-actions .answer-panel .answer-message {
   font-weight: 500 !important;
 }
+
+
+/* ARQUIVO PARA IMPRESSÃO — RESTAURAR FUNDO ESCURO — 2026-09-19 */
+/* Reverter apenas a antiga folha clara do modal de impressão.
+   Fonte, tamanho e espaçamento permanecem como estão. */
+.print-modal .print-copy {
+  background: transparent !important;
+  background-image: none !important;
+  color: #e5d8c6 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+.print-modal .print-copy :is(p, li, blockquote, strong, em) {
+  color: #e5d8c6 !important;
+}
