@@ -2302,3 +2302,87 @@ input::placeholder {
   padding: 3px 8px 3px 11px !important;
   font-weight: 700 !important;
 }
+
+
+/* TIPOGRAFIA POR FUNÇÃO — INSTRUÇÕES ESCURAS VS. DOCUMENTOS EM PAPEL — 2026-09-19 */
+/* O protocolo fala em IBM Plex Mono: o mesmo desenho dos estados/rótulos.
+   Não aplicar estas regras aos registros e anexos de fundo bege. */
+#stageView .detail-panel > .context-copy:not(:empty),
+#stageView .detail-panel > .mission-copy:not(:empty),
+#stageView .detail-panel > .context-copy :is(p, li, blockquote, strong, em),
+#stageView .detail-panel > .mission-copy :is(p, li, blockquote, strong, em),
+#stageView .detail-panel > .context-copy .initiative-copy,
+#stageView .detail-panel > .context-copy .initiative-copy :is(strong, em),
+#stageView .stage-actions .answer-panel > p,
+#stageView .stage-actions .answer-panel > p :is(strong, em),
+#stageView .stage-actions .answer-panel .answer-message,
+#stageView .stage-actions .initiative-material-content > p,
+#stageView .stage5-part-two .stage5-part-copy,
+#stageView .stage5-part-two .stage5-part-copy :is(p, strong, em),
+.stage6-archive .stage6-additional-notes article p,
+.stage6-archive .stage6-additional-notes article p :is(strong, em) {
+  font-family: "IBM Plex Mono", "Courier New", monospace !important;
+  letter-spacing: .005em !important;
+}
+#stageView .detail-panel > .context-copy:not(:empty),
+#stageView .detail-panel > .mission-copy:not(:empty),
+#stageView .detail-panel > .context-copy .initiative-copy,
+#stageView .stage-actions .answer-panel > p,
+#stageView .stage5-part-two .stage5-part-copy,
+#stageView .stage5-part-two .stage5-part-copy p {
+  font-size: 15px !important;
+  line-height: 1.8 !important;
+}
+#stageView .detail-panel > .context-copy:not(:empty),
+#stageView .detail-panel > .mission-copy:not(:empty),
+#stageView .detail-panel > .context-copy .initiative-copy:not(.initiative-objective),
+#stageView .stage-actions .answer-panel > p,
+#stageView .stage5-part-two .stage5-part-copy,
+#stageView .stage5-part-two .stage5-part-copy p {
+  font-weight: 500 !important;
+}
+#stageView .detail-panel > .context-copy .initiative-objective,
+#stageView .detail-panel > .mission-copy--emphasis,
+#stageView .stage-actions .answer-panel > p strong,
+#stageView .stage5-part-two .stage5-part-copy strong {
+  font-weight: 700 !important;
+}
+#stageView .stage-actions .initiative-material-content > p,
+.stage6-archive .stage6-additional-notes article p {
+  font-size: 14px !important;
+  line-height: 1.75 !important;
+}
+/* Textos narrativos sobre fundo ESCURO: serifas institucionais, em vez da
+   Inter de documento. São seletores específicos para não mudar o papel. */
+.stage6-archive > .stage6-context-document,
+.stage6-archive > .stage6-context-document .archive-copy,
+.stage6-archive > .stage6-context-document .archive-copy :is(p, li, strong, em),
+.stage5-completion-modal .stage5-opening > p:not(.stage5-opening-label),
+.stage5-completion-modal .stage5-opening > p:not(.stage5-opening-label) :is(strong, em),
+#stageView .stage5-timeline.is-review .stage5-opening-content > p:not(.stage5-opening-label),
+#stageView .stage5-timeline.is-review .stage5-opening-content > p:not(.stage5-opening-label) :is(strong, em) {
+  font-family: Georgia, "Times New Roman", serif !important;
+  letter-spacing: normal !important;
+}
+.print-modal .print-copy,
+.print-modal .print-copy :is(p, li, strong, em) {
+  font-family: Georgia, "Times New Roman", serif !important;
+  letter-spacing: normal !important;
+}
+/* O material de leitura em papel preserva a Inter, inclusive se houver
+   aninhamento de ênfases que herdariam regras de textos escuros. */
+#stageView :is(.record-content, .attachment-content, .initiative-document-sheet) :is(p, li, blockquote, strong, em),
+.stage6-archive :is(.record-content, .attachment-content) :is(p, li, blockquote, strong, em) {
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif !important;
+}
+@media (max-width: 700px) {
+  #stageView .detail-panel > .context-copy:not(:empty),
+  #stageView .detail-panel > .mission-copy:not(:empty),
+  #stageView .detail-panel > .context-copy .initiative-copy,
+  #stageView .stage-actions .answer-panel > p,
+  #stageView .stage5-part-two .stage5-part-copy,
+  #stageView .stage5-part-two .stage5-part-copy p {
+    font-size: 14px !important;
+    line-height: 1.78 !important;
+  }
+}
