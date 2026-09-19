@@ -994,9 +994,19 @@ input::placeholder {
 #dashboardView .stage-row.done .stage-icon::after {
   content: "";
   position: absolute;
-  inset: 4px;
+  inset: 5px;
   border-radius: 50%;
-  background: #d6ab6c;
+  background: radial-gradient(
+    circle at 32% 26%,
+    #b98d5b 0%,
+    #916239 28%,
+    #684126 60%,
+    #39251b 100%
+  );
+  box-shadow:
+    inset 0 1px 1px rgba(242, 212, 166, .12),
+    inset 0 -3px 7px rgba(17, 8, 5, .50),
+    0 0 0 1px rgba(194, 139, 79, .08);
 }
 /* Disponível: aro âmbar mais nítido; interior ainda vazio. */
 #dashboardView .stage-row.available .stage-icon,
@@ -1030,5 +1040,91 @@ input::placeholder {
     --marker-line-x: 16.5px;
     --marker-size: 30px;
     --marker-line-gap: 20px;
+  }
+}
+
+
+/* ETAPA 06 — OBSIDIANA E BRONZE / CHAMADO ÂMBAR — 2026-09-19 */
+/* A superfície representa obsidiana: neutra, quase preta, com reflexo quente
+   extremamente contido. A reprodução do vídeo permanece intacta. */
+#stageView .mirror-v2-rim {
+  background: radial-gradient(circle,
+    #070505 0%,
+    #070505 57%,
+    #302117 60%,
+    #17110d 65%,
+    #654831 71%,
+    #090706 75%
+  ) !important;
+  filter: drop-shadow(0 15px 20px rgba(0,0,0,.68));
+}
+#stageView .mirror-v2-surface:not(.is-revealing) {
+  background:
+    radial-gradient(ellipse at 33% 24%,
+      #1b1510 0%,
+      #120e0c 19%,
+      #090807 46%,
+      #030303 78%,
+      #020202 100%
+    ) !important;
+  box-shadow:
+    inset 0 0 42px rgba(0,0,0,.88),
+    inset 0 0 0 1px rgba(133,95,53,.06) !important;
+}
+#stageView .mirror-v2-surface.is-revealing {
+  background: #000 !important;
+}
+/* Ação de ativar e desativar: mesmo idioma material, sem verde residual. */
+#stageView .mirror-video-controls .mirror-activate,
+#stageView .mirror-video-controls .mirror-deactivate {
+  border: 1px solid #956238 !important;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #382314, #22160f) !important;
+  color: #ead2ae !important;
+  box-shadow: inset 0 1px rgba(255,220,165,.055) !important;
+  transition: background .18s ease, border-color .18s ease, color .18s ease;
+}
+#stageView .mirror-video-controls .mirror-activate:hover,
+#stageView .mirror-video-controls .mirror-activate:focus-visible,
+#stageView .mirror-video-controls .mirror-deactivate:hover,
+#stageView .mirror-video-controls .mirror-deactivate:focus-visible {
+  border-color: #c58e51 !important;
+  background: linear-gradient(180deg, #54341c, #332012) !important;
+  color: #fff0d6 !important;
+}
+#stageView .mirror-video-controls button:focus-visible {
+  outline: 2px solid #d6ad78 !important;
+  outline-offset: 3px !important;
+}
+/* O link surge após visitar a etapa 6. Substituímos também o nome da
+   animação antiga, para evitar que suas keyframes ciano voltem a atuar. */
+#dashboardView .dashboard-footer .quote.mirror-protocol-link a {
+  color: #b9935d !important;
+  text-decoration: none;
+  animation: delectus-amber-clue 2.9s ease-in-out infinite !important;
+}
+#dashboardView .dashboard-footer .quote.mirror-protocol-link a:hover,
+#dashboardView .dashboard-footer .quote.mirror-protocol-link a:focus-visible {
+  color: #f0d8a8 !important;
+  text-shadow: 0 0 5px rgba(240,216,168,.32), 0 0 13px rgba(191,132,60,.16) !important;
+  outline-color: #d6b07a;
+}
+@keyframes delectus-amber-clue {
+  0%, 100% {
+    color: #b9935d;
+    text-shadow: 0 0 0 rgba(240,216,168,0);
+    opacity: .80;
+  }
+  48%, 60% {
+    color: #f0d8a8;
+    text-shadow: 0 0 5px rgba(240,216,168,.28), 0 0 11px rgba(191,132,60,.14);
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #dashboardView .dashboard-footer .quote.mirror-protocol-link a {
+    animation: none !important;
+    color: #d6b07a !important;
+    opacity: 1;
   }
 }
