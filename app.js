@@ -38,12 +38,6 @@ const PANEL_TITLES = [
   'COMUNICAÇÃO FINAL'
 ];
 
-const REFERENCES = {
-  LUMEN: 'LUMEN', TACITUS: 'TACITUS', SPECULO: 'SPECULO', VIGIL: 'VIGIL', FERRO: 'FERRO', IGNIS: 'IGNIS',
-  PUGNUS: 'PUGNUS', CUSTOS: 'CUSTOS', MALLEUS: 'MALLEUS', DUX: 'DUX', RATIO: 'RATIO', NEXUS: 'NEXUS',
-  VERITAS: 'VERITAS', ARS: 'ARS', FATUM: 'FATUM', FINIS: 'FINIS', ULTOR: 'ULTOR', AEQUITAS: 'AEQUITAS', SICA: 'SICA'
-};
-
 const IDENTIFICATION_CODE = '352';
 const MAX_COOLDOWN_MINUTES = 15;
 const IDENTIFICATION_HINTS = [
@@ -558,23 +552,15 @@ closePrintDialog.addEventListener('click', closePrintModal);
 printDialog.addEventListener('click', event => { if (event.target === printDialog) closePrintModal(); });
 document.addEventListener('keydown', event => { if (event.key === 'Escape' && !printDialog.hidden) closePrintModal(); });
 
-function accessWithReference(refKey) {
-  if (!REFERENCES[refKey]) { loginMessage.textContent = 'Referência não localizada.'; return false; }
+function accessWithReference(refKey, label = refKey) {
   currentRefKey = refKey;
-  currentRefLabel = REFERENCES[refKey];
+  currentRefLabel = label;
   completedCount = loadProgress(refKey);
   loginMessage.textContent = '';
   renderDashboard();
   show(dashboardView);
   return true;
 }
-document.querySelector('#accessForm').addEventListener('submit', event => {
-  event.preventDefault();
-  accessWithReference(normalizeRef(referenceInput.value));
-});
-const returnReference = normalizeRef(new URLSearchParams(window.location.search).get('ref') || '');
-if (returnReference && REFERENCES[returnReference]) accessWithReference(returnReference);
-
 restartActivitiesBtn.addEventListener('click', () => {
   if (!window.confirm('Reiniciar todas as atividades deste acesso neste navegador?')) return;
   resetActivities();
@@ -591,3 +577,4 @@ document.querySelector('#backBtn').addEventListener('click', () => {
   if (cooldownTimer) { clearInterval(cooldownTimer); cooldownTimer = null; }
   renderDashboard(); show(dashboardView);
 });
+
