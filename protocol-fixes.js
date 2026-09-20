@@ -10,21 +10,6 @@
   ];
   const romans = ['I', 'II', 'III', 'IV', 'V'];
 
-  // LOGIN: mantém somente a mensagem curta + caixa clicável amarela de histórico.
-  document.addEventListener('submit', function (event) {
-    if (!event.target || event.target.id !== 'accessForm') return;
-
-    setTimeout(() => {
-      const value = typeof normalizeRef === 'function'
-        ? normalizeRef(referenceInput.value)
-        : referenceInput.value.trim().toUpperCase();
-      const valid = typeof REFERENCES !== 'undefined' && REFERENCES[value];
-      if (!valid && loginMessage) {
-        loginMessage.textContent = 'REFERÊNCIA NÃO LOCALIZADA.';
-      }
-    }, 0);
-  }, true);
-
   function identificationErrorCount() {
     if (!currentRefKey) return 0;
     const raw = Number(localStorage.getItem(`identification:v2:errors:${currentRefKey}`));
@@ -160,3 +145,4 @@
   `;
   document.head.appendChild(style);
 })();
+
