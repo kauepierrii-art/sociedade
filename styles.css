@@ -496,6 +496,9 @@ input::placeholder { color: #4d6e65; }
 .print-modal h2 { margin:0; font-size:24px; }
 .print-copy { color:#9cb9b1; font-size:12px; line-height:1.7; margin-top:16px; }
 .print-file-placeholder { margin-top:16px; padding:13px; border:1px dashed #34564c; display:flex; gap:12px; align-items:center; color:#93aea7; }
+.print-file-link { text-decoration:none; cursor:pointer; transition:background-color .2s ease, border-color .2s ease; }
+.print-file-link:hover, .print-file-link:focus-visible { background:rgba(160,110,60,.08); border-color:#a88362; }
+.print-file-link:focus-visible { outline:2px solid #a88362; outline-offset:3px; }
 .file-mark { width:44px; height:44px; border:1px solid #3e665b; display:grid; place-items:center; color:var(--amber); font-size:11px; }
 .print-file-placeholder strong,.print-file-placeholder small{display:block}.print-file-placeholder small{margin-top:4px;color:#5f8178;font-size:10px}
 
