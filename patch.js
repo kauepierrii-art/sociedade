@@ -9,6 +9,35 @@ saveProgress = function(refKey, value) {
   localStorage.setItem(`progress:v3:${refKey}`, String(value));
 };
 
+// app.js remove a chave legada; esta versão também precisa remover o estado
+// atualmente usado pelo jogo. O sincronizador preserva a sessão anterior no
+// painel e abre outra para a nova tentativa.
+const resetActivitiesV3 = resetActivities;
+resetActivities = function() {
+  const refKey = currentRefKey;
+  resetActivitiesV3();
+  if (refKey) localStorage.removeItem(`progress:v3:${refKey}`);
+};
+
+// Usado pelo reinício administrativo: limpa somente o estado deste navegador,
+// sem remover o token da sessão que o servidor acabou de reiniciar.
+window.DelectusClearLocalAttempt = function(refKey) {
+  if (!refKey) return;
+  localStorage.removeItem(`progress:${refKey}`);
+  localStorage.removeItem(`progress:v3:${refKey}`);
+  localStorage.removeItem(`important-info-seen:${refKey}`);
+  localStorage.removeItem(`important-info-seen:v2:${refKey}`);
+  localStorage.removeItem(`identification:v2:errors:${refKey}`);
+  localStorage.removeItem(`identification:v2:until:${refKey}`);
+  localStorage.removeItem(`stage5:part-one:${refKey}`);
+  localStorage.removeItem(`stage5:complete:${refKey}`);
+  localStorage.removeItem(`stage4:tuner-solved:${refKey}`);
+  ['visited', 'document', 'remaining', 'annotations', 'research', 'activated'].forEach(name => localStorage.removeItem(`stage6:${name}:${refKey}`));
+  ['visited', 'remaining', 'stabilized', 'videoWatched', 'savedCorrespondences', 'additionalNotesElapsed', 'additionalNotesRequested', 'additionalNotesNextAt'].forEach(name => localStorage.removeItem(`stage6:v2:${name}:${refKey}`));
+  localStorage.removeItem(`stage7:admission:${refKey}`);
+  ['stage4', 'stage5'].forEach(name => ['unlocked', 'nextAt'].forEach(part => localStorage.removeItem(`stage45-hints:${name}:${part}:${refKey}`)));
+};
+
 infoKey = function() {
   return `important-info-seen:v2:${currentRefKey}`;
 };
@@ -77,42 +106,6 @@ renderDashboard = function() {
       }
     : null;
 };
-
-// Dicas progressivas para a referência inicial.
-let referenceAttemptErrors = 0;
-const accessForm = document.querySelector('#accessForm');
-
-accessForm.addEventListener('submit', function(event) {
-  event.preventDefault();
-  event.stopImmediatePropagation();
-
-  const refKey = normalizeRef(referenceInput.value);
-
-  if (!REFERENCES[refKey]) {
-    referenceAttemptErrors += 1;
-
-    if (referenceAttemptErrors === 1) {
-      loginMessage.innerHTML = `
-        REFERÊNCIA NÃO LOCALIZADA.<br><br>
-        <strong>ANOTAÇÃO I</strong><br>
-        A referência não está escrita de forma direta na correspondência. Considere a indicação ao final da carta.`;
-    } else {
-      loginMessage.innerHTML = `
-        REFERÊNCIA NÃO LOCALIZADA.<br><br>
-        <strong>ANOTAÇÃO II</strong><br>
-        A palavra associada à sua referência deve ser convertida para o idioma indicado no final da correspondência.`;
-    }
-    return;
-  }
-
-  referenceAttemptErrors = 0;
-  currentRefKey = refKey;
-  currentRefLabel = REFERENCES[refKey];
-  completedCount = loadProgress(refKey);
-  loginMessage.textContent = '';
-  renderDashboard();
-  show(dashboardView);
-}, true);
 
 // Aceita também uma resposta natural para a Aptidão.
 document.addEventListener('submit', function(event) {
@@ -393,3 +386,4 @@ readingStyle.textContent = `
   }
 `;
 document.head.appendChild(readingStyle);
+
