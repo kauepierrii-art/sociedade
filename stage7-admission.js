@@ -3,9 +3,6 @@
   const stageIndex = stages.findIndex(stage => stage && stage.name === 'Admissão');
   const stageStep = stageIndex + 1;
   const ORDO_CONTINUE_URL = 'https://kauepierrii-art.github.io/ordomognus/';
-  let activeInvitation = null;
-  let previousBodyOverflow = '';
-  let invitationReturnFocus = null;
 
   function stateKey() {
     return currentRefKey ? 'stage7:admission:' + currentRefKey : null;
@@ -20,66 +17,6 @@
       saveProgress(currentRefKey, completedCount);
     }
   }
-  function closeInvitation(restoreFocus = true) {
-    if (!activeInvitation) return;
-    activeInvitation.remove();
-    activeInvitation = null;
-    document.body.style.overflow = previousBodyOverflow;
-    const fallback = document.querySelector('#stageActions .ordo-invitation-reopen');
-    const focusTarget = invitationReturnFocus && invitationReturnFocus.isConnected
-      ? invitationReturnFocus : fallback;
-    invitationReturnFocus = null;
-    if (restoreFocus && focusTarget) focusTarget.focus();
-  }
-  function showInvitation() {
-    if (activeInvitation) return;
-    invitationReturnFocus = document.activeElement;
-    previousBodyOverflow = document.body.style.overflow;
-    const overlay = document.createElement('div');
-    overlay.className = 'ordo-invitation-overlay';
-    overlay.innerHTML = `
-      <section class="ordo-invitation-dialog" role="dialog" aria-modal="true"
-        aria-labelledby="ordoInvitationTitle" aria-describedby="ordoInvitationCopy">
-        <p class="ordo-invitation-eyebrow">COMUNICAÇÃO FINAL</p>
-        <h2 id="ordoInvitationTitle">O protocolo foi concluído.</h2>
-        <div id="ordoInvitationCopy" class="ordo-invitation-copy">
-          <p>Você chegou ao fim da investigação. Os documentos, as inconsistências e as decisões que encontrou ao longo do percurso conduziam a este momento.</p>
-          <p>O Protocolo Delectus não foi criado para revelar todas as respostas. Sua finalidade era identificar aqueles dispostos a procurá-las.</p>
-          <p>Se deseja conhecer o que existe além deste protocolo, você pode prosseguir para a <strong>Ordo Mognus</strong>.</p>
-          <p>A decisão de continuar é sua.</p>
-        </div>
-        <div class="ordo-invitation-actions">
-          <a class="ordo-invitation-link" href="${ORDO_CONTINUE_URL}"
-            target="_blank" rel="noopener noreferrer">PROSSEGUIR PARA A ORDO MOGNUS <span aria-hidden="true">→</span></a>
-          <button class="ordo-invitation-dismiss" type="button">ENCERRAR POR ORA</button>
-        </div>
-      </section>`;
-    overlay.querySelector('.ordo-invitation-dismiss').addEventListener('click', () => closeInvitation());
-    overlay.addEventListener('keydown', event => {
-      if (event.key === 'Escape') {
-        event.preventDefault();
-        closeInvitation();
-      }
-      if (event.key !== 'Tab') return;
-      const focusables = Array.from(overlay.querySelectorAll('a[href], button:not([disabled])'));
-      if (!focusables.length) return;
-      const first = focusables[0];
-      const last = focusables[focusables.length - 1];
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first.focus();
-      }
-    });
-    document.body.appendChild(overlay);
-    activeInvitation = overlay;
-    document.body.style.overflow = 'hidden';
-    overlay.querySelector('.ordo-invitation-link').focus();
-  }
-  window.addEventListener('delectus:leaving-stage', () => closeInvitation(false));
-
   function monogram() {
     return '<img class="ordo-monogram" src="assets/ordo-mognus-logo.png" alt="Monograma oficial da Ordo Mognus">';
   }
@@ -92,9 +29,16 @@
         '<p class="ordo-values">DISCIPLINA · CONHECIMENTO · PROPÓSITO</p>' +
         '<p class="ordo-final-line">Mais que uma sociedade.<br>Um compromisso com o que permanece.</p>' +
         '<small>ADMISSÃO CONFIRMADA</small>' +
-        '<button class="ordo-invitation-reopen" type="button">CONHECER A ORDO MOGNUS →</button>' +
+        '<div class="ordo-final-invitation" aria-labelledby="ordoFinalInvitationTitle">' +
+          '<p class="ordo-final-invitation-label">COMUNICAÇÃO FINAL</p>' +
+          '<h2 id="ordoFinalInvitationTitle">O protocolo foi concluído.</h2>' +
+          '<p>Você chegou ao fim da investigação. Os documentos, as inconsistências e as decisões que encontrou ao longo do percurso conduziam a este momento.</p>' +
+          '<p>O Protocolo Delectus não foi criado para revelar todas as respostas. Sua finalidade era identificar aqueles dispostos a procurá-las.</p>' +
+          '<p>Se deseja conhecer o que existe além deste protocolo, você pode prosseguir para a <strong>Ordo Mognus</strong>.</p>' +
+          '<p>A decisão de continuar é sua.</p>' +
+          '<a class="ordo-final-invitation-link" href="' + ORDO_CONTINUE_URL + '" target="_blank" rel="noopener noreferrer">CONHECER A ORDO MOGNUS <span aria-hidden="true">→</span></a>' +
+        '</div>' +
       '</section>';
-    actions.querySelector('.ordo-invitation-reopen').addEventListener('click', showInvitation);
   }
   function renderAdmission() {
     const actions = document.querySelector('#stageActions');
@@ -135,7 +79,7 @@
     actions.querySelector('.ordo-close').addEventListener('click', () => {
       closeProtocol();
       renderAdmission();
-      showInvitation();
+      document.querySelector('#stageActions .ordo-final')?.scrollIntoView({ block: 'start' });
     });
   }
 
@@ -157,22 +101,15 @@
   style.textContent = `
     .ordo-admission,.ordo-final{position:relative;overflow:hidden;max-width:760px;margin:0 auto;padding:clamp(32px,8vw,68px) clamp(22px,7vw,72px);border:1px solid rgba(169,125,55,.6);background:radial-gradient(ellipse at 50% 12%,rgba(109,35,39,.32),transparent 45%),linear-gradient(145deg,#120708,#260b0d 52%,#0b0606);box-shadow:inset 0 0 0 7px rgba(0,0,0,.2),0 18px 45px rgba(0,0,0,.45);color:#eee3ca;text-align:center}.ordo-admission:before,.ordo-final:before{content:"";position:absolute;inset:11px;border:1px solid rgba(183,139,66,.28);pointer-events:none}.ordo-opening{margin:0 0 48px}.ordo-opening p,.ordo-opening span,.ordo-confirmation p,.ordo-confirmation small,.ordo-final small,.ordo-values{font:700 10px "IBM Plex Mono",monospace;letter-spacing:.16em}.ordo-opening p{margin:0 0 8px;color:#d3aa68}.ordo-opening span{color:#bda888}.ordo-copy{max-width:590px;margin:0 auto;color:#e8ddc5;font:16px/1.78 Georgia,"Times New Roman",serif;text-align:left}.ordo-copy p{margin:0 0 18px}.ordo-revelation{margin:72px 0 65px;padding:42px 0;border-top:1px solid rgba(183,139,66,.55);border-bottom:1px solid rgba(183,139,66,.55)}.ordo-monogram{display:block;width:clamp(98px,18vw,142px);height:auto;margin:0 auto 20px;filter:drop-shadow(0 3px 6px rgba(0,0,0,.5))}.ordo-revelation h1,.ordo-final h1{margin:0;color:#dfbc7c;font:400 clamp(29px,7vw,47px)/1.1 Georgia,"Times New Roman",serif;letter-spacing:.16em}.ordo-revelation>p{margin:14px 0 24px;color:#f0e6d0;font:italic 18px/1.5 Georgia,serif}.ordo-revelation small{color:#cba96f;font:700 9px "IBM Plex Mono",monospace;letter-spacing:.15em}.ordo-statement{max-width:620px;margin:68px auto;padding:35px 18px;border-top:1px solid rgba(183,139,66,.5);border-bottom:1px solid rgba(183,139,66,.5);color:#e8d6ae;font:italic 20px/1.6 Georgia,"Times New Roman",serif}.ordo-statement strong{display:block;margin-top:12px;color:#f4d28d;font-style:normal}.ordo-confirmation{margin:0 auto 30px;padding:28px 16px;border:1px solid rgba(183,139,66,.58);background:rgba(25,7,8,.48)}.ordo-confirmation p{margin:0 0 10px;color:#cba96f}.ordo-confirmation h2{margin:0 0 12px;color:#f0d49c;font:400 24px/1.25 Georgia,serif;letter-spacing:.09em}.ordo-confirmation small{color:#d5c4a4}.ordo-close{display:block;margin:0 auto;padding:13px 18px;border:1px solid #bd914e;background:linear-gradient(145deg,#3c1516,#17090a);color:#ead09b;font:700 10px "IBM Plex Mono",monospace;letter-spacing:.14em;cursor:pointer}.ordo-close:hover,.ordo-close:focus-visible{background:#5a2021;color:#fff0cc;outline:0}.ordo-final{display:grid;min-height:520px;place-content:center;animation:ordo-arrive 1s ease both}.ordo-final .ordo-monogram{width:clamp(120px,23vw,174px);margin-bottom:30px}.ordo-final h1{margin-bottom:28px}.ordo-values{margin:0;color:#cba96f}.ordo-final-line{margin:52px 0;color:#eee3ca;font:italic 19px/1.6 Georgia,serif}.ordo-final small{color:#9e8560}.ordo-admission .ordo-reveal-1{animation:ordo-arrive .65s ease both}.ordo-admission .ordo-reveal-2{animation:ordo-arrive .8s .25s ease both}.ordo-admission .ordo-reveal-3{animation:ordo-arrive .9s .65s ease both}.ordo-admission .ordo-reveal-4{animation:ordo-arrive .85s .95s ease both}.ordo-admission .ordo-reveal-5{animation:ordo-arrive .85s 1.2s ease both}.ordo-admission .ordo-reveal-6{animation:ordo-arrive .75s 1.45s ease both}@keyframes ordo-arrive{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}@media(max-width:520px){.ordo-admission,.ordo-final{padding:34px 19px}.ordo-opening{margin-bottom:35px}.ordo-copy{font-size:15px}.ordo-revelation{margin:52px 0;padding:32px 0}.ordo-statement{margin:52px auto;font-size:18px}.ordo-final{min-height:440px}.ordo-revelation h1,.ordo-final h1{font-size:29px;letter-spacing:.12em}}
 
-    /* Encerramento do Delectus: convite discreto à continuidade da narrativa. */
-    .ordo-invitation-overlay{position:fixed;inset:0;z-index:9000;display:grid;place-items:center;overflow-y:auto;padding:clamp(14px,4vw,36px);background:rgba(3,2,2,.88);backdrop-filter:blur(5px)}
-    .ordo-invitation-dialog{box-sizing:border-box;width:min(100%,630px);max-height:calc(100dvh - 28px);overflow-y:auto;padding:clamp(23px,5vw,42px);border:1px solid #85603b;border-radius:6px;background:radial-gradient(ellipse at 50% 0%,rgba(69,20,23,.27),transparent 55%),#140d0a;box-shadow:0 24px 90px rgba(0,0,0,.65);color:#eee1d1}
-    .ordo-invitation-eyebrow{margin:0 0 14px;color:#bc9161;font:600 11px/1.5 "IBM Plex Mono",monospace;letter-spacing:.14em}
-    .ordo-invitation-dialog h2{margin:0 0 23px;padding-bottom:19px;border-bottom:1px solid #65462e;color:#f1e5d4;font:500 clamp(27px,5vw,36px)/1.15 "Cormorant Garamond",Georgia,serif}
-    .ordo-invitation-copy{color:#e8dac7;font:16px/1.75 Georgia,"Times New Roman",serif}
-    .ordo-invitation-copy p{margin:0 0 16px}
-    .ordo-invitation-copy strong{color:#d7ac72;font-weight:700}
-    .ordo-invitation-actions{display:grid;gap:13px;margin-top:26px}
-    .ordo-invitation-link{display:block;padding:16px 18px;border:1px solid #a47743;border-radius:4px;background:#392417;color:#e6bc7f!important;font:600 11px/1.55 "IBM Plex Mono",monospace;letter-spacing:.035em;text-align:center;text-decoration:none}
-    .ordo-invitation-link:hover,.ordo-invitation-link:focus-visible{outline:2px solid #c49b65;outline-offset:2px;background:#4a301e;color:#f7dfb5!important}
-    .ordo-invitation-dismiss{justify-self:center;padding:8px 14px;border:0;background:transparent;color:#ae9781;font:500 11px/1.55 "IBM Plex Mono",monospace;letter-spacing:.06em;cursor:pointer}
-    .ordo-invitation-dismiss:hover,.ordo-invitation-dismiss:focus-visible{color:#f0d9b9;outline:1px solid #7b5a3a;outline-offset:2px}
-    .ordo-invitation-reopen{justify-self:center;margin:26px auto 0;padding:12px 15px;border:1px solid #8e6741;border-radius:4px;background:#2b1913;color:#d8b183;font:600 10px/1.6 "IBM Plex Mono",monospace;letter-spacing:.06em;cursor:pointer}
-    .ordo-invitation-reopen:hover,.ordo-invitation-reopen:focus-visible{background:#43251d;color:#f0d4a7;outline:1px solid #b78c56;outline-offset:2px}
-    @media(max-width:520px){.ordo-invitation-overlay{padding:12px}.ordo-invitation-dialog{max-height:calc(100dvh - 24px);padding:23px 19px}.ordo-invitation-copy{font-size:15px;line-height:1.7}.ordo-invitation-link{padding:13px 10px;font-size:10px}}
+    /* O convite é parte da tela final: nenhuma sobreposição esconde a revelação. */
+    .ordo-final-invitation{max-width:590px;margin:34px auto 0;padding:28px 0 4px;border-top:1px solid rgba(183,139,66,.45);text-align:left}
+    .ordo-final-invitation-label{margin:0 0 13px;color:#bc9161;font:600 11px/1.5 "IBM Plex Mono",monospace;letter-spacing:.14em}
+    .ordo-final-invitation h2{margin:0 0 20px;color:#f1e5d4;font:500 clamp(26px,5vw,35px)/1.2 "Cormorant Garamond",Georgia,serif}
+    .ordo-final-invitation>p:not(.ordo-final-invitation-label){margin:0 0 16px;color:#e8dac7;font:16px/1.72 Georgia,"Times New Roman",serif}
+    .ordo-final-invitation strong{color:#d7ac72;font-weight:700}
+    .ordo-final-invitation-link{display:inline-block;margin-top:12px;padding:6px 0;border-bottom:1px solid #a47743;color:#e6bc7f!important;font:600 11px/1.65 "IBM Plex Mono",monospace;letter-spacing:.045em;text-decoration:none}
+    .ordo-final-invitation-link:hover,.ordo-final-invitation-link:focus-visible{color:#f7dfb5!important;border-bottom-color:#f7dfb5;outline-offset:4px}
+    @media(max-width:520px){.ordo-final-invitation{margin-top:25px;padding-top:23px}.ordo-final-invitation>p:not(.ordo-final-invitation-label){font-size:15px}}
   `;
   document.head.appendChild(style);
 })();
