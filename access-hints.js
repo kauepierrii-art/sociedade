@@ -75,21 +75,17 @@
     }).join('');
   }
 
-  document.addEventListener('submit', function (event) {
-    if (!event.target || event.target.id !== 'accessForm') return;
-
-    const value = typeof normalizeRef === 'function' ? normalizeRef(referenceInput.value) : referenceInput.value.trim().toUpperCase();
-    const valid = typeof REFERENCES !== 'undefined' && REFERENCES[value];
-
-    if (valid) {
+  document.addEventListener('delectus:access-result', function (event) {
+    if (event.detail && event.detail.accepted) {
       clearErrors();
       setTimeout(renderArchive, 0);
       return;
     }
-
-    setErrors(getErrors() + 1);
-    setTimeout(renderArchive, 0);
-  }, true);
+    if (event.detail && event.detail.invalid) {
+      setErrors(getErrors() + 1);
+      setTimeout(renderArchive, 0);
+    }
+  });
 
   const style = document.createElement('style');
   style.textContent = `
@@ -150,3 +146,4 @@
 
   renderArchive();
 })();
+
