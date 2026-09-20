@@ -1,10 +1,12 @@
 // Histórico clicável de dicas da tela de acesso.
 (function () {
   const hints = [
-    'A referência não está escrita de forma direta na correspondência. Considere a indicação ao final da carta.',
-    'A palavra associada à sua referência deve ser convertida para o idioma indicado no final da correspondência.'
+    'A correspondência e os documentos que a acompanham pertencem a um mesmo registro. Considere seus elementos em conjunto.',
+    'O Registro de Atribuição apresenta uma informação destinada especificamente ao seu portador.',
+    'O Fragmentum III contém orientações para a interpretação dos documentos. Sua compreensão pode exigir mais do que uma leitura literal.',
+    'A descrição presente no Registro de Atribuição ajuda a compreender o elemento designado. O Fragmentum III indica como essa informação deve ser interpretada.',
+    'A referência de acesso depende da sua identificação e da relação entre o elemento atribuído e as instruções preservadas no Fragmentum III.'
   ];
-
   const storageKey = 'access:v1:errors';
 
   function getErrors() {
@@ -70,7 +72,7 @@
     wrapper.querySelector('.hints-count').textContent = String(errors);
     const content = wrapper.querySelector('.hints-archive-content');
     content.innerHTML = hints.slice(0, errors).map((hint, index) => {
-      const roman = ['I', 'II'][index];
+      const roman = ['I', 'II', 'III', 'IV', 'V'][index];
       return `<div class="hints-archive-item"><span class="hint-label">ANOTAÇÃO ${roman}</span><p>${hint}</p></div>`;
     }).join('');
   }
