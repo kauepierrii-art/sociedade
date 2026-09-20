@@ -368,15 +368,6 @@
     else stopTicker(configs.observation);
   }, true);
 
-  // Login: mantém apenas a mensagem curta; as dicas ficam exclusivamente na caixa amarela.
-  document.addEventListener('submit', function (event) {
-    if (!event.target || event.target.id !== 'accessForm') return;
-    setTimeout(() => {
-      const value = normalizeRef(referenceInput.value);
-      if (!REFERENCES[value] && loginMessage) loginMessage.textContent = 'REFERÊNCIA NÃO LOCALIZADA.';
-    }, 0);
-  }, true);
-
   const style = document.createElement('style');
   style.textContent = `
     .stage-hints-v3 {
@@ -469,3 +460,4 @@
   `;
   document.head.appendChild(style);
 })();
+
