@@ -4,7 +4,7 @@
   "use strict";
   const URL = "https://mbnlnqtuwmukizbezmug.supabase.co/functions/v1/protocol-session";
   const PUBLIC_KEY = "sb_publishable_iCGm-bMY0Z5coie6kHUtLQ_48b7nciY";
-  const normalize = (value) => String(value || "").trim().toUpperCase().replace(/\s+/g, " ");
+  const normalize = (value) => String(value || "").toUpperCase().replace(/[^A-Z]/g, "");
   const tokenKey = (ref) => "delectus:session-token:v1:" + ref;
   const deviceKey = "delectus:device-id:v1";
   const pendingKey = (ref) => "delectus:pending-stage:v1:" + ref;
