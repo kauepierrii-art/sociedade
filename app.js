@@ -53,6 +53,36 @@ const dashboardView = document.querySelector('#dashboardView');
 const stageView = document.querySelector('#stageView');
 const loginMessage = document.querySelector('#loginMessage');
 const referenceInput = document.querySelector('#reference');
+
+/* Referência de acesso: aceitar somente letras.
+   Espaços, números e símbolos não chegam a permanecer no campo. */
+function sanitizeReferenceInput(value) {
+  return String(value || '').toUpperCase().replace(/[^A-Z]/g, '');
+}
+
+referenceInput.addEventListener('beforeinput', event => {
+  if (event.inputType === 'insertText' && event.data && /[^A-Za-z]/.test(event.data)) {
+    event.preventDefault();
+  }
+});
+
+referenceInput.addEventListener('input', () => {
+  const sanitized = sanitizeReferenceInput(referenceInput.value);
+  if (referenceInput.value !== sanitized) referenceInput.value = sanitized;
+});
+
+referenceInput.addEventListener('paste', event => {
+  const clipboard = event.clipboardData || window.clipboardData;
+  const pasted = clipboard ? clipboard.getData('text') : '';
+  if (!pasted || !/[^A-Za-z]/.test(pasted)) return;
+
+  event.preventDefault();
+  const sanitized = sanitizeReferenceInput(pasted);
+  const start = referenceInput.selectionStart ?? referenceInput.value.length;
+  const end = referenceInput.selectionEnd ?? start;
+  referenceInput.setRangeText(sanitized, start, end, 'end');
+  referenceInput.dispatchEvent(new Event('input', { bubbles: true }));
+});
 const stageList = document.querySelector('#stageList');
 const processStatus = document.querySelector('#processStatus');
 const stageStatus = document.querySelector('#stageStatus');
@@ -118,7 +148,7 @@ window.addEventListener('popstate', () => {
   }
 });
 
-function normalizeRef(value) { return value.trim().toUpperCase().replace(/\s+/g, ''); }
+function normalizeRef(value) { return sanitizeReferenceInput(value); }
 function normalizeAnswer(value) { return value.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
 function loadProgress(refKey) {
   const stored = Number(localStorage.getItem(`progress:${refKey}`));
