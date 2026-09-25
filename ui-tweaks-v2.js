@@ -1,50 +1,10 @@
 // Ajustes de cópia e navegação da Etapa 02.
 (function () {
-  const introContext = 'Antes de prosseguir, precisamos avaliar como você lida com informações conflitantes.\n\nOs registros apresentados não foram reunidos para contar uma história completa. Eles foram preservados porque, em algum momento, alguém considerou que certas diferenças mereciam uma segunda análise.\n\nSeu objetivo não é provar uma teoria, nem confirmar a autenticidade de qualquer objeto.\n\nÉ mais simples que isso.';
-
-  const objectiveLines = [
-    'Nem toda divergência é relevante.',
-    'Algumas, no entanto, justificam uma segunda análise.',
-    'Os documentos disponibilizados pertencem ao mesmo conjunto e foram preservados por razões que serão esclarecidas posteriormente.'
-  ];
+  const introContext = 'Um espelho negro, associado ao estudioso inglês John Dee, encontra-se atualmente sob os cuidados de uma instituição museológica.\n\nDurante uma revisão de sua documentação, foram identificadas informações que justificaram a reabertura de uma antiga investigação sobre o objeto.\n\nVocê recebeu acesso aos registros reunidos nessa análise. Sua tarefa é examiná-los, consultar as referências disponíveis e identificar a inconsistência que motivou a revisão.\n\nO que passou despercebido nos registros anteriores?';
 
   // Topo da Etapa 02: texto contextual.
   if (Array.isArray(stages) && stages[1]) {
     stages[1].context = introContext;
-  }
-
-  // Parte inferior da Etapa 02: texto objetivo imediatamente antes da instrução final.
-  if (typeof renderStageTwo === 'function') {
-    const originalRenderStageTwoCopy = renderStageTwo;
-    renderStageTwo = function (actions) {
-      originalRenderStageTwoCopy(actions);
-
-      const panel = actions.querySelector('.answer-panel');
-      if (!panel) return;
-
-      const finalInstruction = Array.from(panel.querySelectorAll('p')).find(p =>
-        p.textContent.includes('Leia, compare e identifique qual elemento apresenta uma inconsistência entre os registros.')
-      );
-      if (!finalInstruction) return;
-
-      // Remove o bloco contextual antigo que vinha antes da instrução final.
-      let node = panel.firstElementChild;
-      while (node && node !== finalInstruction) {
-        const next = node.nextElementSibling;
-        node.remove();
-        node = next;
-      }
-
-      // Insere o bloco objetivo logo antes da instrução final.
-      objectiveLines.forEach(text => {
-        const p = document.createElement('p');
-        p.className = 'stage-two-bottom-copy';
-        p.textContent = text;
-        panel.insertBefore(p, finalInstruction);
-      });
-
-      finalInstruction.classList.add('stage-two-final-instruction');
-    };
   }
 
   // Botão de retorno compacto em todas as etapas.
@@ -82,26 +42,10 @@
       outline: none;
     }
 
-    .answer-panel .stage-two-bottom-copy,
-    .answer-panel .stage-two-final-instruction {
-      color: #a4c3ba;
-      font-size: 14px;
-      line-height: 1.7;
-    }
-
-    .answer-panel .stage-two-bottom-copy {
-      margin: 0 0 16px;
-    }
-
-    .answer-panel .stage-two-final-instruction {
-      margin: 0 0 16px;
-      color: var(--text);
-      font-weight: 700;
-    }
-
-    .answer-panel .stage-two-final-instruction strong {
-      color: var(--text);
-      font-weight: 700;
+    .stage-two-image { margin: 14px 0 18px; }
+    .stage-two-image img { display: block; width: 100%; max-width: 560px; height: auto; margin: 0 auto; border: 1px solid var(--line); border-radius: 4px; background: #06100d; }
+    @media (max-width: 520px) {
+      .stage-two-image { margin: 12px 0 16px; }
     }
   `;
   document.head.appendChild(style);

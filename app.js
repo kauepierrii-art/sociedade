@@ -334,131 +334,63 @@ function registerAccordions(root) {
 
 function renderStageTwo(actions) {
   const record1 = `
-    <h3>MATERIAL DE AVALIAÇÃO</h3>
-    <p>Antes que outras informações possam ser confiadas a você, precisamos saber como você lida com versões conflitantes de um mesmo fato.</p>
-    <p>O conteúdo a seguir não foi reunido por interesse acadêmico.</p>
-    <p>Durante décadas, versões diferentes da mesma história circularam ao mesmo tempo.</p>
-    <p>Algumas foram preservadas. Outras desapareceram.</p>
-    <p>Os documentos abaixo pertencem ao mesmo conjunto.</p>
-    <p>Seu objetivo, neste momento, é identificar uma inconsistência.</p>
-    <p>Ela foi considerada irrelevante por muitos.</p><p>Não por todos.</p>
-    <p><strong>Não ignore os detalhes.</strong></p>
-    <h3>O ESPELHO NEGRO</h3>
-    <p>Durante séculos, superfícies negras e polidas foram utilizadas em práticas de <strong>scrying</strong> — métodos de contemplação destinados a obter visões, respostas ou contato com inteligências que não poderiam ser alcançadas pelos sentidos comuns.</p>
-    <p>Espelhos de obsidiana ocupam um lugar particular nessa tradição. A pedra vulcânica, quando cuidadosamente polida, produz uma superfície escura e reflexiva na qual a imagem nunca é completamente nítida.</p>
-    <p>Para alguns praticantes, essa imperfeição era justamente o que permitia perceber aquilo que normalmente permaneceria oculto.</p>
-    <p>Alguns relatos atribuíam a esses objetos a capacidade de revelar acontecimentos distantes, antecipar eventos futuros ou permitir contato com entidades desconhecidas.</p>
-    <p>Outros advertiam para um risco diferente:</p>
-    <blockquote><strong>o observador poderia acreditar estar controlando aquilo que via quando, na verdade, estaria sendo conduzido por isso.</strong></blockquote>
-    <p>A informação obtida por meio do espelho poderia ser usada para aconselhar governantes, antecipar conflitos, identificar inimigos ou interferir em decisões de grande importância.</p>
-    <p>Por essa razão, um objeto capaz de oferecer respostas — verdadeiras ou não — seria tão perigoso nas mãos de alguém interessado em poder quanto qualquer arma convencional.</p>
     <h3>JOHN DEE</h3>
-    <p>John Dee nasceu na Inglaterra em 1527.</p>
-    <p>Foi matemático, astrônomo, estudioso de navegação, alquimia e filosofia natural. Também esteve ligado à corte da rainha Elizabeth I e atuou como conselheiro em assuntos científicos e políticos.</p>
-    <p>Ao mesmo tempo, dedicou parte significativa de sua vida ao estudo do que considerava conhecimentos ocultos.</p>
-    <p>Dee acreditava que determinadas inteligências espirituais poderiam transmitir informações inacessíveis aos homens.</p>
-    <p>Para tentar estabelecer esse contato, trabalhou principalmente com o médium Edward Kelley. Durante essas sessões, Kelley observava superfícies reflexivas enquanto Dee registrava cuidadosamente aquilo que era relatado.</p>
-    <p>Entre os objetos tradicionalmente relacionados a essas práticas encontra-se um <strong>espelho circular de obsidiana negra</strong>.</p>
-    <p>A peça é de origem mexicana e pertence a uma tradição muito anterior a Dee.</p>
-    <p><strong>Se um homem acreditasse possuir um instrumento capaz de revelar informações que ninguém mais poderia conhecer, até onde estaria disposto a ir para protegê-lo — ou utilizá-lo?</strong></p>`;
+    <figure class="stage-two-image"><img src="assets/stage2/john-dee.webp" alt="John Dee"></figure>
+    <p>John Dee (1527–1608/1609) foi um matemático, astrônomo e estudioso inglês ligado à corte da rainha Elizabeth I. Além de seus trabalhos científicos, dedicou parte de sua vida à busca de conhecimentos que acreditava estarem além dos sentidos humanos.</p>
+    <p>Dee acreditava que seria possível estabelecer contato com inteligências espirituais e, por meio delas, obter informações sobre acontecimentos distantes, questões desconhecidas e eventos que ainda não haviam ocorrido.</p>
+    <p>Para isso, realizou experiências com superfícies reflexivas, utilizadas como instrumentos de contemplação e comunicação espiritual.</p>
+    <h3>O ESPELHO NEGRO</h3>
+    <figure class="stage-two-image"><img src="assets/stage2/objetos-john-dee.webp" alt="Espelho negro e objetos associados a John Dee"></figure>
+    <p>Entre os objetos tradicionalmente associados a essas experiências encontra-se um espelho circular de obsidiana negra, uma pedra vulcânica que, quando polida, produz uma superfície escura e reflexiva.</p>
+    <p>Dee utilizava esse tipo de objeto em suas tentativas de obter visões e respostas que acreditava não serem acessíveis por meios convencionais.</p>
+    <p>A possibilidade de alcançar informações desconhecidas despertava interesse, mas também levantava uma questão:</p>
+    <blockquote><strong>que consequências poderia ter o uso de um instrumento capaz de revelar aquilo que deveria permanecer oculto?</strong></blockquote>
+    <p>O espelho associado a John Dee foi preservado ao longo dos séculos e atualmente integra o acervo do British Museum.</p>`;
 
   const record2 = `
-    <h3>REGISTRO DE PROCEDÊNCIA</h3>
-    <p>Após a morte de John Dee, em 1608 ou 1609, parte de seus livros e objetos passou para outras mãos.</p>
-    <p>Entre esses objetos estaria uma pedra escura e circular utilizada em suas experiências de comunicação espiritual.</p>
-    <p>Em 1624, um depoimento judicial registrou a existência, na casa de John Pontois, de uma <strong>“pedra redonda e plana”</strong> que teria pertencido ao estudioso.</p>
-    <p>A partir daí, a trajetória da peça torna-se menos clara.</p>
-    <p>Décadas depois, o objeto surge associado à coleção dos Condes de Peterborough. Por volta de 1770, já estava nas mãos do antiquário inglês <strong>Horace Walpole</strong>.</p>
-    <blockquote>“A pedra negra na qual Dr. Dee costumava chamar seus espíritos.”</blockquote>
-    <p>A partir do século XVIII, a história do objeto passa a ser mais bem documentada. O espelho atravessou diferentes coleções particulares e, em 1966, entrou para o acervo do <strong>British Museum</strong>.</p>
-    <h3>A VERSÃO ACEITA</h3>
-    <p>A peça preservada atualmente é um espelho de obsidiana de origem mexicana. Estudos modernos confirmaram que a pedra utilizada em sua fabricação é compatível com depósitos de obsidiana da região de <strong>Pachuca, no México</strong>.</p>
-    <p>Isso reforçou significativamente a hipótese de que o objeto é antigo e de origem mesoamericana. Mas não resolveu tudo.</p>
-    <p>Não se sabe exatamente quando ou como John Dee a adquiriu, e existem períodos de sua trajetória em que a sucessão de proprietários não pode ser reconstruída de forma contínua.</p>
-    <h3>UMA QUESTÃO DE CONTINUIDADE</h3>
-    <p>Um objeto antigo pode ser autêntico. Sua origem pode estar correta. Sua idade também.</p>
-    <p>E ainda assim uma pergunta permanecer:</p>
-    <blockquote><strong>é possível demonstrar que o objeto preservado hoje é exatamente o mesmo que esteve nas mãos de John Dee?</strong></blockquote>
-    <p>Durante séculos, a resposta aceita foi suficiente.</p>
-    <p><strong>No final do século XIX, deixou de ser.</strong></p>`;
+    <p>Após a morte de John Dee, em 1608 ou 1609, seus livros e objetos passaram para outras mãos.</p>
+    <p>Em <strong>1624</strong>, um depoimento judicial mencionou uma pedra escura e circular que teria pertencido ao estudioso.</p>
+    <p>Posteriormente, o objeto foi associado à coleção dos Condes de Peterborough e, por volta de <strong>1770</strong>, ao antiquário Horace Walpole.</p>
+    <p>Em <strong>1966</strong>, o espelho entrou para o acervo do British Museum.</p>
+    <p>Estudos modernos associaram a obsidiana utilizada em sua fabricação à região de Pachuca, no México. Sua origem material, porém, não resolve todas as lacunas da trajetória da peça.</p>
+    <blockquote><strong>A questão permanece: é possível demonstrar que o objeto preservado atualmente é exatamente o mesmo que esteve nas mãos de John Dee?</strong></blockquote>
+    <p>No final do século XIX, novos registros passaram a justificar uma revisão dessa continuidade.</p>`;
 
   const annexA = `
-    <div class="doc-meta">Origem documental: Arquivo comercial privado · Procedência: verificada · Documento original: inglês · 14 de março de 1897</div>
-    <h4>ORIGINAL</h4>
-    <p><strong>J. H. WHITMORE & SONS</strong><br><em>Conservation of Fine Objects and Furnishings</em><br>London, 14 March 1897</p>
-    <p><strong>Client:</strong> Wetherby Family</p>
-    <p><strong>Article received:</strong><br>One leather-covered fitted case containing a circular polished black stone.</p>
-    <div class="doc-section-title">WORK REQUESTED</div>
-    <ul class="doc-list"><li>reinforcement of upper hinge;</li><li>repair of closing mechanism;</li><li>stabilization of worn leather edges;</li><li>partial replacement of detached interior lining;</li><li>cleaning of exterior leather without treatment of the contained object.</li></ul>
-    <p><strong>Condition upon receipt:</strong><br>Exterior leather dry, with minor cracking along lower edge. Upper hinge loose but complete. Brass closing mechanism functional, showing oxidation around mounting points. Dark interior lining detached along approximately one quarter of its perimeter. Internal fitted support intact. Contained stone visually examined without removal from the fitted support. No fracture or recent structural damage observed.</p>
-    <div class="doc-section-title">CASE DIMENSIONS</div>
-    <p>Diameter: <strong>20 centimetres</strong><br>Length: <strong>24 centimetres</strong><br>Width: <strong>2.60 centimetres</strong></p>
-    <p><strong>Materials observed:</strong><br>Dark brown leather exterior; wood structure; dark textile lining; brass fittings.</p>
-    <p><strong>Owner's instruction:</strong><br>The original internal fitting is not to be altered. Existing material is to be retained wherever possible. No replacement case is to be produced.</p>
-    <p><strong>Estimated completion:</strong> 18 working days.</p>
-    <p><em>Do not polish the stone.</em></p>
-    <h4>TRADUÇÃO TÉCNICA</h4>
-    <p><strong>J. H. WHITMORE & SONS</strong><br><em>Conservação de Objetos Finos e Mobiliário</em><br>Londres, 14 de março de 1897</p>
-    <p><strong>Cliente:</strong> Família Wetherby</p>
-    <p><strong>Objeto recebido:</strong><br>Um estojo ajustado, revestido em couro, contendo uma pedra negra circular e polida.</p>
-    <p><strong>Serviço solicitado:</strong><br>Reforço da dobradiça superior; reparo do mecanismo de fechamento; estabilização das bordas de couro desgastadas; substituição parcial do revestimento interno desprendido; limpeza do couro externo sem tratamento do objeto contido.</p>
-    <div class="doc-section-title">DIMENSÕES DO ESTOJO</div>
-    <p>Diâmetro: <strong>20 centímetros</strong><br>Comprimento: <strong>24 centímetros</strong><br>Largura: <strong>2,60 centímetros</strong></p>
-    <p><strong>Instrução do proprietário:</strong><br>O encaixe interno original não deverá ser alterado. Os materiais existentes deverão ser mantidos sempre que possível. Não deverá ser produzido um novo estojo.</p>
-    <p><strong>Prazo estimado:</strong> 18 dias úteis.</p>
-    <p><strong>Não polir a pedra.</strong></p>`;
+    <div class="doc-meta">Origem documental: Arquivo comercial privado<br>Procedência: verificada<br>Data: 14 de março de 1897</div>
+    <h4>J. H. WHITMORE & SONS</h4><p><em>Conservação de Objetos Finos e Mobiliário</em></p>
+    <p><strong>Cliente:</strong> Família Wetherby</p><p><strong>Objeto recebido:</strong><br>Um estojo ajustado, revestido em couro, contendo uma pedra negra circular e polida.</p>
+    <h4>SERVIÇO SOLICITADO</h4><ul class="doc-list"><li>reforço da dobradiça superior;</li><li>reparo do mecanismo de fechamento;</li><li>estabilização das bordas de couro desgastadas;</li><li>substituição parcial do revestimento interno desprendido;</li><li>limpeza do couro externo sem tratamento do objeto contido.</li></ul>
+    <h4>DIMENSÕES</h4><p><strong>Diâmetro:</strong> 20 centímetros <em>(case)</em><br><strong>Comprimento:</strong> 24 centímetros <em>(case)</em><br><strong>Largura:</strong> 2,60 centímetros <em>(case)</em></p>
+    <p><strong>MATERIAIS OBSERVADOS</strong><br>Couro marrom-escuro, estrutura de madeira, revestimento têxtil escuro e ferragens de latão.</p>
+    <p><strong>INSTRUÇÃO DO PROPRIETÁRIO</strong><br>O encaixe interno original não deverá ser alterado. Os materiais existentes deverão ser mantidos sempre que possível.<br>Não deverá ser produzido um novo estojo.</p><p><strong>Prazo estimado:</strong> 18 dias úteis.</p><p><strong>Não polir a pedra.</strong></p>`;
 
   const annexB = `
-    <div class="doc-meta">Origem documental: Arquivo comercial da transportadora · Procedência: verificada · Documento original: inglês · 3 de novembro de 1911</div>
-    <h4>ORIGINAL</h4>
-    <p>The object examined on the 9th instant was presented without formal provenance.</p>
-    <p>Its dimensions, surface characteristics and mounting arrangement are consistent with earlier descriptions of the black speculum traditionally associated with Dr. John Dee.</p>
-    <p>However, the object was observed in circumstances incompatible with the documented chain of custody currently accepted for the specimen.</p>
-    <p>No conclusion should be drawn from visual similarity alone.</p>
-    <p>Further comparison is recommended, particularly regarding edge wear, rear mounting marks and the dimensions of the protective case.</p>
-    <p>The present observation is to remain outside the official record until independent confirmation can be obtained.</p>
-    <h4>TRADUÇÃO TÉCNICA</h4>
-    <p>O objeto examinado no dia 9 do corrente mês foi apresentado sem documentação formal de procedência.</p>
-    <p>Suas dimensões, características de superfície e forma de montagem são compatíveis com descrições anteriores do espelho negro tradicionalmente associado ao Dr. John Dee.</p>
-    <p>Contudo, o objeto foi observado em circunstâncias incompatíveis com a cadeia de custódia atualmente aceita para o exemplar.</p>
-    <p>Nenhuma conclusão deve ser estabelecida apenas com base na semelhança visual.</p>
-    <p>Recomenda-se comparação adicional, especialmente quanto ao desgaste das bordas, marcas de fixação posteriores e dimensões do estojo de proteção.</p>
-    <p>A presente observação deverá permanecer fora do registro oficial até que seja obtida confirmação independente.</p>`;
+    <div class="doc-meta">Origem documental: Arquivo comercial da transportadora<br>Procedência: verificada<br>Ano: 1911</div>
+    <p>O objeto examinado foi identificado como o espelho negro tradicionalmente associado ao Dr. John Dee.</p>
+    <p>Suas dimensões, características da superfície e marcas de montagem correspondem às descrições preservadas em registros anteriores. As evidências observadas foram consideradas suficientes para sustentar essa identificação.</p>
+    <p>A inspeção, entretanto, foi conduzida de maneira reservada e não integrou os registros oficiais sobre a peça.</p>
+    <p>Recomenda-se uma comparação complementar das características físicas do objeto, especialmente o desgaste das bordas, as marcas posteriores de fixação e suas dimensões.</p>
+    <p>Até que essa comparação seja concluída, o relatório deverá permanecer restrito ao arquivo da transportadora.</p>`;
 
   const annexC = `
-    <div class="doc-meta">Origem documental: Arquivo familiar Harrington · Procedência: verificada · Documento original: inglês · 27 de maio de 1923</div>
-    <h4>ORIGINAL</h4>
-    <p>Repeated observation sessions have produced visual phenomena which cannot be adequately preserved by written description alone.</p>
-    <p>It is therefore recommended that future sessions be recorded by mechanical means.</p>
-    <p>The recording apparatus must operate independently of the observation surface and should remain concealed during use, in order to avoid interference with the procedure and unnecessary exposure of the object.</p>
-    <p>Particular attention must be given to recurring architectural features, objects and persons observed during separate sessions.</p>
-    <p>Any visual recurrence should be compared against later documentary records whenever such material becomes available.</p>
-    <p>No attempt should be made to interpret the observed scenes during the session itself.</p>
-    <p><strong>Record first.</strong></p>
-    <p><strong>Compare later.</strong></p>
-    <h4>TRADUÇÃO TÉCNICA</h4>
-    <p>Sessões repetidas de observação produziram fenômenos visuais que não podem ser preservados adequadamente apenas por descrição escrita.</p>
-    <p>Recomenda-se, portanto, que as sessões futuras sejam registradas por meios mecânicos.</p>
-    <p>O equipamento de registro deverá operar de forma independente da superfície de observação e permanecer oculto durante sua utilização, de modo a evitar interferência no procedimento e exposição desnecessária do objeto.</p>
-    <p>Deverá ser dada atenção especial a características arquitetônicas, objetos e pessoas que se repitam em sessões distintas.</p>
-    <p>Toda recorrência visual deverá ser comparada com registros documentais posteriores, sempre que esse material se tornar disponível.</p>
-    <p>Nenhuma tentativa de interpretação das cenas observadas deverá ser realizada durante a própria sessão.</p>
-    <p><strong>Registrar primeiro.</strong></p>
-    <p><strong>Comparar depois.</strong></p>`;
+    <div class="doc-meta">Origem documental: Arquivo familiar Harrington<br>Procedência: verificada<br>Data: 27 de maio de 1923</div>
+    <p>Sessões repetidas de observação produziram relatos de fenômenos que não puderam ser adequadamente documentados apenas por escrito.</p>
+    <p>Recomenda-se que as próximas sessões sejam gravadas por equipamento próprio, permitindo a conferência posterior dos acontecimentos e dos relatos apresentados pelos participantes.</p>
+    <p>O equipamento deverá funcionar sem interferir na superfície de observação e permanecer fora do campo de visão dos participantes durante as sessões.</p>
+    <p>Deverá ser dada atenção especial a características arquitetônicas, objetos e pessoas que se repitam em diferentes observações.</p>
+    <p>Os registros deverão ser preservados para comparação com documentos que venham a ser encontrados posteriormente.</p>
+    <p>Registrar primeiro.</p><p>Comparar depois.</p>`;
 
   const record3 = `
-    <h3>CORRESPONDÊNCIA ELETRÔNICA — REVISÃO DE PROCEDÊNCIA</h3>
     <p><strong>De:</strong> M. Silva<br><strong>Para:</strong> R. Almeida<br><strong>Data:</strong> 18 de agosto de 2011 — 22:43<br><strong>Assunto:</strong> 76-01 / revisão de procedência</p>
     <p>Rafael,</p>
-    <p>terminei a revisão do material relacionado ao objeto registrado em 1976.</p>
-    <p>Consegui confirmar a origem de três documentos que estavam entre as cópias preservadas. Dois deles puderam ser relacionados diretamente a antigos portadores da peça; o terceiro pertence ao arquivo de uma empresa que realizou seu transporte no início do século passado.</p>
-    <p>Até onde pude verificar, não são documentos produzidos posteriormente para sustentar a hipótese. Eles já existiam de forma independente antes de serem reunidos no arquivo.</p>
-    <p>Isso não resolve a questão.</p>
-    <p>Nenhum deles afirma, de forma direta, que o objeto pertencia a John Dee. Ainda assim, existem informações suficientemente consistentes para justificar uma nova comparação.</p>
-    <p>Os documentos tratam de assuntos diferentes: conservação, transporte e correspondência particular. Por isso, recomendo que sejam lidos integralmente antes de qualquer conclusão.</p>
-    <p>Datas, nomes, valores, descrições físicas e observações aparentemente secundárias foram mantidos nas transcrições.</p>
-    <p>Não presuma que o elemento mais importante seja o próprio espelho.</p>
-    <p>Estou enviando as cópias que considero mais úteis.</p><p>— M.</p>
+    <p>Concluí a revisão do material relacionado ao espelho atribuído a John Dee, registrado em nosso arquivo em 1976.</p>
+    <p>Confirmei a procedência de três documentos preservados em arquivos independentes: uma ordem de conservação, um relatório de inspeção e um memorando de observação.</p>
+    <p>Os registros apresentam informações consistentes sobre a peça e justificam uma comparação com a documentação atualmente disponível.</p>
+    <p>Recomendo examinar especialmente as datas, as descrições físicas e as observações secundárias.</p>
+    <p><strong>O elemento mais importante pode não ser o próprio espelho.</strong></p>
+    <p>Encaminho as cópias para análise.</p><p>— M.</p>
     <div class="attachments-list">
       ${toggleMarkup('ANEXO A — ORDEM DE SERVIÇO E CONSERVAÇÃO / 1897', annexA, 'attachment')}
       ${toggleMarkup('ANEXO B — RELATÓRIO DE INSPEÇÃO / 1911', annexB, 'attachment')}
@@ -466,16 +398,13 @@ function renderStageTwo(actions) {
     </div>`;
 
   const record4 = `
-    <h3>REFERÊNCIAS DE REVISÃO</h3>
     <p><strong>Referência:</strong> 76-01<br><strong>Data:</strong> 21 de agosto de 2011</p>
-    <p>Durante a revisão do material, foram consultadas fontes públicas e registros complementares relacionados ao objeto, sua procedência e seus antigos proprietários.</p>
-    <p>As referências abaixo foram mantidas por apresentarem informações potencialmente úteis à comparação documental.</p>
-    <p>Nem todas necessariamente possuem relação direta com a questão principal.</p>
-    <h4>Fontes consultadas</h4>
+    <p>Durante a revisão do material, foram consultadas fontes públicas relacionadas à trajetória de John Dee e ao espelho associado às suas experiências.</p>
+    <p><strong>As referências abaixo fizeram parte da análise e devem ser consideradas na comparação das informações apresentadas nos registros.</strong></p>
+    <p><strong>Não é necessário compreender integralmente os conteúdos em inglês. Para esta análise, observe também as informações objetivas apresentadas pelas próprias fontes.</strong></p>
+    <h4>FONTES CONSULTADAS</h4>
     <p><a href="https://www.rmg.co.uk/collections/library/rmgl-13500" target="_blank" rel="noopener">Royal Museums Greenwich — Registros biográficos de John Dee</a></p>
-    <p><a href="https://www.britishmuseum.org/collection/object/H_1966-1001-1?selectedImageId=1045525001" target="_blank" rel="noopener">British Museum — Registro da coleção: espelho de obsidiana associado a John Dee</a></p>
-    <p><a href="https://www.cambridge.org/core/journals/antiquity/article/mirror-the-magus-and-more-reflections-on-john-dees-obsidian-mirror/38D4BFEA2CB9766973791029C2EE1289" target="_blank" rel="noopener">Antiquity / Cambridge University Press — Análise da origem dos espelhos de obsidiana</a></p>
-    <p><a href="https://library.si.edu/digital-library/book/descriptivecata00bull" target="_blank" rel="noopener">Smithsonian Libraries — Catálogo da exposição Ancient and Modern Mexico, Londres, 1824</a></p>`;
+    <p><a href="https://www.britishmuseum.org/collection/object/H_1966-1001-1?selectedImageId=1045525001" target="_blank" rel="noopener">British Museum — Registro da coleção: espelho de obsidiana associado a John Dee</a></p>`;
 
   actions.innerHTML = `
     <div class="records-list">
@@ -485,13 +414,12 @@ function renderStageTwo(actions) {
       ${toggleMarkup('REGISTRO 04 — REFERÊNCIAS DE REVISÃO', record4)}
     </div>
     <div class="answer-panel">
-      <p><strong>Antes de prosseguir, precisamos avaliar como você lida com informações conflitantes.</strong></p>
-      <p>Os registros apresentados não foram reunidos para contar uma história completa. Eles foram preservados porque, em algum momento, alguém considerou que certas diferenças mereciam uma segunda análise.</p>
-      <p>Seu objetivo não é provar uma teoria, nem confirmar a autenticidade de qualquer objeto.</p>
-      <p>É mais simples que isso.</p>
-      <p><strong>Examine os registros e considere as informações apresentadas em cada um deles.</strong></p>
+      <p><strong>CONCLUSÃO DA ANÁLISE</strong></p>
+      <p>Os documentos apresentados e as referências consultadas permitem confrontar diferentes informações sobre o objeto em análise.</p>
+      <p>Uma dessas informações não corresponde ao que foi registrado anteriormente.</p>
+      <p>Identifique a inconsistência presente nos registros e informe sua resposta de forma objetiva.</p>
       <form id="aptitudeForm" autocomplete="off">
-        <label for="aptitudeAnswer" class="validation-label">QUAL ELEMENTO APRESENTA INCONSISTÊNCIA ENTRE OS REGISTROS?</label>
+        <label for="aptitudeAnswer" class="validation-label">QUAL INCONSISTÊNCIA PODE SER IDENTIFICADA ENTRE OS REGISTROS?</label>
         <input id="aptitudeAnswer" class="answer-input" type="text" required />
         <button class="primary-btn" type="submit">VALIDAR</button>
         <p id="aptitudeMessage" class="answer-message" role="status"></p>
