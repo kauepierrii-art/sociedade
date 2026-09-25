@@ -19,6 +19,20 @@
 </head>
 <body>
   <main class="app-shell" aria-live="polite">
+    <section id="maintenanceView" class="view maintenance-view" aria-labelledby="maintenanceTitle">
+      <div class="maintenance-card protocol-card">
+        <div class="maintenance-hero">
+          <p class="eyebrow centered">COMUNICADO DO PROTOCOLO</p>
+          <h1 id="maintenanceTitle" class="centered">AVISO DE MANUTENÇÃO</h1>
+        </div>
+        <div class="maintenance-copy">
+          <p>O Protocolo Delectus encontra-se atualmente em processo de revisão e manutenção.</p>
+          <p>Durante este período, conteúdos, etapas e mecanismos podem sofrer alterações sem aviso prévio. Algumas funções também podem apresentar comportamento instável ou indisponibilidade temporária.</p>
+          <p>O acesso permanece liberado para testes.</p>
+        </div>
+        <button id="maintenanceContinueBtn" class="primary-btn maintenance-continue" type="button">PROSSEGUIR <span aria-hidden="true">→</span></button>
+      </div>
+    </section>
     <section id="loginView" class="view login-view active">
       <div class="login-card protocol-card">
         <div class="login-hero">
@@ -37,6 +51,7 @@
           <p class="field-help">sistema interno de identificação</p>
           <button type="submit" class="primary-btn">Confirmar acesso <span aria-hidden="true">→</span></button>
         </form>
+        <p class="maintenance-login-note">VERSÃO EM MANUTENÇÃO — conteúdo e funcionalidades sujeitos a alterações.</p>
         <p id="loginMessage" class="feedback" role="status"></p>
       </div>
     </section>

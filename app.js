@@ -49,10 +49,12 @@ const IDENTIFICATION_HINTS = [
 ];
 
 const loginView = document.querySelector('#loginView');
+const maintenanceView = document.querySelector('#maintenanceView');
 const dashboardView = document.querySelector('#dashboardView');
 const stageView = document.querySelector('#stageView');
 const loginMessage = document.querySelector('#loginMessage');
 const referenceInput = document.querySelector('#reference');
+const MAINTENANCE_SESSION_KEY = 'delectus:maintenance-notice:v1';
 
 /* Referência de acesso: aceitar somente letras.
    Espaços, números e símbolos não chegam a permanecer no campo. */
@@ -127,10 +129,16 @@ function show(view) {
     if (cardViewer) cardViewer.hidden = true;
     document.querySelectorAll('.stage5-completion-modal').forEach(popup => popup.remove());
   }
-  [loginView, dashboardView, stageView].forEach(v => v.classList.remove('active'));
+  [maintenanceView, loginView, dashboardView, stageView].forEach(v => v.classList.remove('active'));
   view.classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
+if (!sessionStorage.getItem(MAINTENANCE_SESSION_KEY)) show(maintenanceView);
+document.querySelector('#maintenanceContinueBtn').addEventListener('click', () => {
+  sessionStorage.setItem(MAINTENANCE_SESSION_KEY, '1');
+  show(loginView);
+});
 
 // Voltar físico/gesto de navegação: sair de qualquer etapa diretamente para
 // a lista do protocolo. Quando já estiver no painel, o navegador age normalmente.
