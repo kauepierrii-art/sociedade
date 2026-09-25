@@ -359,16 +359,16 @@ function renderStageTwo(actions) {
   const annexA = `
     <div class="doc-meta">Origem documental: Arquivo comercial privado<br>Procedência: verificada<br>Data: 14 de março de 1897</div>
     <h4>J. H. WHITMORE & SONS</h4><p><em>Conservação de Objetos Finos e Mobiliário</em></p>
-    <p><strong>Cliente:</strong> Família Wetherby</p><p><strong>Objeto recebido:</strong><br>Um estojo ajustado, revestido em couro, contendo uma pedra negra circular e polida.</p>
+    <p><strong>Cliente:</strong> Família Wetherby</p><p><strong>OBJETOS RECEBIDOS</strong></p><ul class="doc-list"><li>Espelho Negro</li><li>Case</li><li>Discos de cera</li><li>Disco metálico</li></ul>
     <h4>SERVIÇO SOLICITADO</h4><ul class="doc-list"><li>reforço da dobradiça superior;</li><li>reparo do mecanismo de fechamento;</li><li>estabilização das bordas de couro desgastadas;</li><li>substituição parcial do revestimento interno desprendido;</li><li>limpeza do couro externo sem tratamento do objeto contido.</li></ul>
     <h4>DIMENSÕES</h4><p><strong>Diâmetro:</strong> 20 centímetros <em>(case)</em><br><strong>Comprimento:</strong> 24 centímetros <em>(case)</em><br><strong>Largura:</strong> 2,60 centímetros <em>(case)</em></p>
-    <p><strong>MATERIAIS OBSERVADOS</strong><br>Couro marrom-escuro, estrutura de madeira, revestimento têxtil escuro e ferragens de latão.</p>
+    <p><strong>MATERIAIS OBSERVADOS</strong><br>Estrutura de madeira revestida em couro.</p>
     <p><strong>INSTRUÇÃO DO PROPRIETÁRIO</strong><br>O encaixe interno original não deverá ser alterado. Os materiais existentes deverão ser mantidos sempre que possível.<br>Não deverá ser produzido um novo estojo.</p><p><strong>Prazo estimado:</strong> 18 dias úteis.</p><p><strong>Não polir a pedra.</strong></p>`;
 
   const annexB = `
     <div class="doc-meta">Origem documental: Arquivo comercial da transportadora<br>Procedência: verificada<br>Ano: 1911</div>
     <p>O objeto examinado foi identificado como o espelho negro tradicionalmente associado ao Dr. John Dee.</p>
-    <p>Suas dimensões, características da superfície e marcas de montagem correspondem às descrições preservadas em registros anteriores. As evidências observadas foram consideradas suficientes para sustentar essa identificação.</p>
+    <p>As características da superfície, as dimensões da peça e as marcas de montagem correspondem às descrições preservadas do espelho em registros anteriores. As evidências observadas foram consideradas suficientes para sustentar essa identificação.</p>
     <p>A inspeção, entretanto, foi conduzida de maneira reservada e não integrou os registros oficiais sobre a peça.</p>
     <p>Recomenda-se uma comparação complementar das características físicas do objeto, especialmente o desgaste das bordas, as marcas posteriores de fixação e suas dimensões.</p>
     <p>Até que essa comparação seja concluída, o relatório deverá permanecer restrito ao arquivo da transportadora.</p>`;
@@ -415,11 +415,8 @@ function renderStageTwo(actions) {
     </div>
     <div class="answer-panel">
       <p><strong>CONCLUSÃO DA ANÁLISE</strong></p>
-      <p>Os documentos apresentados e as referências consultadas permitem confrontar diferentes informações sobre o objeto em análise.</p>
-      <p>Uma dessas informações não corresponde ao que foi registrado anteriormente.</p>
-      <p>Identifique a inconsistência presente nos registros e informe sua resposta de forma objetiva.</p>
       <form id="aptitudeForm" autocomplete="off">
-        <label for="aptitudeAnswer" class="validation-label">QUAL INCONSISTÊNCIA PODE SER IDENTIFICADA ENTRE OS REGISTROS?</label>
+        <label for="aptitudeAnswer" class="validation-label">QUAL DOS ITENS APRESENTA UMA DIVERGÊNCIA ENTRE OS REGISTROS?</label>
         <input id="aptitudeAnswer" class="answer-input" type="text" required />
         <button class="primary-btn" type="submit">VALIDAR</button>
         <p id="aptitudeMessage" class="answer-message" role="status"></p>
@@ -432,7 +429,7 @@ function renderStageTwo(actions) {
   form.addEventListener('submit', event => {
     event.preventDefault();
     const answer = normalizeAnswer(document.querySelector('#aptitudeAnswer').value);
-    if (['estojo', 'case', 'caixa'].includes(answer)) {
+    if (['estojo', 'case'].includes(answer)) {
       completedCount = Math.max(completedCount, 2);
       saveProgress(currentRefKey, completedCount);
       message.style.color = 'var(--green)';

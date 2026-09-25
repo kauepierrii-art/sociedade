@@ -243,7 +243,7 @@
       const input = document.getElementById('aptitudeAnswer');
       if (!input) return;
       const answer = normalizeAnswer(input.value);
-      const accepted = ['estojo', 'case', 'caixa', 'caixa do espelho'];
+      const accepted = ['estojo', 'case'];
 
       if (accepted.includes(answer)) {
         event.preventDefault();
