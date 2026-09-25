@@ -8,8 +8,9 @@
   const initiativeStage = stages[initiativeIndex];
   initiativeStage.subtitle = 'análise de material incompleto';
   const inventoryText = [
-    'Em 1987, durante o inventário de um espólio particular, foi localizado um conjunto de materiais sem qualquer registro de procedência.',
-    'Entre os itens estavam mapas, fotografias, documentos, uma fita magnética convencional e um aparelho de função desconhecida.',
+    'Em 1987, durante o inventário do espólio de um descendente de um dos antigos possuidores do espelho negro, foi localizado um conjunto incomum de materiais.',
+    'Entre os itens estavam mapas, fotografias, documentos, uma fita magnética convencional e um aparelho semelhante a um rádio, embora sua configuração não correspondesse aos modelos conhecidos.',
+    'A presença do equipamento naquele espólio chamou atenção devido à ligação familiar com a trajetória do espelho. Não foi encontrado, entretanto, qualquer documento que confirmasse uma relação entre os dois.',
     'O aparelho apresentava construção incomum, com estrutura metálica blindada e sem acesso aparente aos seus componentes internos.',
     'Durante a inspeção, foi identificada em seu interior uma segunda fita magnética, menor e de formato não convencional.',
     'Assim como o aparelho, a fita encontrava-se protegida por um invólucro rígido, impossibilitando sua reprodução em equipamentos comuns ou sua remoção sem risco de dano.',
@@ -19,15 +20,17 @@
     'SONOTÉCNICA BRASILEIRA LTDA.',
     'A análise dos materiais foi iniciada, mas nunca concluída.',
     'Parte das fotografias, mapas e anotações parece indicar uma localização específica, embora não haja qualquer registro conhecido que explique o motivo de sua importância.',
-    'O aparelho possui <strong>quatro canais independentes de ajuste</strong>.',
-    'Nenhum dos materiais fornece, isoladamente, a configuração necessária para operá-los.',
+    'O aparelho possui quatro canais independentes de ajuste.',
+    'Nenhum dos materiais fornece, isoladamente, a configuração necessária para operar o aparelho.',
     'Os registros sugerem, entretanto, que a combinação correta pode ser reconstruída a partir dos elementos preservados no conjunto.',
-    '<strong>Até o momento, o conteúdo da fita encontrada no interior do aparelho jamais foi recuperado.</strong>'
+    'Até o momento, o conteúdo da fita encontrada no interior do aparelho jamais foi recuperado.'
   ].join('\n\n');
   initiativeStage.context = [
-    'Em 1987, um inventário particular revelou um aparelho de função desconhecida, acompanhado de documentos, fotografias e duas fitas magnéticas.',
-    'Uma das gravações pôde ser parcialmente recuperada. A outra permanece inacessível.',
-    'Os materiais preservados podem conter a configuração necessária para operar o aparelho.'
+    'Em 1987, o inventário do espólio de um homem pertencente à linhagem de um dos antigos possuidores do espelho negro revelou um conjunto incomum de materiais.',
+    'Entre documentos, fotografias e duas fitas magnéticas encontrava-se um aparelho semelhante a um rádio, mas de configuração incomum.',
+    'Nenhum registro preservado explica sua função ou a razão de estar entre aqueles pertences. A ligação familiar com a trajetória do espelho, entretanto, tornou difícil ignorar a possibilidade de alguma relação entre os dois.',
+    'Uma das fitas pôde ser parcialmente recuperada. A outra permanece inacessível.',
+    'Os materiais restantes podem conter a configuração necessária para colocar o aparelho novamente em funcionamento.'
   ].join('\n\n');
   initiativeStage.mission = '';
 
@@ -115,25 +118,6 @@
           <p>Conector de saída: não padronizado</p>
           <p>Mecanismo interno: modificado</p>
           <p>Estado de conservação: regular</p>
-        </div>`
-    },
-    {
-      label: 'DOCUMENTO C',
-      body: `
-        <div class="initiative-document-sheet">
-          <h4>SONOTÉCNICA BRASILEIRA LTDA.</h4>
-          <h5>NOTA FISCAL DE COMPRA</h5>
-          <p>Nº: 01847</p>
-          <p>Data de emissão: 22/06/1928</p>
-          <p>Cliente: R. Almeida</p>
-          <p>Endereço: São Paulo — SP</p>
-          <h5>Descrição do equipamento</h5>
-          <p>Equipamento sonoro incomum, com 4 sintonizadores chave para reprodução de som.</p>
-          <p><strong>Valor:</strong> Cz$ 2.480,00</p>
-          <p><strong>Fitas:</strong> Cz$ 630,00</p>
-          <p><strong>Total:</strong> Cz$ 3.110,00</p>
-          <h5>Observação:</h5>
-          <p>Equipamento de edição especial limitado.</p>
         </div>`
     }
   ];

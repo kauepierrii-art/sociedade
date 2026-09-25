@@ -16,6 +16,7 @@
   // digest instead of publishing the four digits as readable source text.
   const expected = '264e4e849a8f9ff7bf1b69df87709c1a02b2ef8250bf402cf71a3a356d97d9f6';
   const glyphs = [83, 79, 78, 79, 45, 56, 45, 58];
+  const tuningProfile = [5, 81, 48, 90];
 
   function digest(value) {
     const input = String.fromCharCode.apply(null, glyphs) + value.split('').reverse().join('');
@@ -28,6 +29,10 @@
     const values = Array.from({ length: 4 }, () => Math.floor(Math.random() * 9) + 1);
     // Avoid the valid state without storing it alongside the initial values.
     return digest(values.join('')).then(hash => hash === expected ? randomValues() : values);
+  }
+
+  function hasValidTuning(values) {
+    return values.every((value, index) => (value * 17 + index * 13) % 97 === tuningProfile[index]);
   }
 
     function audio(path, preload) {
@@ -91,6 +96,8 @@
     let on = false;
     let returnTimer;
     let supportTimers = [];
+    let playbackStarted = false;
+    let playbackFinished = false;
     activeTunerCleanup = () => {
       clearTimeout(returnTimer);
       supportTimers.forEach(clearTimeout);
@@ -237,6 +244,27 @@
       }
     }
 
+    function finishPlayback() {
+      if (!playbackStarted || playbackFinished) return;
+      playbackFinished = true;
+      panel.classList.remove('is-playing');
+      setPower(false, true);
+      status.textContent = 'RECUPERAÇÃO CONCLUÍDA — COMUNICAÇÃO RECEBIDA.';
+      if (completedCount >= initiativeStep) {
+        replayButton.hidden = false;
+      } else {
+        showRecoverySequence();
+      }
+    }
+
+    function handlePlaybackFailure() {
+      if (playbackFinished) return;
+      playbackStarted = false;
+      panel.classList.remove('is-playing');
+      setPower(false, false);
+      status.textContent = 'REPRODUÇÃO NÃO INICIADA — ACIONE ON NOVAMENTE.';
+    }
+
     function updateKnob(index) {
       const knob = knobs.children[index];
       const value = values[index];
@@ -340,13 +368,10 @@
       knobs.appendChild(knob);
     });
 
-    lever.addEventListener('click', async () => {
+    lever.addEventListener('click', () => {
       if (on) return setPower(false, true);
       setPower(true, true);
-      status.textContent = 'VERIFICANDO FREQUÊNCIA…';
-      const valid = tuningLocked || await digest(values.join('')) === expected;
-      if (!on) return;
-      if (!valid) {
+      if (!tuningLocked && !hasValidTuning(values)) {
         window.dispatchEvent(new Event('stage4-hint-error'));
         playEffect(AUDIO.error);
         panel.classList.add('is-error');
@@ -362,21 +387,31 @@
       panel.classList.add('is-playing');
       led.setAttribute('aria-label', 'Sinal estabilizado');
       status.textContent = 'SINAL ESTABILIZADO — REPRODUZINDO FITA';
+      playbackStarted = false;
+      playbackFinished = false;
       mainAudio.currentTime = 0;
-      mainAudio.play().catch(() => {
-        panel.classList.remove('is-playing');
-        status.textContent = 'FITA AGUARDANDO ARQUIVO DE ÁUDIO';
-      });
+      const playback = mainAudio.play();
+      if (playback && typeof playback.then === 'function') {
+        playback.then(() => { playbackStarted = true; }).catch(handlePlaybackFailure);
+      } else if (!mainAudio.paused) {
+        playbackStarted = true;
+      } else {
+        handlePlaybackFailure();
+      }
     });
 
-    mainAudio.addEventListener('ended', () => {
-      panel.classList.remove('is-playing');
-      setPower(false, true);
-      status.textContent = 'RECUPERAÇÃO CONCLUÍDA — COMUNICAÇÃO RECEBIDA.';
-      if (completedCount >= initiativeStep) {
-        replayButton.hidden = false;
-      } else {
-        showRecoverySequence();
+    mainAudio.addEventListener('playing', () => { playbackStarted = true; });
+    mainAudio.addEventListener('ended', finishPlayback);
+    mainAudio.addEventListener('timeupdate', () => {
+      if (playbackStarted && Number.isFinite(mainAudio.duration) && mainAudio.duration > 0 &&
+          mainAudio.currentTime >= mainAudio.duration - 0.05 && mainAudio.paused) {
+        finishPlayback();
+      }
+    });
+    mainAudio.addEventListener('pause', () => {
+      if (playbackStarted && Number.isFinite(mainAudio.duration) && mainAudio.duration > 0 &&
+          mainAudio.currentTime >= mainAudio.duration - 0.05) {
+        finishPlayback();
       }
     });
 
