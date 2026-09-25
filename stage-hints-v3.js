@@ -1,11 +1,8 @@
-// Sistema unificado de dicas das etapas 01–03.
-// - Primeira dica automática no primeiro erro.
-// - Novas dicas são solicitadas manualmente após o contador.
-// - O contador nunca bloqueia novas tentativas de resposta.
-// - Histórico de dicas permanece consultável por referência.
+// Sistema unificado de apontamentos das etapas 01–03.
+// Cada solicitação revela imediatamente o próximo apontamento.
+// O histórico permanece consultável por referência.
 (function () {
   const roman = ['I', 'II', 'III', 'IV', 'V'];
-  const timerHandles = new Map();
 
   const configs = {
     identification: {
@@ -13,7 +10,6 @@
       inputId: 'validationCode',
       panelId: 'identificationHintsV3',
       stageKey: 'identification',
-      intervals: [60, 120, 240, 480],
       hints: [
         'Examine também os elementos que parecem apenas decorativos.',
         'Há três elementos que pertencem ao mesmo conjunto.',
@@ -27,7 +23,6 @@
       inputId: 'aptitudeAnswer',
       panelId: 'aptitudeHintsV3',
       stageKey: 'aptitude',
-      intervals: [600, 600, 600, 1200],
       hints: [
         'Nem todas as diferenças entre os registros são relevantes.',
         'Compare as descrições físicas, não apenas a história do objeto.',
@@ -41,7 +36,6 @@
       inputId: 'observationAnswer',
       panelId: 'observationHintsV3',
       stageKey: 'observation',
-      intervals: [600, 600, 600, 1200],
       hints: [
         'A resposta não está necessariamente contida apenas no vídeo.',
         'Há uma mensagem no vídeo que indica onde procurar o material complementar.',
@@ -69,49 +63,17 @@
     localStorage.setItem(stateKey(config, 'unlocked'), String(Math.max(0, Math.min(value, config.hints.length))));
   }
 
-  function getNextAt(config) {
-    return Number(localStorage.getItem(stateKey(config, 'nextAt'))) || 0;
-  }
-
-  function setNextAt(config, timestamp) {
-    if (timestamp > 0) localStorage.setItem(stateKey(config, 'nextAt'), String(timestamp));
-    else localStorage.removeItem(stateKey(config, 'nextAt'));
-  }
-
-  function scheduleAfterUnlock(config, unlockedCount) {
-    if (unlockedCount >= config.hints.length) {
-      setNextAt(config, 0);
-      return;
-    }
-    const intervalSeconds = config.intervals[unlockedCount - 1];
-    setNextAt(config, Date.now() + intervalSeconds * 1000);
-  }
-
-  function unlockFirstHint(config) {
-    if (getUnlocked(config) > 0) return;
-    setUnlocked(config, 1);
-    scheduleAfterUnlock(config, 1);
-  }
-
   function unlockNextHint(config) {
     const unlocked = getUnlocked(config);
-    if (!unlocked || unlocked >= config.hints.length) return;
-    if (Date.now() < getNextAt(config)) return;
+    if (unlocked >= config.hints.length) return;
     const nextCount = unlocked + 1;
     setUnlocked(config, nextCount);
-    scheduleAfterUnlock(config, nextCount);
+    localStorage.removeItem(stateKey(config, 'nextAt'));
     renderPanel(config, true);
   }
 
   function hintLabel(index, total) {
     return `ANOTAÇÃO ${roman[index]}`;
-  }
-
-  function formatTime(ms) {
-    const total = Math.max(0, Math.ceil(ms / 1000));
-    const minutes = Math.floor(total / 60);
-    const seconds = total % 60;
-    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   }
 
   function ensurePanel(config) {
@@ -133,7 +95,7 @@
         </button>
         <div class="stage-hints-history" hidden></div>
       </div>
-      <button type="button" class="stage-hints-request" disabled></button>`;
+      <button type="button" class="stage-hints-request"></button>`;
 
     form.appendChild(panel);
 
@@ -158,18 +120,15 @@
     if (!panel) return;
 
     const unlocked = getUnlocked(config);
-    if (!unlocked) {
-      panel.hidden = true;
-      return;
-    }
-
     panel.hidden = false;
+    const box = panel.querySelector('.stage-hints-box');
     const toggle = panel.querySelector('.stage-hints-toggle');
     const history = panel.querySelector('.stage-hints-history');
     const chev = panel.querySelector('.stage-hints-chevron');
     const count = panel.querySelector('.stage-hints-count');
     const request = panel.querySelector('.stage-hints-request');
 
+    box.hidden = !unlocked;
     count.textContent = `(${unlocked})`;
     history.innerHTML = config.hints.slice(0, unlocked).map((hint, index) => `
       <div class="stage-hints-item${index === unlocked - 1 ? ' latest' : ''}">
@@ -185,49 +144,12 @@
 
     if (unlocked >= config.hints.length) {
       request.hidden = true;
-      stopTicker(config);
       return;
     }
 
     request.hidden = false;
-    updateRequestButton(config);
-    startTicker(config);
-  }
-
-  function updateRequestButton(config) {
-    const panel = document.getElementById(config.panelId);
-    if (!panel) return;
-    const button = panel.querySelector('.stage-hints-request');
-    if (!button || button.hidden) return;
-
-    const remaining = getNextAt(config) - Date.now();
-    if (remaining <= 0) {
-      button.disabled = false;
-      button.textContent = 'SOLICITAR NOVO APONTAMENTO';
-    } else {
-      button.disabled = true;
-      button.textContent = `SOLICITAR NOVO APONTAMENTO · ${formatTime(remaining)}`;
-    }
-  }
-
-  function startTicker(config) {
-    stopTicker(config);
-    timerHandles.set(config.stageKey, setInterval(() => updateRequestButton(config), 1000));
-  }
-
-  function stopTicker(config) {
-    const handle = timerHandles.get(config.stageKey);
-    if (handle) clearInterval(handle);
-    timerHandles.delete(config.stageKey);
-  }
-
-  function registerWrongAnswer(config) {
-    if (getUnlocked(config) === 0) {
-      unlockFirstHint(config);
-      renderPanel(config, true);
-    } else {
-      renderPanel(config, false);
-    }
+    request.disabled = false;
+    request.textContent = unlocked ? 'SOLICITAR NOVO APONTAMENTO' : 'SOLICITAR APONTAMENTO';
   }
 
   // ETAPA 01 — substitui o bloqueio de respostas pelo contador exclusivo das dicas.
@@ -275,7 +197,6 @@
         message.textContent = 'IDENTIFICAÇÃO CONFIRMADA.';
         input.disabled = true;
         button.disabled = true;
-        stopTicker(config);
         setTimeout(() => {
           renderDashboard();
           show(dashboardView);
@@ -287,7 +208,6 @@
       message.textContent = 'VALIDAÇÃO NEGADA.';
       input.value = '';
       input.focus();
-      registerWrongAnswer(config);
     });
 
     renderPanel(config, false);
@@ -335,13 +255,10 @@
           message.style.color = 'var(--green)';
           message.textContent = 'DIVERGÊNCIA CONFIRMADA.';
         }
-        stopTicker(config);
         setTimeout(() => {
           renderDashboard();
           show(dashboardView);
         }, 700);
-      } else {
-        registerWrongAnswer(config);
       }
     }, true);
   };
@@ -357,16 +274,6 @@
       renderPanel(configs.observation, false);
     };
   }
-
-  document.addEventListener('submit', function (event) {
-    if (!event.target || event.target.id !== 'observationForm') return;
-    const input = document.getElementById('observationAnswer');
-    if (!input) return;
-    const answer = normalizeAnswer(input.value);
-    const accepted = ['espelho', 'espelho negro', 'espelho de obsidiana', 'espelho obsidiana', 'black mirror'];
-    if (!accepted.includes(answer)) registerWrongAnswer(configs.observation);
-    else stopTicker(configs.observation);
-  }, true);
 
   const style = document.createElement('style');
   style.textContent = `

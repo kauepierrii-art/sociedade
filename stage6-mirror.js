@@ -13,13 +13,6 @@
     'O acontecimento ligado a cada figura não segue uma única regra. Em alguns casos, trata-se de nascimento; em outros, morte, execução ou celebração.',
     'As datas permitem situar o acontecimento historicamente; entretanto, é a combinação entre o dia e o mês que estabelece a correspondência com um dos doze sinais.'
   ];
-  // Após cada solicitação, aguardar 10, 10, 10 e 20 minutos,
-  // como nas demais etapas. A primeira anotação pode ser solicitada
-  // assim que o jogador acessa o arquivo; não depende de erro.
-  const additionalNoteIntervals = [600, 600, 600, 1200];
-  let stage6TimerStartedAt = 0;
-  let stage6TimerHandle = 0;
-  let stage6TimingActive = false;
 
   function storageKey(name) {
     return currentRefKey ? 'stage6:v2:' + name + ':' + currentRefKey : null;
@@ -38,39 +31,13 @@
     return Boolean(currentRefKey && stageStep > 0 &&
       read('videoWatched', false) === true && completedCount >= stageStep);
   }
-  function elapsedStage6Time() {
-    const saved = Number(read('additionalNotesElapsed', 0)) || 0;
-    return saved + (stage6TimerStartedAt ? Date.now() - stage6TimerStartedAt : 0);
-  }
-  function syncStage6Time() {
-    if (!stage6TimerStartedAt) return elapsedStage6Time();
-    const elapsed = elapsedStage6Time();
-    write('additionalNotesElapsed', elapsed);
-    stage6TimerStartedAt = Date.now();
-    return elapsed;
-  }
-  // O tempo do próximo apontamento começa ao solicitar o anterior.
-  // Preservar as solicitações anteriores quando o visitante já tinha
-  // anotação desbloqueada antes desta atualização.
+  // Preserva as solicitações anteriores por referência.
   function requestedAdditionalNotes() {
     const value = Number(read('additionalNotesRequested', 0));
     return Number.isInteger(value) ? Math.max(0, Math.min(additionalNotes.length, value)) : 0;
   }
-  function nextAdditionalNoteAt(requested) {
-    if (requested === 0 || requested >= additionalNotes.length) return 0;
-    const saved = Number(read('additionalNotesNextAt', 0));
-    if (Number.isFinite(saved) && saved > 0) return saved;
-    const next = Date.now() + additionalNoteIntervals[requested - 1] * 1000;
-    write('additionalNotesNextAt', next);
-    return next;
-  }
-  function formatAdditionalWait(milliseconds) {
-    const seconds = Math.max(0, Math.ceil(milliseconds / 1000));
-    return String(Math.floor(seconds / 60)).padStart(2, '0') + ':' + String(seconds % 60).padStart(2, '0');
-  }
   function updateAdditionalNotes(forceOpen = false) {
     const requested = requestedAdditionalNotes();
-    const nextAt = nextAdditionalNoteAt(requested);
     document.querySelectorAll('.stage6-additional-notes').forEach(panel => {
       panel.hidden = false;
       const count = panel.querySelector('.stage6-notes-count');
@@ -80,7 +47,8 @@
       const request = panel.querySelector('.stage6-notes-request');
       if (!count || !toggle || !history || !chevron || !request) return;
       count.textContent = '(' + requested + ')';
-      toggle.disabled = requested === 0;
+      toggle.hidden = requested === 0;
+      toggle.disabled = false;
       if (history.dataset.renderedCount !== String(requested)) {
         history.innerHTML = additionalNotes.slice(0, requested).map((note, index) =>
           '<article><span>ANOTAÇÃO ' + ['I', 'II', 'III', 'IV', 'V'][index] + '</span><p>' + note + '</p></article>'
@@ -93,52 +61,22 @@
       chevron.textContent = expanded ? '−' : '＋';
       request.hidden = requested >= additionalNotes.length;
       if (!request.hidden) {
-        const wait = Math.max(0, nextAt - Date.now());
-        request.disabled = wait > 0;
-        request.textContent = wait > 0
-          ? 'SOLICITAR NOVO APONTAMENTO · ' + formatAdditionalWait(wait)
-          : 'SOLICITAR NOVO APONTAMENTO';
+        request.disabled = false;
+        request.textContent = requested ? 'SOLICITAR NOVO APONTAMENTO' : 'SOLICITAR APONTAMENTO';
       }
     });
   }
   function requestAdditionalNote() {
     const requested = requestedAdditionalNotes();
-    if (requested >= additionalNotes.length ||
-        Date.now() < nextAdditionalNoteAt(requested)) return;
+    if (requested >= additionalNotes.length) return;
     write('additionalNotesRequested', requested + 1);
-    const next = requested + 1;
-    write('additionalNotesNextAt', next < additionalNotes.length
-      ? Date.now() + additionalNoteIntervals[next - 1] * 1000
-      : 0);
+    write('additionalNotesNextAt', 0);
     updateAdditionalNotes(true);
   }
   function startStage6Timer() {
-    stage6TimingActive = true;
-    if (!stage6TimerStartedAt && !document.hidden) stage6TimerStartedAt = Date.now();
-    if (!stage6TimerHandle) {
-      stage6TimerHandle = setInterval(() => {
-        if (!document.hidden) syncStage6Time();
-        updateAdditionalNotes();
-      }, 1000);
-    }
     updateAdditionalNotes();
   }
-  function stopStage6Timer() {
-    if (stage6TimerStartedAt) syncStage6Time();
-    stage6TimerStartedAt = 0;
-    stage6TimingActive = false;
-    if (stage6TimerHandle) clearInterval(stage6TimerHandle);
-    stage6TimerHandle = 0;
-  }
-  document.addEventListener('visibilitychange', () => {
-    if (!stage6TimingActive) return;
-    if (document.hidden) {
-      if (stage6TimerStartedAt) syncStage6Time();
-      stage6TimerStartedAt = 0;
-    } else {
-      stage6TimerStartedAt = Date.now();
-    }
-  });
+  function stopStage6Timer() {}
   function hasVisited() {
     return Boolean(storageKey('visited') && localStorage.getItem(storageKey('visited')) === '1');
   }
