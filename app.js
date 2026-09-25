@@ -415,6 +415,8 @@ function renderStageTwo(actions) {
     </div>
     <div class="answer-panel">
       <p><strong>CONCLUSÃO DA ANÁLISE</strong></p>
+      <p>A comparação entre os registros preservados e as fontes consultadas revela uma diferença que não pode ser ignorada.</p>
+      <p>Entre os itens analisados, um deles apresenta informações incompatíveis.</p>
       <form id="aptitudeForm" autocomplete="off">
         <label for="aptitudeAnswer" class="validation-label">QUAL DOS ITENS APRESENTA UMA DIVERGÊNCIA ENTRE OS REGISTROS?</label>
         <input id="aptitudeAnswer" class="answer-input" type="text" required />
