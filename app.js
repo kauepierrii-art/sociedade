@@ -108,9 +108,10 @@ function show(view) {
       history.pushState({ delectusScreen: 'stage', ref: currentRefKey }, '', location.href);
     }
   } else if (leavingStage && history.state && history.state.delectusScreen === 'stage') {
-    // Ao voltar pelo botão interno ou após concluir uma etapa, descartar a
-    // entrada temporária para não exigir dois toques no Voltar do navegador.
-    history.back();
+    // A saída interna não deve navegar para a entrada anterior do navegador:
+    // ela pode ser a tela de referência. Mantemos a mesma entrada e a marcamos
+    // como painel; o Voltar físico continua sendo tratado por popstate.
+    history.replaceState({ delectusScreen: 'dashboard', ref: currentRefKey }, '', location.href);
   }
   if (leavingStage) {
     window.dispatchEvent(new Event('delectus:leaving-stage'));
