@@ -149,7 +149,7 @@ function renderStageThree(actions, readOnly = false) {
       </a>
     </div>
     <div class="answer-panel observation-answer-panel">
-      <p><strong>Qual palavra aparece no volume superior da pilha de livros?</strong></p>
+      <p><strong>Dos três livros, qual é o nome do primeiro, de cima para baixo?</strong></p>
       <form id="observationForm" autocomplete="off">
         <label for="observationAnswer" class="validation-label">RESPOSTA</label>
         <input id="observationAnswer" class="answer-input" type="text" required${readOnly ? ' value="MAGICK" disabled' : ''} />

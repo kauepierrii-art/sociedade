@@ -2,6 +2,10 @@
 
 Projeto experimental de interface para um protocolo de seleção e investigação.
 
+## Arquitetura futura
+
+Consulte [acesso, login, pagamento e progresso compartilhado](docs/arquitetura-acesso-e-pagamento.md) para as decisões da futura implementação.
+
 ## Estrutura atual
 
 - `index.html` — estrutura principal da interface

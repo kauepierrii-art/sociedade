@@ -1,0 +1,68 @@
+/* Estilos restritos à entrada. O tema e as etapas do protocolo não são alterados. */
+[hidden]{display:none!important}
+#loginView .invite-panel{text-align:center;font:20px/1.6 "Cormorant Garamond",Georgia,serif}
+#loginView .invite-panel p{margin:0 0 16px}
+#loginView #continue-invite{display:block;width:100%;min-height:44px;margin-top:12px}
+#loginView #continue-status{font:12px/1.6 "IBM Plex Mono",monospace;min-height:20px;margin:12px 0 0}
+#entryTree{--ivory:#e8decb;--gold:#9d7949;--amber:#c09a61;--muted:#aa9784;--error:#c28c7f;width:100%;max-width:700px;margin:auto;padding:24px 16px;color:var(--ivory)}
+#entryTree .evaluation{padding:0}
+#entryTree .clue-control{text-align:center}
+#entryTree button{font:500 11px/1.5 "IBM Plex Mono",monospace;letter-spacing:.08em;cursor:pointer}
+#entryTree #consult-clue,#entryTree .close-clue{min-height:44px;padding:10px 20px;border:1px solid #9d794970;background:transparent;color:var(--ivory)}
+#entryTree #clue-dialog{width:min(580px,calc(100% - 32px));max-height:calc(100svh - 48px);overflow:auto;padding:30px 26px;background:#160e10;color:var(--ivory);border:1px solid var(--gold)}
+#entryTree #clue-dialog::backdrop{background:#080506d9}
+#entryTree .passage{font:18px/1.8 "Cormorant Garamond",Georgia,serif}
+#entryTree .passage p{margin:0 0 16px}
+#entryTree #clue-dialog form{text-align:center;margin-top:24px}
+#entryTree .audio-note,#entryTree .panel-note{text-align:center;font:10px/1.7 "IBM Plex Mono",monospace;color:var(--muted)}
+#entryTree .audio-note{margin:10px 0 12px}
+#entryTree .panel-note{margin:0 0 8px}
+#entryTree .panel{border:1px solid #6e513335;padding:12px 8px 4px;background:radial-gradient(ellipse at 50% 38%,#30171955,transparent 65%)}
+#entryTree #tree{display:block;width:min(100%,480px);margin:auto;overflow:visible}
+#entryTree .path{stroke:#8a6840;stroke-width:1;opacity:.25;fill:none}
+#entryTree .sphere{cursor:pointer;outline:none}
+#entryTree .sphere .halo{fill:var(--amber);opacity:0;filter:url(#light);transition:opacity .3s}
+#entryTree .sphere .core{fill:url(#sphere);stroke:#9d7949;stroke-width:1;transition:stroke .3s}
+#entryTree .sphere .rim{fill:none;stroke:#795938;stroke-width:.6;opacity:.5}
+#entryTree .sphere .hit{fill:transparent;stroke:none}
+#entryTree .sphere.selected .core{fill:url(#litSphere);stroke:#c6a475}
+#entryTree .sphere.selected .halo{opacity:.16}
+#entryTree .sphere:hover .rim,#entryTree .sphere:focus-visible .rim{stroke:var(--ivory);stroke-width:1.4;opacity:.9}
+#entryTree .sphere.pulse .halo{animation:entry-touch .6s ease-out}
+#entryTree .sphere.awakened .halo{opacity:.58}
+#entryTree .sphere.awakened .core{fill:url(#litSphere);stroke:#ead1a2}
+#entryTree .sphere.locked{pointer-events:none}
+#entryTree .thread{fill:none;stroke:#b5935b;stroke-width:1.1;opacity:.35;stroke-linecap:round}
+#entryTree .travel{fill:none;stroke:#e2c38a;stroke-width:1.8;stroke-linecap:round;filter:drop-shadow(0 0 3px #ae813e)}
+#entryTree .respond .path{animation:entry-respond 1.5s ease-in-out}
+#entryTree .sphere .breath{fill:var(--amber);opacity:0;filter:url(#light);pointer-events:none}
+#entryTree .sphere.unexplored .breath{transform-box:fill-box;transform-origin:center;animation:entry-breath 3.2s ease-in-out infinite;animation-delay:var(--breath-delay,0s)}
+#entryTree .seal-area{min-height:78px;text-align:center;padding-top:4px}
+#entryTree #seal{border:1px solid var(--gold);background:#6e432418;color:var(--ivory);min-width:136px;min-height:48px;padding:12px 30px}
+#entryTree #result{font:10px/1.6 "IBM Plex Mono",monospace;color:var(--error);min-height:20px;margin:6px 0 0}
+#entryTree .below{text-align:center;margin:4px auto 0}
+#entryTree .below button{border:0;background:none;color:var(--muted);font-size:10px;min-height:44px}
+#entryTree .below p{font:12px/1.7 "Cormorant Garamond",Georgia,serif;color:var(--muted)}
+#entryTree .below p:empty{display:none}
+#entryTree #recognized{min-height:75svh;display:grid;align-content:center;text-align:center;animation:entry-appear 1.3s ease}
+#entryTree #recognized h1{font-size:clamp(36px,6vw,58px)}
+#entryTree .rule{display:block;width:48px;height:1px;background:var(--gold);margin:30px auto}
+#entryTree .fade-away,.invite-exit{animation:entry-vanish .28s ease forwards}
+.invite-enter{animation:entry-appear .4s ease}
+#entryTree #experience:focus{outline:none}
+@keyframes entry-breath{0%,100%{opacity:.07;transform:scale(1)}50%{opacity:.32;transform:scale(1.04)}}
+@keyframes entry-touch{0%{opacity:.55}100%{opacity:.12}}
+@keyframes entry-respond{50%{opacity:.7;stroke:#c6a16b}}
+@keyframes entry-appear{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes entry-vanish{to{opacity:0}}
+@media(max-width:600px){
+  #loginView #invitation{min-height:0;padding:24px 16px}
+  #loginView #invitation .login-hero{padding-bottom:24px}
+  #loginView .invite-panel{padding:20px 16px 12px}
+  #loginView .invite-panel p{margin-bottom:12px}
+  #entryTree{padding:12px 8px}
+  #entryTree #tree{height:clamp(300px,calc(100svh - 290px),720px);width:100%}
+  #entryTree .sphere .hit{r:36px}
+  #loginView .invite-panel{font-size:18px}
+}
+@media(prefers-reduced-motion:reduce){#entryTree *,#invitation{animation-duration:.001ms!important;transition-duration:.001ms!important}}

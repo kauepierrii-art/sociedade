@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0706"><title>Acesso de participante · Protocolo Delectus</title>
+  <link rel="icon" href="../favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../delectus-ordo-theme.css"><link rel="stylesheet" href="auth.css">
+</head>
+<body class="commercial-auth">
+  <main class="auth-shell">
+    <header><h1>PROTOCOLO DELECTUS</h1><p>ACESSO DE PARTICIPANTE</p></header>
+    <section class="auth-card" aria-labelledby="auth-title">
+      <h2 id="auth-title" tabindex="-1">ENTRAR</h2>
+      <form id="auth-form" novalidate>
+        <fieldset id="fields" disabled>
+          <div id="email-field"><label for="email">E-mail</label><input id="email" name="email" type="email" autocomplete="email" autocapitalize="none" spellcheck="false" required></div>
+          <div id="password-field"><label for="password">Senha</label><input id="password" name="password" type="password" autocomplete="current-password" required></div>
+          <div id="confirm-field" hidden><label for="confirm">Confirmar senha</label><input id="confirm" name="confirm" type="password" autocomplete="new-password"></div>
+          <p id="password-help" hidden>Use pelo menos 8 caracteres.</p>
+          <button class="auth-primary" id="submit" type="submit">ENTRAR</button>
+        </fieldset>
+      </form>
+      <div id="session-view" hidden><p id="session-email"></p><p id="session-copy"></p><button class="auth-primary" id="continue" type="button">CONTINUAR</button><button id="logout" type="button">SAIR</button></div>
+      <p id="message" role="status" aria-live="polite" aria-atomic="true">Verificando acesso…</p>
+      <nav id="auth-nav" aria-label="Opções de acesso"><button data-mode="signup" type="button">CRIAR ACESSO</button><button data-mode="recover" type="button">RECUPERAR SENHA</button><button data-mode="login" type="button" hidden>VOLTAR AO ACESSO</button></nav>
+    </section>
+    <a class="back" href="../">VOLTAR AO PROTOCOLO</a>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.js" defer></script>
+  <script type="module" src="auth-ui.js"></script>
+</body></html>

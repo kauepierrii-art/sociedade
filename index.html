@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="styles.css?v=20260917b" />
   <!-- Tema visual Ordo/Delectus: remova esta linha para voltar instantaneamente ao visual anterior -->
   <link rel="stylesheet" href="delectus-ordo-theme.css?v=20260919zd" />
+  <link rel="stylesheet" href="entry-tree.css" />
   <style>
     .shield-mark { transform: none !important; }
     .shield-mark svg { display: block; transform: none !important; }
@@ -34,25 +35,55 @@
       </div>
     </section>
     <section id="loginView" class="view login-view active">
-      <div class="login-card protocol-card">
-        <div class="login-hero">
-          <div class="shield-mark" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="20" height="20">
-              <rect x="5" y="10" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/>
-              <path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <p class="eyebrow centered">PROTOCOLO DE IDENTIFICAÇÃO</p>
-          <h1 class="centered">ACESSO RESTRITO</h1>
+      <div id="invitation" class="login-card protocol-card">
+        <header class="login-hero">
+          <div class="shield-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20"><rect x="5" y="10" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></div>
+          <p class="eyebrow centered">COMUNICAÇÃO RESERVADA</p>
+          <h1 class="centered">O CONVITE</h1>
+        </header>
+        <div class="login-form-panel invite-panel">
+          <p>Receber esta mensagem não garante admissão.</p>
+          <p>O próximo passo depende apenas de você.</p>
+          <p>Observe os sinais. Descubra quais devem permanecer.</p>
+          <button id="start-invite" type="button" class="primary-btn">INICIAR</button>
+          <button id="continue-invite" type="button" class="ghost-btn">CONTINUAR</button>
+          <p id="continue-status" class="feedback" role="status"></p>
         </div>
-        <form id="accessForm" class="login-form-panel">
-          <label for="reference" class="field-label">Informe a referência</label>
-          <input id="reference" name="reference" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" pattern="[A-Za-z]+" maxlength="32" required />
-          <p class="field-help">sistema interno de identificação</p>
-          <button type="submit" class="primary-btn">Confirmar acesso <span aria-hidden="true">→</span></button>
-        </form>
-        <p class="maintenance-login-note">VERSÃO EM MANUTENÇÃO — conteúdo e funcionalidades sujeitos a alterações.</p>
-        <p id="loginMessage" class="feedback" role="status"></p>
+      </div>
+      <div id="entryTree">
+    <div id="experience" hidden tabindex="-1">
+      <section class="evaluation" aria-label="Avaliação de acesso">
+        <div class="clue-control"><button id="consult-clue" type="button" aria-haspopup="dialog">CONSULTAR ENIGMA</button></div>
+        <dialog id="clue-dialog" aria-label="Enigma">
+        <div class="passage">
+          <p>Uma melodia delicada surgiu no escuro, lenta e incompleta, como se alguma coisa antiga ainda tentasse lembrar a última nota.</p>
+          <p>Então o céu rompeu o silêncio.</p>
+          <p>O estrondo atravessou a distância e, quando começou a desaparecer, veio das colinas um uivo longo e solitário, erguido contra a noite.</p>
+          <p>Depois disso, nada mais pareceu se mover.</p>
+          <p>Restou apenas o próprio coração, batendo forte demais para ignorar.</p>
+        </div>
+        <form method="dialog"><button class="close-clue" type="submit">VOLTAR À ÁRVORE</button></form>
+        </dialog>
+        <p class="audio-note">O áudio integra esta avaliação.</p>
+        <div class="panel">
+          <p class="panel-note">Quatro sinais devem permanecer.</p>
+          <svg id="tree" viewBox="0 0 480 720" aria-label="Árvore com dez esferas sonoras" role="group">
+            <defs>
+              <radialGradient id="sphere" cx="38%" cy="30%"><stop offset="0" stop-color="#4e3027"/><stop offset=".55" stop-color="#231316"/><stop offset="1" stop-color="#130d0e"/></radialGradient>
+              <radialGradient id="litSphere" cx="42%" cy="35%"><stop offset="0" stop-color="#c9a76c"/><stop offset=".2" stop-color="#8a653c"/><stop offset=".65" stop-color="#42231b"/><stop offset="1" stop-color="#241214"/></radialGradient>
+              <filter id="light" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="5"/></filter>
+            </defs>
+            <g id="engraving" aria-hidden="true"></g>
+            <g id="thread" aria-hidden="true"></g>
+            <g id="spheres"></g>
+          </svg>
+          <div class="seal-area"><button id="seal" type="button" hidden>SELAR</button><p id="result" role="status" aria-live="polite"></p></div>
+        </div>
+        <div class="below"><button id="alternative" type="button" aria-expanded="false" aria-controls="alternative-note">ALTERNATIVA SEM ÁUDIO</button><p id="alternative-note" hidden>A alternativa sem áudio será disponibilizada em uma próxima versão.</p><p id="audio-status" role="status" aria-live="polite"></p></div>
+      </section>
+    </div>
+    <section id="recognized" hidden tabindex="-1" aria-labelledby="recognized-title"><p class="eyebrow">VOCÊ FOI RECONHECIDO</p><h1 id="recognized-title">PROTOCOLO<br>DELECTUS</h1><span class="rule" aria-hidden="true"></span><button id="enter-protocol" type="button" class="primary-btn">PROSSEGUIR</button></section>
+
       </div>
     </section>
 
@@ -123,7 +154,6 @@
 
   <script src="app.js?v=20260923a"></script>
   <script src="patch.js?v=20260919d"></script>
-  <script src="access-hints.js?v=20260920c"></script>
   <script src="stage-hints-v3.js?v=20260919c"></script>
   <script src="ui-tweaks-v2.js?v=20260913j"></script>
   <script src="stage4-initiative.js?v=20260919c"></script>
@@ -135,7 +165,7 @@
   <script src="stage45-hints.js?v=20260919d"></script>
   <script src="stage6-mirror.js?v=20260919zd"></script>
   <script src="stage7-admission.js?v=20260920a"></script>
-  <script src="protocol-sync.js?v=20260923a"></script>
+  <script src="entry-tree.js"></script>
 </body>
 </html>
 

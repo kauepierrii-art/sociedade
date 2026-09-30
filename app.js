@@ -52,8 +52,6 @@ const loginView = document.querySelector('#loginView');
 const maintenanceView = document.querySelector('#maintenanceView');
 const dashboardView = document.querySelector('#dashboardView');
 const stageView = document.querySelector('#stageView');
-const loginMessage = document.querySelector('#loginMessage');
-const referenceInput = document.querySelector('#reference');
 const MAINTENANCE_SESSION_KEY = 'delectus:maintenance-notice:v1';
 
 /* Referência de acesso: aceitar somente letras.
@@ -62,29 +60,6 @@ function sanitizeReferenceInput(value) {
   return String(value || '').toUpperCase().replace(/[^A-Z]/g, '');
 }
 
-referenceInput.addEventListener('beforeinput', event => {
-  if (event.inputType === 'insertText' && event.data && /[^A-Za-z]/.test(event.data)) {
-    event.preventDefault();
-  }
-});
-
-referenceInput.addEventListener('input', () => {
-  const sanitized = sanitizeReferenceInput(referenceInput.value);
-  if (referenceInput.value !== sanitized) referenceInput.value = sanitized;
-});
-
-referenceInput.addEventListener('paste', event => {
-  const clipboard = event.clipboardData || window.clipboardData;
-  const pasted = clipboard ? clipboard.getData('text') : '';
-  if (!pasted || !/[^A-Za-z]/.test(pasted)) return;
-
-  event.preventDefault();
-  const sanitized = sanitizeReferenceInput(pasted);
-  const start = referenceInput.selectionStart ?? referenceInput.value.length;
-  const end = referenceInput.selectionEnd ?? start;
-  referenceInput.setRangeText(sanitized, start, end, 'end');
-  referenceInput.dispatchEvent(new Event('input', { bubbles: true }));
-});
 const stageList = document.querySelector('#stageList');
 const processStatus = document.querySelector('#processStatus');
 const stageStatus = document.querySelector('#stageStatus');
@@ -134,7 +109,7 @@ function show(view) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-if (!sessionStorage.getItem(MAINTENANCE_SESSION_KEY)) show(maintenanceView);
+// O convite anônimo é a entrada principal; não depende do aviso antigo.
 document.querySelector('#maintenanceContinueBtn').addEventListener('click', () => {
   sessionStorage.setItem(MAINTENANCE_SESSION_KEY, '1');
   show(loginView);
@@ -518,11 +493,10 @@ closePrintDialog.addEventListener('click', closePrintModal);
 printDialog.addEventListener('click', event => { if (event.target === printDialog) closePrintModal(); });
 document.addEventListener('keydown', event => { if (event.key === 'Escape' && !printDialog.hidden) closePrintModal(); });
 
-function accessWithReference(refKey, label = refKey) {
+function accessWithLocalId(refKey, label = 'LOCAL') {
   currentRefKey = refKey;
   currentRefLabel = label;
   completedCount = loadProgress(refKey);
-  loginMessage.textContent = '';
   renderDashboard();
   show(dashboardView);
   return true;
@@ -535,7 +509,8 @@ restartActivitiesBtn.addEventListener('click', () => {
 
 document.querySelector('#logoutBtn').addEventListener('click', () => {
   if (cooldownTimer) { clearInterval(cooldownTimer); cooldownTimer = null; }
-  currentRefKey = null; currentRefLabel = null; referenceInput.value = '';
+  currentRefKey = null; currentRefLabel = null;
+  window.dispatchEvent(new Event('delectus:return-to-invite'));
   show(loginView);
 });
 

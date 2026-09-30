@@ -1,0 +1,24 @@
+.commercial-auth{margin:0;font-family:Inter,Arial,sans-serif;color:var(--text);}
+.auth-shell{position:relative;z-index:1;width:min(100% - 32px,480px);margin:auto;padding:clamp(40px,9vh,90px) 0 40px;}
+.auth-shell header{text-align:center;margin-bottom:32px;}
+.auth-shell h1{font:400 clamp(28px,6vw,38px)/1.2 'Cormorant Garamond',Georgia,serif;letter-spacing:.055em;margin:0 0 14px;}
+.auth-shell header p,.auth-shell h2{font:500 12px/1.6 'IBM Plex Mono',monospace;letter-spacing:.16em;color:var(--green);}
+.auth-shell h2{margin:0 0 28px;text-align:center;}
+.auth-card{border:1px solid var(--line);padding:clamp(24px,6vw,40px);background:linear-gradient(160deg,rgba(42,11,14,.5),rgba(14,10,8,.95));box-shadow:0 22px 70px #0005;}
+.auth-shell fieldset{border:0;padding:0;margin:0;min-width:0;}
+.auth-shell label{display:block;font-size:14px;margin:0 0 9px;}
+.auth-shell input{box-sizing:border-box;width:100%;min-height:48px;border:1px solid var(--line);border-radius:0;background:#080605;color:var(--text);padding:12px;font:16px Inter,Arial,sans-serif;margin-bottom:22px;}
+.auth-shell button{font:500 12px/1.5 'IBM Plex Mono',monospace;letter-spacing:.08em;cursor:pointer;border:0;background:none;color:var(--text-soft);min-height:44px;}
+.auth-shell .auth-primary{width:100%;border:1px solid var(--bronze);background:rgba(111,71,45,.18);color:var(--text);min-height:50px;padding:12px;margin-top:4px;}
+.auth-shell button:hover,.auth-shell a:hover{color:var(--text);}
+.auth-shell :focus-visible{outline:2px solid var(--amber);outline-offset:4px;}
+.auth-shell button:disabled{opacity:.5;cursor:wait;}
+.auth-shell #message{font-size:14px;line-height:1.7;min-height:24px;overflow-wrap:anywhere;color:var(--text-soft);}
+.auth-shell #message.error{color:var(--danger);}
+.auth-shell #password-help{font-size:13px;line-height:1.6;color:var(--text-soft);margin:0 0 20px;}
+.auth-shell nav{display:flex;flex-direction:column;border-top:1px solid var(--line-soft);padding-top:12px;}
+.auth-shell .back{display:block;text-align:center;margin-top:24px;color:var(--text-soft);font:11px/1.8 'IBM Plex Mono',monospace;letter-spacing:.1em;text-decoration:none;padding:10px;}
+.auth-shell #session-email{overflow-wrap:anywhere;font-size:16px;}
+.auth-shell #session-copy{font-size:15px;line-height:1.8;color:var(--text-soft);}
+.auth-shell #logout{display:block;margin:12px auto 0;}
+.auth-shell [hidden]{display:none!important;}
