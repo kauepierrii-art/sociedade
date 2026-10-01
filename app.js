@@ -16,7 +16,7 @@ const stages = [
   { name: 'Observação', subtitle: 'Material não catalogado', icon: '◉', context: 'Nem toda informação relevante é apresentada de forma explícita. Esta etapa avaliará atenção, padrão e detalhe.', mission: 'Conteúdo em desenvolvimento.' },
   { name: 'Iniciativa', subtitle: 'Material incompleto', icon: '◌', context: 'Instruções completas nem sempre estarão disponíveis. Vocês deverão avançar por iniciativa própria.', mission: 'Conteúdo em desenvolvimento.' },
   {
-    name: 'CORRELAÇÃO DOCUMENTAL',
+    name: 'Rastreamento',
     subtitle: 'Identificação e custódia',
     icon: '⚖',
     panelTitle: 'CORRELAÇÃO DOCUMENTAL',
