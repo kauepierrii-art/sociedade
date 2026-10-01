@@ -16,13 +16,12 @@ const stages = [
   { name: 'Observação', subtitle: 'Material não catalogado', icon: '◉', context: 'Nem toda informação relevante é apresentada de forma explícita. Esta etapa avaliará atenção, padrão e detalhe.', mission: 'Conteúdo em desenvolvimento.' },
   { name: 'Iniciativa', subtitle: 'Material incompleto', icon: '◌', context: 'Instruções completas nem sempre estarão disponíveis. Vocês deverão avançar por iniciativa própria.', mission: 'Conteúdo em desenvolvimento.' },
   {
-    name: 'Convergência',
-    subtitle: 'Correlação de registros',
+    name: 'CORRELAÇÃO DOCUMENTAL',
+    subtitle: 'Identificação e custódia',
     icon: '⚖',
-    panelTitle: 'LINHA DO TEMPO',
-    context: 'Os materiais analisados até aqui foram apresentados de forma independente.\n\nNesta etapa, eles devem ser considerados em conjunto.\n\nOrganize os registros na ordem em que os eventos ocorreram.\n\nAlgumas informações não estão explicitamente datadas. Use os documentos, imagens e referências obtidas nas etapas anteriores para determinar sua posição cronológica.\n\nA sequência correta revelará uma inconsistência.',
-    mission: 'Monte a linha do tempo.',
-    missionEmphasis: true
+    panelTitle: 'CORRELAÇÃO DOCUMENTAL',
+    context: '',
+    mission: ''
   },
   { name: 'Discernimento', subtitle: 'Análise de inconsistências', icon: '◇', context: 'O acesso seguinte envolve material restrito e exige que o processo já tenha sido compreendido.', mission: 'Conteúdo em desenvolvimento.' },
   { name: 'Admissão', subtitle: 'Resultado do protocolo', icon: '⚿', context: 'O processo de seleção foi concluído. A continuidade dependerá do resultado desta etapa.', mission: 'Conteúdo em desenvolvimento.' }
@@ -100,9 +99,6 @@ function show(view) {
     }
     const recovery = document.querySelector('#stage4RecoverySequence');
     if (recovery) recovery.hidden = true;
-    const cardViewer = document.querySelector('#stage5CardViewer');
-    if (cardViewer) cardViewer.hidden = true;
-    document.querySelectorAll('.stage5-completion-modal').forEach(popup => popup.remove());
   }
   [maintenanceView, loginView, dashboardView, stageView].forEach(v => v.classList.remove('active'));
   view.classList.add('active');
@@ -518,4 +514,5 @@ document.querySelector('#backBtn').addEventListener('click', () => {
   if (cooldownTimer) { clearInterval(cooldownTimer); cooldownTimer = null; }
   renderDashboard(); show(dashboardView);
 });
+
 
