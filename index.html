@@ -53,6 +53,7 @@
       <div id="entryTree">
     <div id="experience" hidden tabindex="-1">
       <section class="evaluation" aria-label="Avaliação de acesso">
+        <button id="back-to-invite" type="button">VOLTAR</button>
         <div class="clue-control"><button id="consult-clue" type="button" aria-haspopup="dialog">CONSULTAR ENIGMA</button></div>
         <dialog id="clue-dialog" aria-label="Enigma">
         <div class="passage">
@@ -65,6 +66,7 @@
         <form method="dialog"><button class="close-clue" type="submit">VOLTAR À ÁRVORE</button></form>
         </dialog>
         <p class="audio-note">O áudio integra esta avaliação.</p>
+        <p class="volume-note">aumento o volume</p>
         <div class="panel">
           <p class="panel-note">Quatro sinais devem permanecer.</p>
           <svg id="tree" viewBox="0 0 480 720" aria-label="Árvore com dez esferas sonoras" role="group">
@@ -79,7 +81,7 @@
           </svg>
           <div class="seal-area"><button id="seal" type="button" hidden>SELAR</button><p id="result" role="status" aria-live="polite"></p></div>
         </div>
-        <div class="below"><button id="alternative" type="button" aria-expanded="false" aria-controls="alternative-note">ALTERNATIVA SEM ÁUDIO</button><p id="alternative-note" hidden>A alternativa sem áudio será disponibilizada em uma próxima versão.</p><p id="audio-status" role="status" aria-live="polite"></p></div>
+        <div class="below"><button id="alternative" hidden type="button" aria-expanded="false" aria-controls="alternative-note">ALTERNATIVA SEM ÁUDIO</button><p id="alternative-note" hidden>A alternativa sem áudio será disponibilizada em uma próxima versão.</p><p id="audio-status" role="status" aria-live="polite"></p></div>
       </section>
     </div>
     <section id="recognized" hidden tabindex="-1" aria-labelledby="recognized-title"><p class="eyebrow">VOCÊ FOI RECONHECIDO</p><h1 id="recognized-title">PROTOCOLO<br>DELECTUS</h1><span class="rule" aria-hidden="true"></span><button id="enter-protocol" type="button" class="primary-btn">PROSSEGUIR</button></section>

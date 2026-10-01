@@ -111,6 +111,10 @@ function handleContinue(){
 document.querySelector('#start-invite').addEventListener('click',handleStart);
 document.querySelector('#continue-invite').addEventListener('click',handleContinue);
 document.querySelector('#enter-protocol').addEventListener('click',enterProtocol);
+document.querySelector('#back-to-invite').addEventListener('click',()=>{
+  window.dispatchEvent(new Event('delectus:return-to-invite'));
+  document.querySelector('#start-invite').focus();
+});
 window.addEventListener('delectus:return-to-invite',()=>{
   if(currentAudio){currentAudio.pause();currentAudio.currentTime=0;}
   document.querySelector('#experience').hidden=true;
