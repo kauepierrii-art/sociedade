@@ -68,13 +68,13 @@
 @media(prefers-reduced-motion:reduce){#entryTree *,#invitation{animation-duration:.001ms!important;transition-duration:.001ms!important}}
 
 /* O CONVITE: apresentação isolada; IDs e eventos permanecem intactos. */
-body:has(#loginView.active #invitation:not([hidden])) {
+body:has(#loginView.active :is(#invitation, #experience):not([hidden])) {
   background:
     radial-gradient(ellipse at 48% 42%, #24171480, transparent 78%),
     radial-gradient(ellipse at 65% 72%, #20101460, transparent 85%),
     linear-gradient(150deg, #0a0707, #110b09 52%, #080606);
 }
-body:has(#loginView.active #invitation:not([hidden]))::before {
+body:has(#loginView.active :is(#invitation, #experience):not([hidden]))::before {
   opacity: .07;
   background:
     repeating-linear-gradient(23deg, #d6bfa522 0 1px, transparent 1px 3px),
@@ -82,7 +82,7 @@ body:has(#loginView.active #invitation:not([hidden]))::before {
   mix-blend-mode: soft-light;
   pointer-events: none;
 }
-body:has(#loginView.active #invitation:not([hidden]))::after {
+body:has(#loginView.active :is(#invitation, #experience):not([hidden]))::after {
   background: radial-gradient(ellipse at center, transparent 20%, #00000030 70%, #00000070);
   pointer-events: none;
 }
@@ -206,4 +206,12 @@ body:has(#loginView.active #invitation:not([hidden]))::after {
   #loginView #invitation .invite-panel { font-size: 18px; }
   #loginView #invitation .invite-panel > p:not(.feedback) { margin-bottom: 14px; }
   #loginView #invitation #start-invite { margin-top: 24px; }
+}
+/* Árvore: painel transparente; compensação da borda preserva a geometria. */
+#loginView #entryTree #experience .panel {
+  border: 0;
+  outline: none;
+  box-shadow: none;
+  background: transparent;
+  padding: 13px 9px 5px;
 }
