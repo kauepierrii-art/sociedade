@@ -110,7 +110,7 @@ function handleContinue(){
 }
 document.querySelector('#start-invite').addEventListener('click',handleStart);
 document.querySelector('#continue-invite').addEventListener('click',handleContinue);
-document.querySelector('#enter-protocol').addEventListener('click',enterProtocol);
+
 document.querySelector('#back-to-invite').addEventListener('click',()=>{
   window.dispatchEvent(new Event('delectus:return-to-invite'));
   document.querySelector('#start-invite').focus();
@@ -136,6 +136,8 @@ async function recognize(){
   const experience=document.querySelector('#experience');experience.classList.add('fade-away');await wait(reduced?0:700);experience.hidden=true;
   localStorage.setItem(RECOGNIZED_KEY,localId());
   const recognized=document.querySelector('#recognized');recognized.hidden=false;recognized.focus();
+  await wait(2400);
+  if(!recognized.hidden&&document.querySelector('#loginView').classList.contains('active'))enterProtocol();
 }
 seal.addEventListener('click',()=>{
   if(locked||selection.length!==4)return;
