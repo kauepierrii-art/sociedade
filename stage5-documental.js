@@ -17,7 +17,7 @@
     context.innerHTML='<p>A gravação da Sessão XI, ouvida na etapa anterior, descreve um ambiente que apresenta correspondências com o registro fotográfico analisado anteriormente.</p><p>A disposição da sala, os objetos e a posição do espelho são compatíveis.</p><p>Há, entretanto, uma divergência.</p><p><strong>Durante a sessão, foi registrada a presença de um homem.</strong></p><p>O indivíduo não aparece no registro fotográfico inicialmente analisado.</p><p>A origem do registro fotográfico pode oferecer novos elementos para a identificação.</p>';
     const actions=document.getElementById('stageActions');
     const materialBlock=(title,body)=>`<div class="initiative-material-item"><button class="initiative-material-toggle" type="button" aria-expanded="false"><span>${title}</span><span class="chev" aria-hidden="true">＋</span></button><div class="initiative-material-content" hidden>${body}</div></div>`;
-    actions.innerHTML=`<section id="stage5Documental"><div class="initiative-material-list">${materialBlock('Registro fotográfico encontrado','<div class="initiative-gallery" id="s5Room"></div><p>Registro previamente analisado.</p>')}${materialBlock('Material associado','<div class="initiative-gallery" id="s5Materials"></div><p>Envelope de acondicionamento — negativo: <span>FOB-94-0918-07</span></p><p>Cartão comercial — <span>fotoopticabrasil.vercel.app</span></p>')}</div><section class="answer-panel" id="s5Identity"></section></section>`;
+    actions.innerHTML=`<section id="stage5Documental"><section class="initiative-materials"><div class="initiative-material-list">${materialBlock('REGISTRO 01 — REGISTRO FOTOGRÁFICO','<div class="initiative-gallery" id="s5Room"></div>')}${materialBlock('REGISTRO 02 — MATERIAL ASSOCIADO','<div class="initiative-gallery" id="s5Materials"></div>')}</div></section><section class="answer-panel" id="s5Identity"></section></section>`;
     actions.querySelectorAll('.initiative-material-toggle').forEach(button=>button.addEventListener('click',()=>{
       const expanded=button.getAttribute('aria-expanded')==='true';
       button.setAttribute('aria-expanded',String(!expanded));button.nextElementSibling.hidden=expanded;button.querySelector('.chev').textContent=expanded?'＋':'−';
@@ -46,22 +46,29 @@
       document.body.append(panel);activeViewer=panel;document.body.classList.add('initiative-viewer-open');
       document.addEventListener('keydown',onEscape);panel.querySelector('button').focus();
     }
-    async function evidence(container,src,label){
+    async function evidence(container,src,label,caption){
       const notice=document.createElement('p');notice.textContent=label+' — imagem ainda não disponibilizada.';container.append(notice);
       if(!availableAssets.has(src))return;
       try{
         const response=await fetch(src,{method:'HEAD'});
         if(!response.ok)return;
-        const button=document.createElement('button');button.type='button';button.className='initiative-thumb';button.setAttribute('aria-label','Ampliar '+label);
-        button.innerHTML='<span class="initiative-thumb-media"><img></span><span class="initiative-thumb-foot"><strong></strong><em>ABRIR</em></span>';
-        const image=button.querySelector('img');image.addEventListener('error',()=>button.replaceWith(notice),{once:true});image.src=src;image.alt=label;
-        button.querySelector('strong').textContent=label;button.addEventListener('click',()=>viewer(src,label));notice.replaceWith(button);
+        const item=document.createElement('div');item.className='initiative-thumb';
+        item.innerHTML='<a class="initiative-thumb-media"><img></a><div class="initiative-thumb-foot"><div><strong></strong><br><small></small></div><a><em>ABRIR</em></a></div>';
+        const image=item.querySelector('img');image.addEventListener('error',()=>item.replaceWith(notice),{once:true});image.src=src;image.alt=label;
+        item.querySelector('strong').textContent=label;
+        const detail=item.querySelector('small');
+        if(label==='Cartão comercial'){
+          const link=document.createElement('a');link.href='https://fotoopticabrasil.vercel.app';link.target='_blank';link.rel='noopener noreferrer';link.textContent=caption;link.style.color='var(--green)';detail.append(link);
+        }else detail.textContent=caption;
+        item.querySelectorAll('.initiative-thumb-media, .initiative-thumb-foot > a').forEach(link=>{
+          link.href=src;link.style.color='var(--green)';link.style.textDecoration='none';link.setAttribute('aria-label','Abrir '+label);link.addEventListener('click',event=>{event.preventDefault();viewer(src,label);});
+        });
+        notice.replaceWith(item);
       }catch{}
     }
-    evidence(root.querySelector('#s5Room'),assets.room,'Registro fotográfico');
-    evidence(root.querySelector('#s5Materials'),assets.room,'Registro fotográfico');
-    evidence(root.querySelector('#s5Materials'),assets.envelope,'Envelope de acondicionamento');
-    evidence(root.querySelector('#s5Materials'),assets.card,'Cartão comercial');
+    evidence(root.querySelector('#s5Room'),assets.room,'Registro fotográfico','Registro previamente analisado.');
+    evidence(root.querySelector('#s5Materials'),assets.envelope,'Envelope de acondicionamento','Negativo: FOB-94-0918-07');
+    evidence(root.querySelector('#s5Materials'),assets.card,'Cartão comercial','fotoopticabrasil.vercel.app');
     function form(container,id,title,question,solved,confirmation,submit){
       container.innerHTML=`${title?`<p><strong>${title}</strong></p>`:''}<form autocomplete="off"><label class="validation-label" for="${id}">${question}</label><input class="answer-input" id="${id}" type="text" required><button class="primary-btn" type="submit">Validar</button><p class="answer-message" role="status"></p></form>`;
       const input=container.querySelector('input'),button=container.querySelector('button'),message=container.querySelector('.answer-message');
