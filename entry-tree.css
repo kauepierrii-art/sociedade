@@ -66,3 +66,144 @@
   #loginView .invite-panel{font-size:18px}
 }
 @media(prefers-reduced-motion:reduce){#entryTree *,#invitation{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+
+/* O CONVITE: apresentação isolada; IDs e eventos permanecem intactos. */
+body:has(#loginView.active #invitation:not([hidden])) {
+  background:
+    radial-gradient(ellipse at 48% 42%, #24171480, transparent 78%),
+    radial-gradient(ellipse at 65% 72%, #20101460, transparent 85%),
+    linear-gradient(150deg, #0a0707, #110b09 52%, #080606);
+}
+body:has(#loginView.active #invitation:not([hidden]))::before {
+  opacity: .07;
+  background:
+    repeating-linear-gradient(23deg, #d6bfa522 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(113deg, #c4a38b18 0 1px, transparent 1px 5px);
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+body:has(#loginView.active #invitation:not([hidden]))::after {
+  background: radial-gradient(ellipse at center, transparent 20%, #00000030 70%, #00000070);
+  pointer-events: none;
+}
+#loginView.active:has(#invitation:not([hidden])) {
+  min-height: calc(100svh - 10px);
+  padding: 28px 19px;
+}
+#loginView:has(#invitation:not([hidden])) #entryTree { display: none; }
+#loginView #invitation {
+  width: min(100%, 520px);
+  min-height: 0;
+  margin: auto;
+  padding: 0;
+  overflow: visible;
+  text-align: center;
+  background: transparent;
+  border: 0;
+  outline: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+#loginView #invitation::before,
+#loginView #invitation::after,
+#loginView #invitation .invite-panel::before,
+#loginView #invitation .invite-panel::after { display: none; }
+#loginView #invitation .login-hero { padding: 0 0 30px; }
+#loginView #invitation .shield-mark {
+  width: 24px;
+  height: 24px;
+  margin: 0 auto 22px;
+  color: #a68a58;
+  background: none;
+  border: 0;
+  box-shadow: none;
+  filter: none;
+}
+#loginView #invitation .eyebrow {
+  margin: 0 0 18px;
+  font-size: 10px;
+  line-height: 1.6;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: #a68a62;
+}
+#loginView #invitation h1 {
+  margin: 0;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(42px, 7vw, 72px);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: .055em;
+  color: #eee7db;
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  -webkit-text-stroke: 0;
+  text-shadow: none;
+  filter: none;
+}
+#loginView #invitation .invite-panel {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: #c4bcb0;
+  font: 20px/1.6 "Cormorant Garamond", Georgia, serif;
+}
+#loginView #invitation .invite-panel > p:not(.feedback) { margin: 0 0 18px; }
+#loginView #invitation #start-invite {
+  display: block;
+  width: min(100%, 380px);
+  min-height: 52px;
+  margin: 32px auto 0;
+  padding: 13px 20px;
+  border: 1px solid #997047;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #94683f, #88603b);
+  color: #f4ecdf;
+  font: 500 19px/1.25 "Cormorant Garamond", Georgia, serif;
+  letter-spacing: .14em;
+  text-shadow: none;
+  box-shadow: 0 6px 18px #56301626;
+  transition: filter .18s ease;
+}
+#loginView #invitation #start-invite:hover { filter: brightness(1.06); transform: none; }
+#loginView #invitation #continue-invite {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 44px;
+  margin: 14px auto 0;
+  padding: 8px 4px;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: #aa916a;
+  font: 12px/1.6 "IBM Plex Mono", monospace;
+  letter-spacing: 0;
+  text-transform: none;
+  text-decoration: none;
+  filter: none;
+  transform: none;
+}
+#loginView #invitation #continue-invite:hover {
+  color: #bda47c;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+#loginView #invitation #start-invite:focus-visible,
+#loginView #invitation #continue-invite:focus-visible { outline: 2px solid #c4ab80; outline-offset: 4px; }
+#loginView #invitation #continue-status { margin: 4px 0 0; min-height: 20px; }
+@media (max-width: 600px), (max-height: 650px) {
+  #loginView.active:has(#invitation:not([hidden])) { padding: 22px 19px; }
+  #loginView #invitation .login-hero { padding-bottom: 24px; }
+  #loginView #invitation .shield-mark { margin-bottom: 16px; }
+  #loginView #invitation .eyebrow { margin-bottom: 14px; }
+  #loginView #invitation .invite-panel { font-size: 18px; }
+  #loginView #invitation .invite-panel > p:not(.feedback) { margin-bottom: 14px; }
+  #loginView #invitation #start-invite { margin-top: 24px; }
+}
