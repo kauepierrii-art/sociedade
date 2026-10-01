@@ -1,23 +1,10 @@
-// Sistema unificado de apontamentos das etapas 01–03.
+// Sistema unificado de apontamentos das etapas 02–03.
 // Cada solicitação revela imediatamente o próximo apontamento.
 // O histórico permanece consultável por referência.
 (function () {
   const roman = ['I', 'II', 'III', 'IV', 'V'];
 
   const configs = {
-    identification: {
-      formId: 'identificationForm',
-      inputId: 'validationCode',
-      panelId: 'identificationHintsV3',
-      stageKey: 'identification',
-      hints: [
-        'Examine também os elementos que parecem apenas decorativos.',
-        'Há três elementos que pertencem ao mesmo conjunto.',
-        'Nem todos os detalhes desses elementos têm função apenas visual.',
-        'A ordem em que aparecem também faz parte da resposta.',
-        'Observe os três dados.'
-      ]
-    },
     aptitude: {
       formId: 'aptitudeForm',
       inputId: 'aptitudeAnswer',
@@ -151,67 +138,6 @@
     request.disabled = false;
     request.textContent = unlocked ? 'SOLICITAR NOVO APONTAMENTO' : 'SOLICITAR APONTAMENTO';
   }
-
-  // ETAPA 01 — substitui o bloqueio de respostas pelo contador exclusivo das dicas.
-  renderIdentificationForm = function (actions) {
-    const config = configs.identification;
-
-    // Ignora resíduos do sistema antigo de cooldown.
-    localStorage.removeItem(`identification:v2:until:${refKey()}`);
-
-    actions.innerHTML = `
-      <form id="identificationForm" class="validation-form" autocomplete="off">
-        <label for="validationCode" class="validation-label">CÓDIGO DE VALIDAÇÃO</label>
-        <input id="validationCode" class="validation-code" type="text" inputmode="numeric" pattern="[0-9]{3}" maxlength="3" placeholder="_ _ _" required />
-        <p class="validation-quote">${stages[0].mission}</p>
-        <button id="validationBtn" type="submit" class="primary-btn">VALIDAR</button>
-        <p id="validationMessage" class="validation-message" role="status"></p>
-      </form>`;
-
-    const form = document.getElementById('identificationForm');
-    const input = document.getElementById('validationCode');
-    const button = document.getElementById('validationBtn');
-    const message = document.getElementById('validationMessage');
-    const reviewMode = completedCount >= 1;
-
-    if (reviewMode) {
-      input.value = IDENTIFICATION_CODE;
-      input.disabled = true;
-      button.disabled = true;
-      message.style.color = 'var(--green)';
-      message.textContent = 'IDENTIFICAÇÃO CONFIRMADA — RESPOSTA: ' + IDENTIFICATION_CODE + '.';
-      renderPanel(config, false);
-      return;
-    }
-
-    input.addEventListener('input', () => {
-      input.value = input.value.replace(/\D/g, '').slice(0, 3);
-    });
-
-    form.addEventListener('submit', event => {
-      event.preventDefault();
-      if (input.value === IDENTIFICATION_CODE) {
-        completedCount = Math.max(completedCount, 1);
-        saveProgress(currentRefKey, completedCount);
-        message.style.color = 'var(--green)';
-        message.textContent = 'IDENTIFICAÇÃO CONFIRMADA.';
-        input.disabled = true;
-        button.disabled = true;
-        setTimeout(() => {
-          renderDashboard();
-          show(dashboardView);
-        }, 700);
-        return;
-      }
-
-      message.style.color = 'var(--danger)';
-      message.textContent = 'VALIDAÇÃO NEGADA.';
-      input.value = '';
-      input.focus();
-    });
-
-    renderPanel(config, false);
-  };
 
   // ETAPA 02 — mantém a validação robusta e adiciona o novo sistema de dicas.
   const originalRenderStageTwoV3 = renderStageTwo;

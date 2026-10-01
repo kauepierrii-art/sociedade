@@ -27,8 +27,7 @@ window.DelectusClearLocalAttempt = function(refKey) {
   localStorage.removeItem(`progress:v3:${refKey}`);
   localStorage.removeItem(`important-info-seen:${refKey}`);
   localStorage.removeItem(`important-info-seen:v2:${refKey}`);
-  localStorage.removeItem(`identification:v2:errors:${refKey}`);
-  localStorage.removeItem(`identification:v2:until:${refKey}`);
+  localStorage.removeItem(`stage1:box-open:${refKey}`);
   localStorage.removeItem(`stage5:part-one:${refKey}`);
   localStorage.removeItem(`stage5:complete:${refKey}`);
   localStorage.removeItem(`stage4:tuner-solved:${refKey}`);
@@ -74,8 +73,6 @@ renderDashboard = function() {
 
     let subtitle = stage.subtitle;
     if (step === 1 && state === 'info-required') subtitle = 'leia as informações antes de prosseguir';
-    if (step === 1 && state === 'available') subtitle = 'aguardando validação';
-    if (step === 1 && state === 'done') subtitle = 'correspondência confirmada';
 
     btn.innerHTML = `
       <span class="stage-icon" aria-hidden="true">${stage.icon}</span>

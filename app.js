@@ -1,10 +1,10 @@
 const stages = [
   {
     name: 'Identificação',
-    subtitle: 'Correspondência confirmada',
+    subtitle: 'avaliação preliminar',
     icon: '♙',
-    context: 'A origem deste acesso precisa ser confirmada.\n\nA correspondência contém uma segunda marca de validação.',
-    mission: '“O que não se vê ainda pode deixar vestígios.”'
+    context: 'Antes que qualquer material de investigação seja disponibilizado, é necessário concluir uma avaliação preliminar.\n\nA caixa diante de você contém o primeiro conjunto reservado ao participante.',
+    mission: ''
   },
   {
     name: 'Origem',
@@ -28,23 +28,13 @@ const stages = [
 ];
 
 const PANEL_TITLES = [
-  'REGISTRO DE ACESSO',
+  'CAIXA DE SELEÇÃO',
   'OBJETO EM ANÁLISE',
   'REGISTRO FOTOGRÁFICO',
   'APARELHO INCOMUM',
   'CORRELAÇÃO DOCUMENTAL',
   'ARQUIVO DE INVESTIGAÇÃO',
   'COMUNICAÇÃO FINAL'
-];
-
-const IDENTIFICATION_CODE = '352';
-const MAX_COOLDOWN_MINUTES = 15;
-const IDENTIFICATION_HINTS = [
-  'Examine também os elementos que parecem apenas decorativos.',
-  'Há três marcas que pertencem ao mesmo conjunto.',
-  'Algumas tintas só se revelam sob certas condições.',
-  'Calor suave pode tornar certas marcas visíveis.',
-  'A marca foi feita com tinta invisível. Aplique calor suave ao papel para revelar os três valores. Não utilize chama direta.'
 ];
 
 const loginView = document.querySelector('#loginView');
@@ -139,8 +129,7 @@ function resetActivities() {
   if (!currentRefKey) return;
   localStorage.removeItem(`progress:${currentRefKey}`);
   localStorage.removeItem(`important-info-seen:${currentRefKey}`);
-  localStorage.removeItem(`identification:v2:errors:${currentRefKey}`);
-  localStorage.removeItem(`identification:v2:until:${currentRefKey}`);
+  localStorage.removeItem(`stage1:box-open:${currentRefKey}`);
   localStorage.removeItem(`stage5:part-one:${currentRefKey}`);
   localStorage.removeItem(`stage5:complete:${currentRefKey}`);
   localStorage.removeItem(`stage4:tuner-solved:${currentRefKey}`);
@@ -183,7 +172,6 @@ function renderDashboard() {
     if (state === 'locked') badge = '<span class="stage-badge" aria-label="bloqueada">♙</span>';
 
     let subtitle = stage.subtitle;
-    if (state === 'available' && step === 1) subtitle = 'aguardando validação';
     if (state === 'info-required') subtitle = 'leia as informações antes de prosseguir';
 
     btn.innerHTML = `
@@ -205,92 +193,65 @@ function renderDashboard() {
   restartActivitiesBtn.hidden = false;
 }
 
-function penaltyKey(suffix) { return `identification:v2:${suffix}:${currentRefKey}`; }
-function getPenaltyState() {
-  return {
-    errors: Number(localStorage.getItem(penaltyKey('errors'))) || 0,
-    until: Number(localStorage.getItem(penaltyKey('until'))) || 0
-  };
-}
-function clearPenalty() {
-  localStorage.removeItem(penaltyKey('errors'));
-  localStorage.removeItem(penaltyKey('until'));
-}
-function formatCountdown(ms) {
-  const totalSeconds = Math.max(0, Math.ceil(ms / 1000));
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-  return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-}
-function romanHintNumber(index) { return ['I', 'II', 'III', 'IV'][index] || 'AJUDA FINAL'; }
-function renderHint(hintBox, errors) {
-  if (!errors) { hintBox.innerHTML = ''; hintBox.hidden = true; return; }
-  const hintIndex = Math.min(errors - 1, IDENTIFICATION_HINTS.length - 1);
-  const isFinal = hintIndex === IDENTIFICATION_HINTS.length - 1;
-  hintBox.hidden = false;
-  hintBox.innerHTML = `<span class="hint-label">${isFinal ? 'AJUDA FINAL' : `DICA ${romanHintNumber(hintIndex)} DESBLOQUEADA`}</span><p>${IDENTIFICATION_HINTS[hintIndex]}</p>`;
-}
-
-function renderIdentificationForm(actions) {
+// Conteúdo provisório da Etapa 1; substituir este renderizador pelo puzzle definitivo.
+function renderSelectionBox(actions) {
+  const stateKey = `stage1:box-open:${currentRefKey}`;
+  let opened = completedCount >= 1 || localStorage.getItem(stateKey) === 'open';
   actions.innerHTML = `
-    <form id="identificationForm" class="validation-form" autocomplete="off">
-      <label for="validationCode" class="validation-label">CÓDIGO DE VALIDAÇÃO</label>
-      <input id="validationCode" class="validation-code" type="text" inputmode="numeric" pattern="[0-9]{3}" maxlength="3" placeholder="_ _ _" required />
-      <p class="validation-quote">${stages[0].mission}</p>
-      <button id="validationBtn" type="submit" class="primary-btn">VALIDAR</button>
-      <p id="validationMessage" class="validation-message" role="status"></p>
-      <div id="identificationHint" class="identification-hint" hidden></div>
-    </form>`;
-
-  const form = document.querySelector('#identificationForm');
-  const input = document.querySelector('#validationCode');
-  const button = document.querySelector('#validationBtn');
-  const message = document.querySelector('#validationMessage');
-  const hintBox = document.querySelector('#identificationHint');
-  input.addEventListener('input', () => { input.value = input.value.replace(/\D/g, '').slice(0, 3); });
-
-  function applyCooldown() {
-    if (cooldownTimer) clearInterval(cooldownTimer);
-    const update = () => {
-      const { until, errors } = getPenaltyState();
-      const remaining = until - Date.now();
-      renderHint(hintBox, errors);
-      if (remaining <= 0) {
-        input.disabled = false; button.disabled = false; message.textContent = '';
-        clearInterval(cooldownTimer); cooldownTimer = null; return;
-      }
-      input.disabled = true; button.disabled = true;
-      message.innerHTML = `VALIDAÇÃO NEGADA<br>Nova tentativa disponível em <strong>${formatCountdown(remaining)}</strong>.`;
-    };
-    update();
-    cooldownTimer = setInterval(update, 1000);
+    <div id="selectionBoxArea" class="print-file-placeholder" aria-label="Caixa de seleção">
+      <div><strong id="selectionBoxState"></strong><small id="selectionBoxPlaceholder">imagem ainda não disponibilizada</small></div>
+    </div>
+    <section class="answer-panel">
+      <p><strong>MODO DE AVALIAÇÃO</strong></p>
+      <p>Durante este período de avaliação do Protocolo, o mecanismo de seleção inicial encontra-se desativado.</p>
+      <p>O conteúdo da caixa foi liberado para este acesso.</p>
+      <button id="openSelectionBox" class="primary-btn" type="button">ABRIR CAIXA</button>
+      <p id="selectionBoxMessage" class="answer-message" role="status"></p>
+      <button id="continueSelectionBox" class="primary-btn" type="button" hidden>CONTINUAR</button>
+    </section>`;
+  const area = actions.querySelector('#selectionBoxArea');
+  const label = actions.querySelector('#selectionBoxState');
+  const openButton = actions.querySelector('#openSelectionBox');
+  const nextButton = actions.querySelector('#continueSelectionBox');
+  const message = actions.querySelector('#selectionBoxMessage');
+  function renderState() {
+    area.dataset.state = opened ? 'open' : 'closed';
+    label.textContent = opened ? 'CAIXA ABERTA' : 'CAIXA DE SELEÇÃO';
+    openButton.disabled = opened;
+    message.style.color = 'var(--green)';
+    message.textContent = opened ? 'ACESSO AUTORIZADO — MATERIAL DE INVESTIGAÇÃO LIBERADO.' : '';
+    nextButton.hidden = !opened;
   }
-
-  const initialPenalty = getPenaltyState();
-  renderHint(hintBox, initialPenalty.errors);
-  if (initialPenalty.until > Date.now()) applyCooldown();
-
-  form.addEventListener('submit', event => {
-    event.preventDefault();
-    const { until, errors } = getPenaltyState();
-    if (until > Date.now()) { applyCooldown(); return; }
-    if (input.value === IDENTIFICATION_CODE) {
-      clearPenalty();
-      completedCount = Math.max(completedCount, 1);
-      saveProgress(currentRefKey, completedCount);
-      message.textContent = 'IDENTIFICAÇÃO CONFIRMADA.';
-      input.disabled = true; button.disabled = true; hintBox.hidden = true;
-      setTimeout(() => { renderDashboard(); show(dashboardView); }, 800);
-      return;
-    }
-    const newErrors = errors + 1;
-    const waitMinutes = Math.min(2 ** (newErrors - 1), MAX_COOLDOWN_MINUTES);
-    localStorage.setItem(penaltyKey('errors'), String(newErrors));
-    localStorage.setItem(penaltyKey('until'), String(Date.now() + waitMinutes * 60 * 1000));
-    input.value = '';
-    renderHint(hintBox, newErrors);
-    applyCooldown();
+  openButton.addEventListener('click', () => {
+    localStorage.setItem(stateKey, 'open');
+    opened = true;
+    renderState();
   });
+  nextButton.addEventListener('click', () => {
+    if (!opened) return;
+    completedCount = Math.max(completedCount, 1);
+    saveProgress(currentRefKey, completedCount);
+    renderDashboard();
+    openStage(1);
+  });
+  renderState();
+  // O asset é opcional. Um HEAD evita requisitar uma imagem ausente no DOM.
+  const selectionBoxImageAvailable = false; // Habilitar quando o asset for fornecido.
+  if (!selectionBoxImageAvailable) return;
+  fetch('assets/stage1/caixa-selecao.webp', {method:'HEAD'}).then(response => {
+    if (!response.ok || !area.isConnected) return;
+    const media = document.createElement('span');
+    media.className = 'initiative-thumb-media';
+    const image = document.createElement('img');
+    image.alt = 'Caixa de seleção';
+    image.addEventListener('load', () => {
+      if (!area.isConnected) return;
+      area.prepend(media);
+      actions.querySelector('#selectionBoxPlaceholder').hidden = true;
+    }, {once:true});
+    media.append(image);
+    image.src = 'assets/stage1/caixa-selecao.webp';
+  }).catch(() => {});
 }
 
 function toggleMarkup(label, body, className = 'record') {
@@ -454,7 +415,7 @@ function openStage(index) {
 
   const actions = document.querySelector('#stageActions');
   actions.innerHTML = '';
-  if (step === 1 && (state === 'available' || state === 'done')) renderIdentificationForm(actions);
+  if (step === 1 && (state === 'available' || state === 'done')) renderSelectionBox(actions);
   else if (step === 2 && (state === 'available' || state === 'done')) renderStageTwo(actions);
   else if (state === 'available') {
     const complete = document.createElement('button');
