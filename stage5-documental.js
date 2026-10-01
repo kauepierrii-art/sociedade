@@ -14,13 +14,17 @@
     if(index!==4||!stageView.classList.contains('active')||stageVisualState(5)==='locked')return;
     const context=document.getElementById('stageContext');
     context.hidden=false;
-    context.innerHTML='<p>O ambiente descrito durante a Sessão XI apresenta correspondências com o registro fotográfico analisado anteriormente.</p><p>A disposição da sala, os objetos e a posição do espelho são compatíveis.</p><p>Há, entretanto, uma divergência.</p><p><strong>Durante a sessão, foi registrada a presença de um homem.</strong></p><p>O indivíduo não aparece no registro fotográfico inicialmente analisado.</p><p>A origem do registro fotográfico pode oferecer novos elementos para a identificação.</p>';
+    context.innerHTML='<p>A gravação da Sessão XI, ouvida na etapa anterior, descreve um ambiente que apresenta correspondências com o registro fotográfico analisado anteriormente.</p><p>A disposição da sala, os objetos e a posição do espelho são compatíveis.</p><p>Há, entretanto, uma divergência.</p><p><strong>Durante a sessão, foi registrada a presença de um homem.</strong></p><p>O indivíduo não aparece no registro fotográfico inicialmente analisado.</p><p>A origem do registro fotográfico pode oferecer novos elementos para a identificação.</p>';
     const actions=document.getElementById('stageActions');
-    actions.innerHTML=`<section id="stage5Documental"><div class="records-list">${toggleMarkup('REGISTRO 01 — REGISTRO FOTOGRÁFICO','<div id="s5Room"></div><p>Registro previamente analisado.</p>')}${toggleMarkup('REGISTRO 02 — MATERIAL ASSOCIADO','<div class="initiative-gallery" id="s5Materials"></div>')}</div><section class="answer-panel" id="s5Identity"></section></section>`;
-    registerAccordions(actions);
+    const materialBlock=(title,body)=>`<div class="initiative-material-item"><button class="initiative-material-toggle" type="button" aria-expanded="false"><span>${title}</span><span class="chev" aria-hidden="true">＋</span></button><div class="initiative-material-content" hidden>${body}</div></div>`;
+    actions.innerHTML=`<section id="stage5Documental"><div class="initiative-material-list">${materialBlock('Registro fotográfico encontrado','<div class="initiative-gallery" id="s5Room"></div><p>Registro previamente analisado.</p>')}${materialBlock('Material associado','<div class="initiative-gallery" id="s5Materials"></div><p>Envelope de acondicionamento — negativo: <span>FOB-94-0918-07</span></p><p>Cartão comercial — <span>fotoopticabrasil.vercel.app</span></p>')}</div><section class="answer-panel" id="s5Identity"></section></section>`;
+    actions.querySelectorAll('.initiative-material-toggle').forEach(button=>button.addEventListener('click',()=>{
+      const expanded=button.getAttribute('aria-expanded')==='true';
+      button.setAttribute('aria-expanded',String(!expanded));button.nextElementSibling.hidden=expanded;button.querySelector('.chev').textContent=expanded?'＋':'−';
+    }));
     const root=actions.querySelector('#stage5Documental');
-    let identified=read('part-one')===identityVersion||completedCount>=5;
-    let located=read('complete')===completionVersion||completedCount>=5;
+    let identified=read('part-one')===identityVersion;
+    let located=identified&&read('complete')===completionVersion;
     let activeViewer=null, previousFocus=null;
     function closeViewer(){
       if(!activeViewer)return;
@@ -55,17 +59,18 @@
       }catch{}
     }
     evidence(root.querySelector('#s5Room'),assets.room,'Registro fotográfico');
-    evidence(root.querySelector('#s5Materials'),assets.envelope,'Envelope');
-    evidence(root.querySelector('#s5Materials'),assets.card,'Cartão');
-    function form(container,id,title,question,value,solved,confirmation,submit){
-      container.innerHTML=`${title?`<p><strong>${title}</strong></p>`:''}<form autocomplete="off"><label class="validation-label" for="${id}">${question}</label><input class="answer-input" id="${id}" type="text" required><button class="primary-btn" type="submit">VALIDAR</button><p class="answer-message" role="status"></p></form>`;
+    evidence(root.querySelector('#s5Materials'),assets.room,'Registro fotográfico');
+    evidence(root.querySelector('#s5Materials'),assets.envelope,'Envelope de acondicionamento');
+    evidence(root.querySelector('#s5Materials'),assets.card,'Cartão comercial');
+    function form(container,id,title,question,solved,confirmation,submit){
+      container.innerHTML=`${title?`<p><strong>${title}</strong></p>`:''}<form autocomplete="off"><label class="validation-label" for="${id}">${question}</label><input class="answer-input" id="${id}" type="text" required><button class="primary-btn" type="submit">Validar</button><p class="answer-message" role="status"></p></form>`;
       const input=container.querySelector('input'),button=container.querySelector('button'),message=container.querySelector('.answer-message');
-      if(solved){input.value=value;input.disabled=true;button.disabled=true;message.style.color='var(--green)';message.textContent=confirmation;}
+      if(solved){input.disabled=true;button.disabled=true;message.style.color='var(--green)';message.textContent=confirmation;}
       container.querySelector('form').addEventListener('submit',event=>{event.preventDefault();if(!solved)submit(input,message);});
     }
     function error(message){message.style.color='var(--danger)';message.textContent='RESPOSTA NÃO CONFIRMADA.';}
     function drawIdentity(){
-      form(root.querySelector('#s5Identity'),'s5IdentityAnswer','IDENTIFICAÇÃO','QUEM ERA O HOMEM OBSERVADO DURANTE A SESSÃO XI?','Eduardo Vesperini',identified,'IDENTIDADE CONFIRMADA — EDUARDO VESPERINI.',(input,message)=>{
+      form(root.querySelector('#s5Identity'),'s5IdentityAnswer','Identificação','Quem era o homem observado durante a Sessão XI?',identified,'Identidade confirmada — Eduardo Vesperini.',(input,message)=>{
         if(normalize(input.value)!=='eduardo vesperini'){error(message);return;}
         identified=true;write('part-one',identityVersion);drawIdentity();
       });
@@ -73,17 +78,21 @@
     }
     function drawSecond(){
       const second=root.querySelector('#s5Second');
-      root.querySelectorAll('[data-s5-transition]').forEach(p=>p.remove());
+      root.querySelectorAll('[data-s5-transition], [data-s5-continue]').forEach(p=>p.remove());
       second.innerHTML='<section id="s5Custody"><p>Os materiais localizados durante a identificação de Eduardo Vesperini indicam que o espelho permaneceu associado a ele após as filmagens.</p><p>Seu destino posterior ainda precisa ser determinado.</p><div id="s5CustodyForm"></div></section>';
       second.querySelectorAll('#s5Custody > p').forEach(p=>{p.dataset.s5Transition='';second.before(p);});
-      form(second.querySelector('#s5CustodyForm'),'s5CustodyAnswer','','EM POSSE DE QUEM ESTÁ O ESPELHO?','Instituto Saldanha de Estudos Históricos',located,'CUSTÓDIA IDENTIFICADA — INSTITUTO SALDANHA DE ESTUDOS HISTÓRICOS.',(input,message)=>{
+      form(second.querySelector('#s5CustodyForm'),'s5CustodyAnswer','Custódia','Em posse de quem está o espelho?',located,'Custódia identificada — Instituto Saldanha de Estudos Históricos.',(input,message)=>{
         if(!['instituto saldanha de estudos historicos','instituto saldanha','saldanha'].includes(normalize(input.value))){error(message);return;}
         located=true;write('complete',completionVersion);drawSecond();
       });
+      const custodyTitle=second.querySelector('#s5CustodyForm > p');
+      custodyTitle.dataset.s5Transition='';second.before(custodyTitle);
       if(located){
-        const next=document.createElement('button');next.type='button';next.className='primary-btn';next.textContent='CONTINUAR';
+        for(const text of ['A instituição atualmente associada à custódia do espelho foi identificada.','O acesso ao arquivo seguinte pode ser iniciado.']){const p=document.createElement('p');p.dataset.s5Transition='';p.textContent=text;root.querySelector('#s5Identity').append(p);}
+
+        const next=document.createElement('button');next.dataset.s5Continue='';next.type='button';next.className='primary-btn';next.textContent='Continuar';
         next.addEventListener('click',()=>{write('complete',completionVersion);completedCount=Math.max(completedCount,5);saveProgress(currentRefKey,completedCount);renderDashboard();openStage(5);});
-        second.querySelector('#s5Custody').append(next);
+        root.querySelector('#s5Identity').append(next);
       }
     }
     drawIdentity();
