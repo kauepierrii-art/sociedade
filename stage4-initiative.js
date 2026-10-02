@@ -49,6 +49,11 @@
       full: 'assets/stage4/mapa-c.png.png?v=20260913j',
       thumb: 'assets/stage4/mapa-c.png.png?v=20260913j',
       label: 'MAPA C'
+    },
+    {
+      full: 'assets/stage4/mapanovo.webp?v=20261002a',
+      thumb: 'assets/stage4/mapanovo.webp?v=20261002a',
+      label: 'MAPA D'
     }
   ];
 
