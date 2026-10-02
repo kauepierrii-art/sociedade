@@ -5,7 +5,7 @@
       root: '#stage4Tuner',
       placement: 'before',
       hints: [
-        'Os materiais indicam um ponto específico no centro da cidade. O áudio da fita magnética revela coordenadas que são mais importantes do que parecem.',
+        'Os materiais indicam um ponto específico no centro da cidade. O áudio da fita magnética revela coordenadas que são mais importantes do que parecem. Se necessário, utilize o Google Maps para seguir as coordenadas.',
         'O local procurado não é apenas um endereço. Trata-se de um monumento que representa um ponto de referência oficial.',
         'Uma das imagens encontradas deve ser usada com a parte superior do monumento.',
         'A ordem da máscara do monumento tem conexão com números e estados presentes em outro documento.',
