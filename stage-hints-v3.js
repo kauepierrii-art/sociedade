@@ -11,7 +11,7 @@
       panelId: 'aptitudeHintsV3',
       stageKey: 'aptitude',
       hints: [
-        'Nem todas as diferenças entre os registros são relevantes.',
+        'Não examine os documentos isoladamente. Observe o que se repete de um registro para outro.',
         'Compare as descrições físicas, não apenas a história do objeto.',
         'O elemento inconsistente não é o próprio espelho.',
         'Observe com atenção os anexos do email.',
